@@ -1,11 +1,16 @@
+import { Route, Routes } from 'react-router-dom'
 import GlobalStyles from './styles/GlobalStyles'
+import MainPage from './pages/MainPage'
+import LoginPage from './pages/LoginPage'
 
 function App() {
   return (
     <div>
       <GlobalStyles />
-      hello world
-      안녕하세용가리
+      <Routes>
+        <Route path='/' element={<MainPage />} />
+        <Route path='/login' element={<LoginPage />} />
+      </Routes>
     </div>
   );
 }
