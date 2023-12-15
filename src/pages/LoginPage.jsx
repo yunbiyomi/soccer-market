@@ -3,8 +3,6 @@ import logo from '../assets/soccerMarketLogo.png'
 import styled from 'styled-components'
 import Button from '../components/common/Button/Button'
 
-
-
 const LoginPage = () => {
   return (
     <>
@@ -37,7 +35,7 @@ const LoginPage = () => {
         </SLoginForm>
       </LoginContainer>
       <AWrap>
-        <SLink href="/join">회원가입</SLink>
+        <SLink href="/signup">회원가입</SLink>
         <SLink href="/login">비밀번호 찾기</SLink>
       </AWrap>
     </>
