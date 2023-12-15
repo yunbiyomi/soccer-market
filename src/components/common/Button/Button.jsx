@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Button = ({children}) => {
+const Button = (props) => {
+  const { type } = props;
   return (
-    <SButton>
-      {children}
+    <SButton type={type ? type : 'button'} {...props} >
+      {props.children}
     </SButton>
   )
 }
@@ -12,16 +13,20 @@ const Button = ({children}) => {
 export default Button
 
 const SButton = styled.button`
-  width: 480px;
-  height: 60px;
+  width: ${props => props.width || '100%'}; 
+  height: ${props => props.height || '100%'};
   border-radius: 5px;
-  background-color: var(--point-color);
-  color: white;
+  background-color: ${props => props.bgColor || 'var(--point-color)'};
+  color:${props => props.color || 'white'};
   font-size: 18px;
   font-weight: bold;
   margin-top: 35px;
 
   &:hover {
+    background-color: var(--gray);
+  }
+
+  &:disabled {
     background-color: var(--gray);
   }
 `;

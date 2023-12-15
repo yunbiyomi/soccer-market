@@ -31,7 +31,12 @@ const LoginPage = () => {
               type='password'
             />
           </label>
-          <Button type='submit'>로그인</Button> 
+          <Button 
+            width="480px"
+            height="60px"
+          >
+            로그인
+          </Button> 
         </SLoginForm>
       </LoginContainer>
       <AWrap>
