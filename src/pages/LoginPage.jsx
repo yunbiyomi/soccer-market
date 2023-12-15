@@ -1,7 +1,7 @@
 import React from 'react'
-import logo from '../../assets/soccerMarketLogo.png'
+import logo from '../assets/soccerMarketLogo.png'
 import styled from 'styled-components'
-import Button from '../../components/common/Button/Button'
+import Button from '../components/common/Button/Button'
 
 
 
