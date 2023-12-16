@@ -18,9 +18,9 @@ const SButton = styled.button`
   border-radius: 5px;
   background-color: ${props => props.bgColor || 'var(--point-color)'};
   color:${props => props.color || 'white'};
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 35px;
+  font-size: ${props => props.fontSize || '18px'};
+  font-weight: ${props => props.fontWeight || 'bold'};
+  margin: ${props => props.margin || '35px 0 0 0'};
 
   &:hover {
     background-color: var(--gray);
