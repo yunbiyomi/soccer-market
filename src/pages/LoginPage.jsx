@@ -11,12 +11,12 @@ const LoginPage = () => {
           <img src={logo} alt="SoccerMarket 로고" />
         </a>
       </SLogo>
-      <LoginContainer>
+      <FormContainer>
         <BtnWrap>
           <CategoryBtn>구매회원 로그인</CategoryBtn>
           <CategoryBtn>판매회원 로그인</CategoryBtn>
         </BtnWrap>
-        <SLoginForm>
+        <SForm>
           <label htmlFor='id'>
             <InputBox
               id='id'
@@ -25,20 +25,13 @@ const LoginPage = () => {
             />
           </label>
           <label htmlFor='pw'>
-            <InputBox
-              id='pw'
-              placeholder='비밀번호'
-              type='password'
-            />
+            <InputBox id='pw' placeholder='비밀번호' type='password'/>
           </label>
-          <Button 
-            width="480px"
-            height="60px"
-          >
+          <Button width="480px" height="60px">
             로그인
           </Button> 
-        </SLoginForm>
-      </LoginContainer>
+        </SForm>
+      </FormContainer>
       <AWrap>
         <SLink href="/signup">회원가입</SLink>
         <SLink href="/login">비밀번호 찾기</SLink>
@@ -53,10 +46,10 @@ const SLogo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 `;
 
-const LoginContainer = styled.div`
+const FormContainer = styled.div`
   width: 550px;
   border-top: none;
   border-radius: 10px;
@@ -79,15 +72,16 @@ const CategoryBtn = styled.div`
   border: 1px solid var(--gray);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  background-color: var(--light-gray);
   cursor: pointer;
 
   &:first-child {
-    background-color: var(--light-gray);
+    background-color: white;
     border-bottom: none;
   }
 `;
 
-const SLoginForm = styled.form`
+const SForm = styled.form`
   padding: 35px;
   border: 1px solid var(--gray);
   border-top: none;
@@ -121,11 +115,11 @@ const SLink = styled.a`
   &:last-child::before {
     content: "";
     position: absolute;
-    width: .5px;
-    height: 18px;
+    width: 1.5px;
+    height: 15px;
     top: 50%;
     left: -14px;
     transform: translateY(-50%);
-    background-color: black;
+    background-color: #313131;
   }
 `;
