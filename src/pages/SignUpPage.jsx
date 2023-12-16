@@ -1,9 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../assets/soccerMarketLogo.png'
 import styled from 'styled-components'
 import Button from '../components/common/Button/Button'
+import axios from 'axios'
 
 const SignUpPage = () => {
+  const url = 'https://openmarket.weniv.co.kr/';
+  const [userId, setUserId] = useState('');
+  const [userIdAvailable, setUserIdAvailable] = useState(true);
+  const [userIdMsg, setUserIdMsg] = useState('');
+
+  const onIdHandler = (e) => {
+    setUserId(e.currentTarget.value);
+  }
+
+  const handleCheckUserId = async () => {
+    try {
+      const response = await axios.post(url+`/accounts/signup/valid/username/`,{
+        username:userId
+      });
+      setUserIdAvailable(true);
+      setUserIdMsg(response.data);
+    } catch (error) {
+      setUserIdAvailable(false);
+      setUserIdMsg(error.response.data);
+    }
+  }
+
   return (
     <>
       <SLogo>
@@ -19,24 +42,29 @@ const SignUpPage = () => {
         <SForm>
           <label htmlFor='id'>아이디</label>
           <IdWrap>
-            <SIdInput id='id' type="text" />
-            <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px'>
+            <SIdInput id='id' type="text" onChange={onIdHandler}/>
+            <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!userId}>
               중복확인
             </Button>
           </IdWrap>
+          {
+            userIdMsg.Success
+            ? (<CorrectMsg>{userIdMsg.Success}</CorrectMsg>)
+            : (<ErrorMsg>{userIdMsg.FAIL_Message}</ErrorMsg>)
+          }
           
           <label htmlFor='pw'>비밀번호</label>
-          <SInput id='pw' type="password" />
+          <SInput id='pw' type="password" required/>
 
           <label htmlFor='pwCheck'>비밀번호 재확인</label>
-          <SInput id='pwCheck' type="password" />
+          <SInput id='pwCheck' type="password" required/>
 
           <label htmlFor='name'>이름</label>
-          <SInput id='name' type="text" />
+          <SInput id='name' type="text" required/>
 
           <label htmlFor='phone'>휴대폰번호</label>
           <PhoneNumberWrap>
-            <SSelect name="phone" id="phone-start">
+            <SSelect name="phone" id="phone-start" required>
               <option value="010">010</option>
               <option value="011">011</option>
               <option value="016">016</option>
@@ -44,8 +72,8 @@ const SignUpPage = () => {
               <option value="018">018</option>
               <option value="019">019</option>
             </SSelect>
-            <SPhoneInput id='phone-mid' type='tel'/>
-            <SPhoneInput id='phone-end' type='tel'/>
+            <SPhoneInput id='phone-mid' type='tel'required/>
+            <SPhoneInput id='phone-end' type='tel'required/>
           </PhoneNumberWrap>
         </SForm>
       </FormContainer>
@@ -126,7 +154,7 @@ const SInput = styled.input`
   border: 1px solid var(--gray);
   border-radius: 5px;
   font-size: 16px;
-  margin: 10px 0 20px 0;
+  margin: 10px 0 15px 0;
 
   &:focus {
     border: 2px solid var(--point-color);
@@ -134,6 +162,7 @@ const SInput = styled.input`
 `;
 
 const IdWrap = styled.div`
+  width: 100%;
 `;
 
 const SIdInput = styled(SInput)`
@@ -155,6 +184,10 @@ const SSelect = styled.select`
   border: 1px solid var(--gray);
   border-radius: 5px;
   font-size: 16px;
+
+  &:focus {
+    border: 2px solid var(--point-color);
+  }
 `;
 
 const SPhoneInput = styled(SInput)`
@@ -167,4 +200,15 @@ const BottomWrap = styled.div`
   align-items: center;
   flex-direction: column;
   margin-top: 35px;
+`;
+
+const CorrectMsg = styled.div`
+  color: var(--point-color);
+  font-weight: 500;
+  margin-bottom: 15px;
+  padding-left: 3px;
+`;
+
+const ErrorMsg = styled(CorrectMsg)`
+  color: var(--red);
 `;

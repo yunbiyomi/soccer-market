@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Button = (props) => {
-  const { type } = props;
+  const { type, onClick } = props;
   return (
     <SButton type={type ? type : 'button'} {...props} >
       {props.children}
@@ -23,10 +23,14 @@ const SButton = styled.button`
   margin: ${props => props.margin || '35px 0 0 0'};
 
   &:hover {
-    background-color: var(--gray);
+    background-color: white;
+    color: var(--point-color);
+    border: 1px solid var(--point-color);
   }
 
   &:disabled {
     background-color: var(--gray);
+    border: none;
+    color: white;
   }
 `;
