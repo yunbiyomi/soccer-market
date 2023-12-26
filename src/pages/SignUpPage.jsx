@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../assets/soccer-market-logo.png'
 import checkBox from '../assets/chek-disabled.svg'
+import fillCheckBox from '../assets/check-ok.svg'
 import styled from 'styled-components'
 import Button from '../components/common/Button/Button'
 import agreeCheck from '../assets/agree-check.svg'
@@ -12,12 +13,18 @@ const SignUpPage = () => {
   const [userId, setUserId] = useState('');
   const [userIdRequired, setUserIdRequired] = useState(false);
   const [isValidUserId, setIsValidUserId] = useState(true);
+  const [pw, setPw] = useState('');
+  const [isValidPw, setIsValidPw] = useState(true);
+  const [pwRequired, setPwRequired] = useState(false);
+  const [pwCheck, setPwCheck] = useState('');
+  const [isValidPwCheck, setIsValidPwCheck] = useState(false);
+  const [pwCheckRequired, setPwCheckRequired] = useState(false);
   const [userName, setUserName] = useState('');
-  const [userIdAvailable, setUserIdAvailable] = useState(true);
   const [userIdMsg, setUserIdMsg] = useState('');
   const [checked, setChecked] = useState(false);
 
   const ID_REGEX = new RegExp("^[A-Za-z0-9]{1,20}$");
+  const PW_REGEX = new RegExp("^[A-Za-z0-99@$!%*?&-_]{8,}$");
 
   const onIdHandler = (e) => {
     setUserId(e.currentTarget.value);
@@ -26,14 +33,22 @@ const SignUpPage = () => {
   const onNameHandler = (e) => {
     setUserName(e.currentTarget.value);
   }
+
+  const onPwHandler = (e) => {
+    setPw(e.currentTarget.value);
+  }
+
+  const onPwCheckHandler = (e) => {
+    setPwCheck(e.currentTarget.value);
+  }
   
   const handleCheckboxChange = () => {
     setChecked(!checked);
   };
 
+  // 아이디 유효성 검사
   const checkIdValidation = () => {
     setIsValidUserId(ID_REGEX.test(userId));
-    console.log(isValidUserId);
   }
 
   // 아이디 중복확인
@@ -47,13 +62,40 @@ const SignUpPage = () => {
       const response = await axios.post(url+`/accounts/signup/valid/username/`,{
         username:userId
       });
-      setUserIdAvailable(true);
       setUserIdMsg(response.data);
     } catch (error) {
-      setUserIdAvailable(false);
       setUserIdMsg(error.response.data);
     }
   }
+
+  // 비밀번호 유효성 검사
+  const checkPwValidation = () => {
+    if(!pw){
+      setPwRequired(true);
+      return;
+    }
+    setIsValidPw(PW_REGEX.test(pw));
+  }
+
+  // 비밀번호 확인
+  const checkPw = () => {
+    if(!pwCheck){
+      setPwCheckRequired(true);
+      return;
+    }
+    if(pw === pwCheck)
+      setIsValidPwCheck(true);
+
+    console.log(pw);
+    console.log(pwCheck);
+    console.log(isValidPwCheck);
+  }
+
+  useEffect(() => {
+    if (pwCheck) {
+      setIsValidPwCheck(pw === pwCheck);
+    }
+  }, [pw, pwCheck]);
 
   return (
     <>
@@ -71,30 +113,45 @@ const SignUpPage = () => {
           <label htmlFor='id'>아이디</label>
           <IdWrap>
             <SIdInput id='id' type="text" onChange={onIdHandler} onBlur={checkIdValidation} autoComplete='off' required/>
-            <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId}>
+            <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!userId}>
               중복확인
             </Button>
           </IdWrap>
           {
-            !userId ? (
+            userIdRequired && !userId ? (
               <ErrorMsg>필수 정보입니다.</ErrorMsg>
             ) :
               !isValidUserId ? (
-                <ErrorMsg>20자 이내의 영문 소문자, 대문자, 숫자만 사용 가능합니다.</ErrorMsg>
+                <ErrorMsg>20자 이내의 영문 대 소문자, 숫자만 사용 가능합니다.</ErrorMsg>
               ) :
                 userIdMsg.Success
                 ? (<CorrectMsg>{userIdMsg.Success}</CorrectMsg>)
                 : (<ErrorMsg>{userIdMsg.FAIL_Message}</ErrorMsg>)
           }
-          <PwWrap>
+          <PwWrap isValidPw={isValidPw}>
             <label htmlFor='pw'>비밀번호</label>
-            <SPwInput id='pw' type="password" required/>
+            <SPwInput id='pw' type="password" onChange={onPwHandler} onBlur={checkPwValidation} required/>
           </PwWrap>
-          <PwWrap>
+          {
+            pwRequired && !pw ? (
+              <ErrorMsg>필수 정보입니다.</ErrorMsg>
+            ) :
+              !isValidPw && (
+                <ErrorMsg>8자이상의 영문 대 소문자, 숫자, 특수문자만 사용 가능합니다.</ErrorMsg>
+              )
+          }
+          <PwWrap isValidPw={isValidPwCheck}>
             <label htmlFor='pwCheck'>비밀번호 재확인</label>
-            <SPwInput id='pwCheck' type="password" required/>
+            <SPwInput id='pwCheck' type="password" onChange={onPwCheckHandler} onBlur={checkPw} required/>
           </PwWrap>
-
+          {
+            pwCheckRequired && !pwCheck ? (
+              <ErrorMsg>필수 정보입니다.</ErrorMsg>
+            ) :
+              !isValidPwCheck && (
+                <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>
+              )
+          }
           <label htmlFor='name'>이름</label>
           <SInput id='name' type="text" onChange={onNameHandler} autoComplete='off' required/>
 
@@ -230,6 +287,11 @@ const PwWrap = styled.div`
     background: url(${checkBox}) center center / contain no-repeat;
     bottom: 27.5px;
     right: 15px;
+
+    ${({ isValidPw }) =>
+      isValidPw &&
+      ` background-image: url(${fillCheckBox});`
+      }
   }
 `;
 
