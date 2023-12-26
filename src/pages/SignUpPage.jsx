@@ -14,7 +14,7 @@ const SignUpPage = () => {
   const [userIdRequired, setUserIdRequired] = useState(false);
   const [isValidUserId, setIsValidUserId] = useState(true);
   const [pw, setPw] = useState('');
-  const [isValidPw, setIsValidPw] = useState(true);
+  const [isValidPw, setIsValidPw] = useState(false);
   const [pwRequired, setPwRequired] = useState(false);
   const [pwCheck, setPwCheck] = useState('');
   const [isValidPwCheck, setIsValidPwCheck] = useState(false);
@@ -72,6 +72,7 @@ const SignUpPage = () => {
   const checkPwValidation = () => {
     if(!pw){
       setPwRequired(true);
+      setIsValidPw(false);
       return;
     }
     setIsValidPw(PW_REGEX.test(pw));
@@ -83,12 +84,6 @@ const SignUpPage = () => {
       setPwCheckRequired(true);
       return;
     }
-    if(pw === pwCheck)
-      setIsValidPwCheck(true);
-
-    console.log(pw);
-    console.log(pwCheck);
-    console.log(isValidPwCheck);
   }
 
   useEffect(() => {
@@ -136,7 +131,7 @@ const SignUpPage = () => {
             pwRequired && !pw ? (
               <ErrorMsg>필수 정보입니다.</ErrorMsg>
             ) :
-              !isValidPw && (
+              !isValidPw && pw && (
                 <ErrorMsg>8자이상의 영문 대 소문자, 숫자, 특수문자만 사용 가능합니다.</ErrorMsg>
               )
           }
@@ -148,7 +143,7 @@ const SignUpPage = () => {
             pwCheckRequired && !pwCheck ? (
               <ErrorMsg>필수 정보입니다.</ErrorMsg>
             ) :
-              !isValidPwCheck && (
+              !isValidPwCheck && pwCheck && (
                 <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>
               )
           }
