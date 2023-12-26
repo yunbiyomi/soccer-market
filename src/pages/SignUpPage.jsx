@@ -11,10 +11,13 @@ const SignUpPage = () => {
   const url = 'https://openmarket.weniv.co.kr/';
   const [userId, setUserId] = useState('');
   const [userIdRequired, setUserIdRequired] = useState(false);
+  const [isValidUserId, setIsValidUserId] = useState(true);
   const [userName, setUserName] = useState('');
   const [userIdAvailable, setUserIdAvailable] = useState(true);
   const [userIdMsg, setUserIdMsg] = useState('');
   const [checked, setChecked] = useState(false);
+
+  const ID_REGEX = new RegExp("^[A-Za-z0-9]{1,20}$");
 
   const onIdHandler = (e) => {
     setUserId(e.currentTarget.value);
@@ -27,6 +30,11 @@ const SignUpPage = () => {
   const handleCheckboxChange = () => {
     setChecked(!checked);
   };
+
+  const checkIdValidation = () => {
+    setIsValidUserId(ID_REGEX.test(userId));
+    console.log(isValidUserId);
+  }
 
   // 아이디 중복확인
   const handleCheckUserId = async () => {
@@ -62,18 +70,21 @@ const SignUpPage = () => {
         <SForm>
           <label htmlFor='id'>아이디</label>
           <IdWrap>
-            <SIdInput id='id' type="text" onChange={onIdHandler} autoComplete='off' required/>
+            <SIdInput id='id' type="text" onChange={onIdHandler} onBlur={checkIdValidation} autoComplete='off' required/>
             <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId}>
               중복확인
             </Button>
           </IdWrap>
           {
-            userIdRequired && !userId ? (
-              <ErrorMsg>아이디는 필수 정보입니다.</ErrorMsg>
+            !userId ? (
+              <ErrorMsg>필수 정보입니다.</ErrorMsg>
             ) :
-              userIdMsg.Success
-              ? (<CorrectMsg>{userIdMsg.Success}</CorrectMsg>)
-              : (<ErrorMsg>{userIdMsg.FAIL_Message}</ErrorMsg>)
+              !isValidUserId ? (
+                <ErrorMsg>20자 이내의 영문 소문자, 대문자, 숫자만 사용 가능합니다.</ErrorMsg>
+              ) :
+                userIdMsg.Success
+                ? (<CorrectMsg>{userIdMsg.Success}</CorrectMsg>)
+                : (<ErrorMsg>{userIdMsg.FAIL_Message}</ErrorMsg>)
           }
           <PwWrap>
             <label htmlFor='pw'>비밀번호</label>
