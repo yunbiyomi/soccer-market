@@ -1,8 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-  @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
-
   :root {
     --point-color: #001D82;
     --light-blue: #E7ECFF;
@@ -12,6 +10,13 @@ const GlobalStyles = createGlobalStyle`
     --light-gray: #F2F2F2;
     --disabled-gray: #E0E0E0
     --light-font-color: #767676;
+  }
+
+  @font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
   }
 
   * {
