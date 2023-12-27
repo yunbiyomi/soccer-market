@@ -20,6 +20,7 @@ const SignUpPage = () => {
   const [isValidPwCheck, setIsValidPwCheck] = useState(false);
   const [pwCheckRequired, setPwCheckRequired] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userNameRequired, setUserNameRequired] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState({start: '010', mid: '', end: ''});
   const [userIdMsg, setUserIdMsg] = useState('');
   const [checked, setChecked] = useState(false);
@@ -28,20 +29,24 @@ const SignUpPage = () => {
   const PW_REGEX = new RegExp("^[A-Za-z0-99@$!%*?&-_]{8,}$");
   // const PW_REGEX = new RegExp("^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-99@$!%*?&-_]{8,}$");
 
-  const onIdHandler = (e) => {
-    setUserId(e.currentTarget.value);
-  }
-
-  const onPwHandler = (e) => {
-    setPw(e.currentTarget.value);
-  }
-
-  const onPwCheckHandler = (e) => {
-    setPwCheck(e.currentTarget.value);
-  }
-
-  const onNameHandler = (e) => {
-    setUserName(e.currentTarget.value);
+  const handleInputChange = (id) => (e) => {
+    const value = e.currentTarget.value;
+    switch(id){
+      case 'userId':
+        setUserId(value);
+        break;
+      case 'pw':
+        setPw(value);
+        break;
+      case 'pwCheck':
+        setPwCheck(value);
+        break;
+      case 'userName':
+        setUserName(value);
+        break;
+      default:
+        break;
+    }
   }
 
   // 휴대폰번호 합치기
@@ -53,22 +58,40 @@ const SignUpPage = () => {
     }))
   }
   
+  // 동의
   const handleCheckboxChange = () => {
     setChecked(!checked);
   };
 
-  // 아이디 유효성 검사
-  const checkIdValidation = () => {
-    setIsValidUserId(ID_REGEX.test(userId));
+  // 유효성 검사
+  const checkValidation = (id) => (e) => {
+    switch(id){
+      case 'userId':
+        if(!userId){
+          setUserIdRequired(true);
+        }
+        setIsValidUserId(ID_REGEX.test(userId));
+        break;
+      case 'pw':
+        if(!pw)
+          setPwRequired(true);
+        setIsValidPw(PW_REGEX.test(pw));
+        break;
+      case 'pwCheck':
+        if(!pwCheck)
+          setPwCheckRequired(true);
+        break;
+      case 'userName':
+        if(!userName)
+          setUserNameRequired(true);
+        break;
+      default:
+        break;
+    }
   }
 
   // 아이디 중복확인
   const handleCheckUserId = async () => {
-    if(!userId){
-      setUserIdRequired(true);
-      return;
-    }
-
     try {
       const response = await axios.post(url+`/accounts/signup/valid/username/`,{
         username:userId
@@ -76,24 +99,6 @@ const SignUpPage = () => {
       setUserIdMsg(response.data);
     } catch (error) {
       setUserIdMsg(error.response.data);
-    }
-  }
-
-  // 비밀번호 유효성 검사
-  const checkPwValidation = () => {
-    if(!pw){
-      setPwRequired(true);
-      setIsValidPw(false);
-      return;
-    }
-    setIsValidPw(PW_REGEX.test(pw));
-  }
-
-  // 비밀번호 확인 빈칸 검사
-  const checkPw = () => {
-    if(!pwCheck){
-      setPwCheckRequired(true);
-      return;
     }
   }
 
@@ -137,7 +142,7 @@ const SignUpPage = () => {
         <SForm>
           <label htmlFor='id'>아이디</label>
           <IdWrap>
-            <SIdInput id='id' type="text" onChange={onIdHandler} onBlur={checkIdValidation} autoComplete='off' required/>
+            <SIdInput id='id' type="text" onChange={handleInputChange('userId')} onBlur={checkValidation('userId')} autoComplete='off' required/>
             <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!userId}>
               중복확인
             </Button>
@@ -155,7 +160,7 @@ const SignUpPage = () => {
           }
           <PwWrap isValidPw={isValidPw}>
             <label htmlFor='pw'>비밀번호</label>
-            <SPwInput id='pw' type="password" onChange={onPwHandler} onBlur={checkPwValidation} required/>
+            <SPwInput id='pw' type="password" onChange={handleInputChange('pw')} onBlur={checkValidation('pw')} required/>
           </PwWrap>
           {
             pwRequired && !pw ? (
@@ -167,7 +172,7 @@ const SignUpPage = () => {
           }
           <PwWrap isValidPw={isValidPwCheck}>
             <label htmlFor='pwCheck'>비밀번호 재확인</label>
-            <SPwInput id='pwCheck' type="password" onChange={onPwCheckHandler} onBlur={checkPw} required/>
+            <SPwInput id='pwCheck' type="password" onChange={handleInputChange('pwCheck')} onBlur={checkValidation('pwCheck')} required/>
           </PwWrap>
           {
             pwCheckRequired && !pwCheck ? (
@@ -178,7 +183,12 @@ const SignUpPage = () => {
               )
           }
           <label htmlFor='name'>이름</label>
-          <SInput id='name' type="text" onChange={onNameHandler} autoComplete='off' required/>
+          <SInput id='name' type="text" onChange={handleInputChange('userName')} autoComplete='off' onBlur={checkValidation('userName')} required/>
+          {
+            userNameRequired && !userName && (
+              <ErrorMsg>필수 정보입니다.</ErrorMsg>
+            )
+          }
 
           <label htmlFor='phone'>휴대폰번호</label>
           <PhoneNumberWrap>
