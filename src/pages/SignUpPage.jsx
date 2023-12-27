@@ -20,18 +20,16 @@ const SignUpPage = () => {
   const [isValidPwCheck, setIsValidPwCheck] = useState(false);
   const [pwCheckRequired, setPwCheckRequired] = useState(false);
   const [userName, setUserName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState({start: '010', mid: '', end: ''});
   const [userIdMsg, setUserIdMsg] = useState('');
   const [checked, setChecked] = useState(false);
 
   const ID_REGEX = new RegExp("^[A-Za-z0-9]{1,20}$");
   const PW_REGEX = new RegExp("^[A-Za-z0-99@$!%*?&-_]{8,}$");
+  // const PW_REGEX = new RegExp("^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-99@$!%*?&-_]{8,}$");
 
   const onIdHandler = (e) => {
     setUserId(e.currentTarget.value);
-  }
-
-  const onNameHandler = (e) => {
-    setUserName(e.currentTarget.value);
   }
 
   const onPwHandler = (e) => {
@@ -40,6 +38,19 @@ const SignUpPage = () => {
 
   const onPwCheckHandler = (e) => {
     setPwCheck(e.currentTarget.value);
+  }
+
+  const onNameHandler = (e) => {
+    setUserName(e.currentTarget.value);
+  }
+
+  // 휴대폰번호 합치기
+  const onPhoneNumberHandler = (e) => {
+    const {id, value} = e.currentTarget;
+    setPhoneNumber((prevPhone) => ({
+      ...prevPhone,
+      [id]: value,
+    }))
   }
   
   const handleCheckboxChange = () => {
@@ -78,7 +89,7 @@ const SignUpPage = () => {
     setIsValidPw(PW_REGEX.test(pw));
   }
 
-  // 비밀번호 확인
+  // 비밀번호 확인 빈칸 검사
   const checkPw = () => {
     if(!pwCheck){
       setPwCheckRequired(true);
@@ -86,11 +97,30 @@ const SignUpPage = () => {
     }
   }
 
+  // 비밀번호 확인 
   useEffect(() => {
     if (pwCheck) {
       setIsValidPwCheck(pw === pwCheck);
     }
   }, [pw, pwCheck]);
+
+  // 회원가입
+  const handleSignUp = async () => {
+    const formData = {
+      username: userId,
+      password: pw,
+      password2: pwCheck,
+      phone_number: `${phoneNumber.start}${phoneNumber.mid}${phoneNumber.end}`,
+      name: userName,
+    }
+
+    try {
+      const response = await axios.post(url+`/accounts/signup/`, formData);
+      console.log('회원가입 성공: ', response.data);
+    } catch (error) {
+      console.error('회원가입 실패: ', error)
+    }
+  }
 
   return (
     <>
@@ -152,7 +182,7 @@ const SignUpPage = () => {
 
           <label htmlFor='phone'>휴대폰번호</label>
           <PhoneNumberWrap>
-            <SSelect name="phone" id="phone-start" required>
+            <SSelect name="phone" id="start" onChange={onPhoneNumberHandler} required>
               <option value="010">010</option>
               <option value="011">011</option>
               <option value="016">016</option>
@@ -160,8 +190,8 @@ const SignUpPage = () => {
               <option value="018">018</option>
               <option value="019">019</option>
             </SSelect>
-            <SPhoneInput id='phone-mid' type='tel' autoComplete='off' required/>
-            <SPhoneInput id='phone-end' type='tel'autoComplete='off' required/>
+            <SPhoneInput id='mid' type='tel' autoComplete='off' onChange={onPhoneNumberHandler} required/>
+            <SPhoneInput id='end' type='tel'autoComplete='off' onChange={onPhoneNumberHandler} required/>
           </PhoneNumberWrap>
         </SForm>
       </FormContainer>
@@ -172,7 +202,7 @@ const SignUpPage = () => {
             싸커마켓의 <u>이용약관</u> 및 <u>개인정보처리방침</u>에 대한 내용을 확인하였고 동의합니다.
           </label>
         </AgreeBox>
-        <Button width='480px' height='60px' disabled>
+        <Button width='480px' height='60px' disabled={!checked} onClick={handleSignUp}>
           가입하기
         </Button> 
       </BottomWrap>
