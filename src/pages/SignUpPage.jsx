@@ -10,80 +10,113 @@ import axios from 'axios'
 
 const SignUpPage = () => {
   const url = 'https://openmarket.weniv.co.kr/';
-  const [userId, setUserId] = useState('');
-  const [userIdRequired, setUserIdRequired] = useState(false);
-  const [isValidUserId, setIsValidUserId] = useState(true);
-  const [pw, setPw] = useState('');
-  const [isValidPw, setIsValidPw] = useState(false);
-  const [pwRequired, setPwRequired] = useState(false);
-  const [pwCheck, setPwCheck] = useState('');
-  const [isValidPwCheck, setIsValidPwCheck] = useState(false);
-  const [pwCheckRequired, setPwCheckRequired] = useState(false);
-  const [userName, setUserName] = useState('');
-  const [userNameRequired, setUserNameRequired] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState({start: '010', mid: '', end: ''});
-  const [userIdMsg, setUserIdMsg] = useState('');
+
+  const initialIdState = {
+    userId: '',
+    userIdRequired: false,
+    isValidUserId: true,
+    userIdMsg: '',
+  }
+
+  const initialPwState = {
+    pw: '',
+    pwRequired: false,
+    isValidPw: false,
+  }
+
+  const initialPwCheckState = {
+    pwCheck: '',
+    pwCheckRequired: false,
+    isValidPwCheck: false,
+  }
+
+  const initialUserNameState = {
+    userName: '',
+    userNameRequired: false,
+  }
+
+  const initialPhoneNumberState = {
+    phoneNumber: '',
+    phoneNumberSplit: {
+      start: '010',
+      mid: '',
+      end: ''
+    },
+    isValidPhoneNumber: false,
+  }
+
+  const [idState, setIdState] = useState(initialIdState);
+  const [pwState, setPwState] = useState(initialPwState);
+  const [pwCheckState, setPwCheckState] = useState(initialPwCheckState);
+  const [userNameState, setUserNameState] = useState(initialUserNameState);
+  const [phoneNumberState, setPhoneNumberState] = useState(initialPhoneNumberState);
   const [checked, setChecked] = useState(false);
 
   const ID_REGEX = new RegExp("^[A-Za-z0-9]{1,20}$");
   const PW_REGEX = new RegExp("^[A-Za-z0-99@$!%*?&-_]{8,}$");
+  const PHONE_NUMBER_REGEX = new RegExp("^[0-9]+$");
   // const PW_REGEX = new RegExp("^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-99@$!%*?&-_]{8,}$");
 
   const handleInputChange = (id) => (e) => {
     const value = e.currentTarget.value;
     switch(id){
       case 'userId':
-        setUserId(value);
+        setIdState({...idState, userId: value});
         break;
       case 'pw':
-        setPw(value);
+        setPwState({...pwState, pw: value});
         break;
       case 'pwCheck':
-        setPwCheck(value);
+        setPwCheckState({...pwCheckState, pwCheck: value});
         break;
       case 'userName':
-        setUserName(value);
+        setUserNameState({...userNameState, userName: value});
         break;
       default:
         break;
     }
   }
 
-  // 휴대폰번호 합치기
+  // 휴대폰번호 입력 받기
   const onPhoneNumberHandler = (e) => {
     const {id, value} = e.currentTarget;
-    setPhoneNumber((prevPhone) => ({
-      ...prevPhone,
-      [id]: value,
-    }))
+    setPhoneNumberState({
+      ...phoneNumberState,
+      phoneNumberSplit: {
+        ...phoneNumberState.phoneNumberSplit,
+        [id]: value,
+      },
+    })
   }
-  
+
   // 동의
   const handleCheckboxChange = () => {
     setChecked(!checked);
   };
 
-  // 유효성 검사
+  // 빈칸 검사
   const checkValidation = (id) => (e) => {
     switch(id){
       case 'userId':
-        if(!userId){
-          setUserIdRequired(true);
+        if(!idState.userId){
+          setIdState({...idState, userIdRequired: true});
         }
-        setIsValidUserId(ID_REGEX.test(userId));
         break;
       case 'pw':
-        if(!pw)
-          setPwRequired(true);
-        setIsValidPw(PW_REGEX.test(pw));
+        if(!pwState.pw)
+          setPwState({...pwState, pwRequired: true});
         break;
       case 'pwCheck':
-        if(!pwCheck)
-          setPwCheckRequired(true);
+        if(!pwCheckState.pwCheck)
+          setPwCheckState({...pwCheckState, pwCheckRequired: true});
         break;
       case 'userName':
-        if(!userName)
-          setUserNameRequired(true);
+        if(!userNameState.userName)
+          setUserNameState({...userNameState, userNameRequired: true});
+        break;
+      case 'phoneNumber':
+        setPhoneNumberState({...phoneNumberState, isValidPhoneNumber: PHONE_NUMBER_REGEX.test(phoneNumberState.phoneNumber)})
+        console.log(phoneNumberState.phoneNumber);
         break;
       default:
         break;
@@ -94,29 +127,44 @@ const SignUpPage = () => {
   const handleCheckUserId = async () => {
     try {
       const response = await axios.post(url+`/accounts/signup/valid/username/`,{
-        username:userId
+        username:idState.userId
       });
-      setUserIdMsg(response.data);
+      setIdState({...idState, userIdMsg: response.data});
     } catch (error) {
-      setUserIdMsg(error.response.data);
+      setIdState({...idState, userIdMsg: error.response.data});
     }
   }
 
-  // 비밀번호 확인 
   useEffect(() => {
-    if (pwCheck) {
-      setIsValidPwCheck(pw === pwCheck);
+    // 휴대폰 번호 합치기
+    const { phoneNumberSplit } = phoneNumberState;
+    const { start, mid, end } = phoneNumberSplit;
+    const combinedPhoneNumber = `${start}${mid}${end}`;
+    setPhoneNumberState((prevPhoneNumberState) => ({
+      ...prevPhoneNumberState,
+      phoneNumber: combinedPhoneNumber,
+    }));
+
+    // 아이디 유효성 검사
+    setIdState({...idState, isValidUserId: ID_REGEX.test(idState.userId)});
+
+    // 비밀번호 유효성 검사
+    setPwState({...pwState, isValidPw: PW_REGEX.test(pwState.pw)});
+
+    // 비밀번호 확인
+    if (pwCheckState.pwCheck) {
+      setPwCheckState({...pwCheckState, isValidPwCheck: pwState.pw === pwCheckState.pwCheck});
     }
-  }, [pw, pwCheck]);
+  }, [phoneNumberState.phoneNumberSplit, idState.userId, pwState.pw, pwCheckState.pwCheck]);
 
   // 회원가입
   const handleSignUp = async () => {
     const formData = {
-      username: userId,
-      password: pw,
-      password2: pwCheck,
-      phone_number: `${phoneNumber.start}${phoneNumber.mid}${phoneNumber.end}`,
-      name: userName,
+      username: idState.userId,
+      password: pwState.pw,
+      password2: pwCheckState.pwCheck,
+      phone_number: phoneNumberState.phoneNumber,
+      name: userNameState.userName,
     }
 
     try {
@@ -143,56 +191,56 @@ const SignUpPage = () => {
           <label htmlFor='id'>아이디</label>
           <IdWrap>
             <SIdInput id='id' type="text" onChange={handleInputChange('userId')} onBlur={checkValidation('userId')} autoComplete='off' required/>
-            <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!userId}>
+            <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!idState.userId}>
               중복확인
             </Button>
           </IdWrap>
           {
-            userIdRequired && !userId ? (
+            idState.userIdRequired && !idState.userId ? (
               <ErrorMsg>필수 정보입니다.</ErrorMsg>
             ) :
-              !isValidUserId ? (
+              !idState.isValidUserId && idState.userId ? (
                 <ErrorMsg>20자 이내의 영문 대 소문자, 숫자만 사용 가능합니다.</ErrorMsg>
               ) :
-                userIdMsg.Success
-                ? (<CorrectMsg>{userIdMsg.Success}</CorrectMsg>)
-                : (<ErrorMsg>{userIdMsg.FAIL_Message}</ErrorMsg>)
+              idState.userIdMsg.Success
+                ? (<CorrectMsg>{idState.userIdMsg.Success}</CorrectMsg>)
+                : (<ErrorMsg>{idState.userIdMsg.FAIL_Message}</ErrorMsg>)
           }
-          <PwWrap isValidPw={isValidPw}>
+          <PwWrap isValidPw={pwState.isValidPw}>
             <label htmlFor='pw'>비밀번호</label>
-            <SPwInput id='pw' type="password" onChange={handleInputChange('pw')} onBlur={checkValidation('pw')} required/>
+            <SPwInput id='pw' type="password" onChange={handleInputChange('pw')} onBlur={checkValidation('pw')} autoComplete='new-password' required/>
           </PwWrap>
           {
-            pwRequired && !pw ? (
+            pwState.pwRequired && !pwState.pw ? (
               <ErrorMsg>필수 정보입니다.</ErrorMsg>
             ) :
-              !isValidPw && pw && (
+              !pwState.isValidPw && pwState.pw && (
                 <ErrorMsg>8자이상의 영문 대 소문자, 숫자, 특수문자만 사용 가능합니다.</ErrorMsg>
               )
           }
-          <PwWrap isValidPw={isValidPwCheck}>
+          <PwWrap isValidPw={pwCheckState.isValidPwCheck}>
             <label htmlFor='pwCheck'>비밀번호 재확인</label>
-            <SPwInput id='pwCheck' type="password" onChange={handleInputChange('pwCheck')} onBlur={checkValidation('pwCheck')} required/>
+            <SPwInput id='pwCheck' type="password" onChange={handleInputChange('pwCheck')} onBlur={checkValidation('pwCheck')} autoComplete='new-password' required/>
           </PwWrap>
           {
-            pwCheckRequired && !pwCheck ? (
+            pwCheckState.pwCheckRequired && !pwCheckState.pwCheck ? (
               <ErrorMsg>필수 정보입니다.</ErrorMsg>
             ) :
-              !isValidPwCheck && pwCheck && (
+              !pwCheckState.isValidPwCheck && pwCheckState.pwCheck && (
                 <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>
               )
           }
           <label htmlFor='name'>이름</label>
           <SInput id='name' type="text" onChange={handleInputChange('userName')} autoComplete='off' onBlur={checkValidation('userName')} required/>
           {
-            userNameRequired && !userName && (
+            userNameState.userNameRequired && !userNameState.userName && (
               <ErrorMsg>필수 정보입니다.</ErrorMsg>
             )
           }
 
           <label htmlFor='phone'>휴대폰번호</label>
           <PhoneNumberWrap>
-            <SSelect name="phone" id="start" onChange={onPhoneNumberHandler} required>
+            <SSelect name="phone" id="start" onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required>
               <option value="010">010</option>
               <option value="011">011</option>
               <option value="016">016</option>
@@ -200,9 +248,14 @@ const SignUpPage = () => {
               <option value="018">018</option>
               <option value="019">019</option>
             </SSelect>
-            <SPhoneInput id='mid' type='tel' autoComplete='off' onChange={onPhoneNumberHandler} required/>
-            <SPhoneInput id='end' type='tel'autoComplete='off' onChange={onPhoneNumberHandler} required/>
+            <SPhoneInput id='mid' type='tel' autoComplete='off' onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required/>
+            <SPhoneInput id='end' type='tel'autoComplete='off' onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required/>
           </PhoneNumberWrap>
+          {
+            !phoneNumberState.isValidPhoneNumber && phoneNumberState.phoneNumberSplit.mid && phoneNumberState.phoneNumberSplit.end && (
+              <ErrorMsg>숫자만 입력 가능합니다.</ErrorMsg>
+            )
+          }
         </SForm>
       </FormContainer>
       <BottomWrap>
