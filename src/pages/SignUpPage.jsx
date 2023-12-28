@@ -7,9 +7,11 @@ import Button from '../components/common/Button/Button'
 import agreeCheck from '../assets/agree-check.svg'
 import agreeCheckFill from '../assets/agree-check-fill.svg'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const SignUpPage = () => {
   const url = 'https://openmarket.weniv.co.kr/';
+  const navigate = useNavigate();
 
   const initialIdState = {
     userId: '',
@@ -40,9 +42,21 @@ const SignUpPage = () => {
     phoneNumberSplit: {
       start: '010',
       mid: '',
-      end: ''
+      end: '',
     },
     isValidPhoneNumber: false,
+  }
+
+  const initialCompanyNumber = {
+    companyRegistrationNumber: '',
+    companyNumberRequired: false,
+    isValidCompanyNumber: true,
+    companyNumberMsg: '',
+  }
+
+  const initialStoreName = {
+    storeName: '',
+    storeNameRequired: false,
   }
 
   const [idState, setIdState] = useState(initialIdState);
@@ -50,12 +64,30 @@ const SignUpPage = () => {
   const [pwCheckState, setPwCheckState] = useState(initialPwCheckState);
   const [userNameState, setUserNameState] = useState(initialUserNameState);
   const [phoneNumberState, setPhoneNumberState] = useState(initialPhoneNumberState);
+  const [companyNumberState, setCompanyNumberState] = useState(initialCompanyNumber);
+  const [storeNameState, setStoreNameState] = useState(initialStoreName);
   const [checked, setChecked] = useState(false);
+  const [signUpBtnState, setSignUpBtnState] = useState(false);
+  const [memberType, setMemberType] = useState('buyer');
 
   const ID_REGEX = new RegExp("^[A-Za-z0-9]{1,20}$");
   const PW_REGEX = new RegExp("^[A-Za-z0-99@$!%*?&-_]{8,}$");
-  const PHONE_NUMBER_REGEX = new RegExp("^[0-9]+$");
+  const NUMBER_REGEX = new RegExp("^[0-9]+$");
+  const COMPANY_NUMBER_REGEX = new RegExp("^[0-9]{10}$");
   // const PW_REGEX = new RegExp("^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-99@$!%*?&-_]{8,}$");
+
+  const handleMemberType = (id) => () => {
+    switch(id){
+      case 'buyer':
+        setMemberType('buyer');
+        break;
+      case 'seller':
+        setMemberType('seller');
+      default:
+        break;
+    }
+    console.log(memberType);
+  } 
 
   const handleInputChange = (id) => (e) => {
     const value = e.currentTarget.value;
@@ -72,6 +104,10 @@ const SignUpPage = () => {
       case 'userName':
         setUserNameState({...userNameState, userName: value});
         break;
+      case 'companyNumber':
+        setCompanyNumberState({...companyNumberState, companyRegistrationNumber: value});
+      case 'storeName': 
+        setStoreNameState({...storeNameState, storeName: value});
       default:
         break;
     }
@@ -89,35 +125,43 @@ const SignUpPage = () => {
     })
   }
 
-  // 동의
+  // 동의 체크
   const handleCheckboxChange = () => {
     setChecked(!checked);
   };
 
-  // 빈칸 검사
-  const checkValidation = (id) => (e) => {
+  // 유효성 검사
+  const checkValidation = (id) => () => {
     switch(id){
       case 'userId':
-        if(!idState.userId){
-          setIdState({...idState, userIdRequired: true});
-        }
+        const userIdRequired = !idState.userId ? true : false;
+        const isValidUserId = ID_REGEX.test(idState.userId);
+        setIdState({...idState, userIdRequired, isValidUserId});
         break;
       case 'pw':
-        if(!pwState.pw)
-          setPwState({...pwState, pwRequired: true});
+        const pwRequired = !pwState.pw ? true : false;
+        const isValidPw = PW_REGEX.test(pwState.pw);
+        setPwState({...pwState, pwRequired, isValidPw});
         break;
       case 'pwCheck':
-        if(!pwCheckState.pwCheck)
-          setPwCheckState({...pwCheckState, pwCheckRequired: true});
+        const pwCheckRequired = !pwCheckState.pwCheck ? true : false;
+        setPwCheckState({...pwCheckState, pwCheckRequired});
         break;
       case 'userName':
-        if(!userNameState.userName)
-          setUserNameState({...userNameState, userNameRequired: true});
+        const userNameRequired = !userNameState.userName ? true : false;
+        setUserNameState({...userNameState, userNameRequired});
         break;
       case 'phoneNumber':
-        setPhoneNumberState({...phoneNumberState, isValidPhoneNumber: PHONE_NUMBER_REGEX.test(phoneNumberState.phoneNumber)})
-        console.log(phoneNumberState.phoneNumber);
+        const isValidPhoneNumber = NUMBER_REGEX.test(phoneNumberState.phoneNumber);
+        setPhoneNumberState({...phoneNumberState, isValidPhoneNumber});
         break;
+      case 'companyNumber':
+        const companyNumberRequired = !companyNumberState.companyRegistrationNumber ? true : false;
+        const isValidCompanyNumber = COMPANY_NUMBER_REGEX.test(companyNumberState.companyRegistrationNumber);
+        setCompanyNumberState({...companyNumberState, companyNumberRequired, isValidCompanyNumber});
+      case 'storeName':
+        const storeNameRequired = !storeNameState.storeName ? true : false;
+        setStoreNameState({...storeNameState, storeNameRequired});
       default:
         break;
     }
@@ -127,11 +171,23 @@ const SignUpPage = () => {
   const handleCheckUserId = async () => {
     try {
       const response = await axios.post(url+`/accounts/signup/valid/username/`,{
-        username:idState.userId
+        username: idState.userId
       });
       setIdState({...idState, userIdMsg: response.data});
     } catch (error) {
       setIdState({...idState, userIdMsg: error.response.data});
+    }
+  }
+
+  // 사업자등록번호 중복확인
+  const handleCheckCompanyNumber = async () => {
+    try {
+      const response = await axios.post(url+`/accounts/signup/valid/company_registration_number/`,{
+        company_registration_number: companyNumberState.companyRegistrationNumber
+      });
+      setCompanyNumberState({...companyNumberState, companyNumberMsg: response.data});
+    } catch (error) {
+      setCompanyNumberState({...companyNumberState, companyNumberMsg: error.response.data});
     }
   }
 
@@ -145,20 +201,35 @@ const SignUpPage = () => {
       phoneNumber: combinedPhoneNumber,
     }));
 
-    // 아이디 유효성 검사
-    setIdState({...idState, isValidUserId: ID_REGEX.test(idState.userId)});
-
-    // 비밀번호 유효성 검사
-    setPwState({...pwState, isValidPw: PW_REGEX.test(pwState.pw)});
-
     // 비밀번호 확인
     if (pwCheckState.pwCheck) {
       setPwCheckState({...pwCheckState, isValidPwCheck: pwState.pw === pwCheckState.pwCheck});
     }
-  }, [phoneNumberState.phoneNumberSplit, idState.userId, pwState.pw, pwCheckState.pwCheck]);
 
-  // 회원가입
-  const handleSignUp = async () => {
+    // 회원 가입 버튼 disabled 해제
+    const isValidBuyerForm =
+    idState.isValidUserId &&
+    pwState.isValidPw &&
+    pwCheckState.isValidPwCheck &&
+    userNameState.userName &&
+    phoneNumberState.isValidPhoneNumber &&
+    checked;
+
+    const isValidSellerForm =
+    idState.isValidUserId &&
+    pwState.isValidPw &&
+    pwCheckState.isValidPwCheck &&
+    userNameState.userName &&
+    phoneNumberState.isValidPhoneNumber &&
+    companyNumberState.isValidCompanyNumber &&
+    companyNumberState.isValidCompanyNumber &&
+    checked;
+    
+    memberType === 'buyer' ? setSignUpBtnState(isValidBuyerForm) : setSignUpBtnState(isValidSellerForm);
+  }, [phoneNumberState.phoneNumberSplit, pwState.pw, pwCheckState.pwCheck, idState.isValidUserId, userNameState.userName, phoneNumberState.isValidPhoneNumber, phoneNumberState.isValidPhoneNumber, companyNumberState.isValidCompanyNumber, companyNumberState.isValidCompanyNumber, checked]);
+
+  // 구매자 회원가입
+  const handleBuyerSignUp = async () => {
     const formData = {
       username: idState.userId,
       password: pwState.pw,
@@ -169,9 +240,31 @@ const SignUpPage = () => {
 
     try {
       const response = await axios.post(url+`/accounts/signup/`, formData);
-      console.log('회원가입 성공: ', response.data);
+      console.log('구매자 회원가입 성공: ', response.data);
+      navigate('/login');
     } catch (error) {
-      console.error('회원가입 실패: ', error)
+      console.error('구매자 회원가입 실패: ', error);
+    }
+  }
+
+  // 판매자 회원가입
+  const handleSellerSignUp = async () => {
+    const formData = {
+      username: idState.userId,
+      password: pwState.pw,
+      password2: pwCheckState.pwCheck,
+      phone_number: phoneNumberState.phoneNumber,
+      name: userNameState.userName,
+      company_registration_number: companyNumberState.companyRegistrationNumber,
+      store_name: storeNameState.storeName,
+    }
+
+    try {
+      const response = await axios.post(url+`/accounts/signup_seller/`, formData);
+      console.log('판매자 회원가입 성공: ', response.data);
+      navigate('/login');
+    } catch (error) {
+      console.error('판매자 회원가입 실패: ', error);
     }
   }
 
@@ -184,14 +277,14 @@ const SignUpPage = () => {
       </SLogo>
       <FormContainer>
         <BtnWrap>
-          <CategoryBtn>구매회원 로그인</CategoryBtn>
-          <CategoryBtn>판매회원 로그인</CategoryBtn>
+          <CategoryBtn memberType={memberType} onClick={handleMemberType('buyer')}>구매회원 로그인</CategoryBtn>
+          <CategoryBtn memberType={memberType} onClick={handleMemberType('seller')}>판매회원 로그인</CategoryBtn>
         </BtnWrap>
         <SForm>
           <label htmlFor='id'>아이디</label>
           <IdWrap>
             <SIdInput id='id' type="text" onChange={handleInputChange('userId')} onBlur={checkValidation('userId')} autoComplete='off' required/>
-            <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!idState.userId}>
+            <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!idState.isValidUserId}>
               중복확인
             </Button>
           </IdWrap>
@@ -256,6 +349,40 @@ const SignUpPage = () => {
               <ErrorMsg>숫자만 입력 가능합니다.</ErrorMsg>
             )
           }
+
+          {memberType === 'seller' && (
+            <>
+              <label htmlFor='companyRegistrationNumber'>사업자 등록번호</label>
+              <IdWrap>
+                <SIdInput id='companyRegistrationNumber' type="text" onChange={handleInputChange('companyNumber')} onBlur={checkValidation('companyNumber')} autoComplete='off' required/>
+                <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckCompanyNumber} disabled={!companyNumberState.isValidCompanyNumber}>
+                  인증
+                </Button>
+              </IdWrap>
+              {
+                companyNumberState.companyNumberRequired && !companyNumberState.companyRegistrationNumber && (
+                  <ErrorMsg>필수 정보입니다.</ErrorMsg>
+                )
+              }
+              {
+                !companyNumberState.isValidCompanyNumber && companyNumberState.companyRegistrationNumber && (
+                  <ErrorMsg>10자리로 이루어진 숫자를 입력해주세요.</ErrorMsg>
+                )
+              }
+              {
+                companyNumberState.companyNumberMsg.Success
+                ? (<CorrectMsg>{companyNumberState.companyNumberMsg.Success}</CorrectMsg>)
+                : (<ErrorMsg>{companyNumberState.companyNumberMsg.FAIL_Message}</ErrorMsg>)
+              }
+              <label htmlFor='storeName'>스토어 이름</label>
+              <SInput id='storeName' type="text" onChange={handleInputChange('storeName')} autoComplete='off' onBlur={checkValidation('storeName')} required/>
+              {
+                storeNameState.storeNameRequired && !storeNameState.storeName && (
+                  <ErrorMsg>필수 정보입니다.</ErrorMsg>
+                )
+              }
+            </>
+          )}
         </SForm>
       </FormContainer>
       <BottomWrap>
@@ -265,7 +392,7 @@ const SignUpPage = () => {
             싸커마켓의 <u>이용약관</u> 및 <u>개인정보처리방침</u>에 대한 내용을 확인하였고 동의합니다.
           </label>
         </AgreeBox>
-        <Button width='480px' height='60px' disabled={!checked} onClick={handleSignUp}>
+        <Button width='480px' height='60px' disabled={!signUpBtnState} onClick={memberType === 'buyer' ? handleBuyerSignUp : handleSellerSignUp}>
           가입하기
         </Button> 
       </BottomWrap>
@@ -302,15 +429,16 @@ const CategoryBtn = styled.div`
   text-align: center;
   font-size: 18px;
   font-weight: 500;
-  background-color: var(--light-gray);
   border: 1px solid var(--gray);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  background-color: ${({ memberType }) => memberType === 'seller' ? 'white' : 'var(--light-gray)'};
+  border-bottom: ${({ memberType }) => memberType === 'seller' ? 'none' : '1px solid var(--gray);'};
   cursor: pointer;
 
   &:first-child {
-    background-color: white;
-    border-bottom: none;
+    background-color: ${({ memberType }) => memberType === 'buyer' ? 'white' : 'var(--light-gray)'};
+    border-bottom: ${({ memberType }) => memberType === 'buyer' ? 'none' : '1px solid var(--gray);'};
   }
 `;
 
