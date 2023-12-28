@@ -1,36 +1,42 @@
-import React from 'react'
-import logo from '../assets/soccer-market-logo.png'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Button from '../components/common/Button/Button'
+import Logo from '../components/common/Logo/Logo'
+import FormContainer from '../components/common/Form/FormContainer'
 
 const LoginPage = () => {
+  const [memberType, setMemberType] = useState('buyer');
+
+  const handleMemberType = (id) => () => {
+    switch(id){
+      case 'buyer':
+        setMemberType('buyer');
+        break;
+      case 'seller':
+        setMemberType('seller');
+        break;
+      default:
+        break;
+    }
+  } 
+
   return (
     <>
-      <SLogo>
-        <a href="/">
-          <img src={logo} alt="SoccerMarket 로고" />
-        </a>
-      </SLogo>
-      <FormContainer>
-        <BtnWrap>
-          <CategoryBtn>구매회원 로그인</CategoryBtn>
-          <CategoryBtn>판매회원 로그인</CategoryBtn>
-        </BtnWrap>
-        <SForm>
-          <label htmlFor='id'>
-            <InputBox
-              id='id'
-              placeholder='아이디'
-              type='text'
-            />
-          </label>
-          <label htmlFor='pw'>
-            <InputBox id='pw' placeholder='비밀번호' type='password'/>
-          </label>
-          <Button width="480px" height="60px">
-            로그인
-          </Button> 
-        </SForm>
+      <Logo />
+      <FormContainer 
+        memberType={memberType}
+        onClickBuyer={handleMemberType('buyer')}
+        onClickSeller={handleMemberType('seller')}
+      >
+        <label htmlFor='id'>
+          <InputBox id='id' placeholder='아이디' type='text' />
+        </label>
+        <label htmlFor='pw'>
+          <InputBox id='pw' placeholder='비밀번호' type='password' autoComplete='new-password'/>
+        </label>
+        <Button width="480px" height="60px">
+          로그인
+        </Button> 
       </FormContainer>
       <AWrap>
         <SLink href="/signup">회원가입</SLink>
@@ -41,53 +47,6 @@ const LoginPage = () => {
 }
 
 export default LoginPage
-
-const SLogo = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 50px;
-`;
-
-const FormContainer = styled.div`
-  width: 550px;
-  border-top: none;
-  border-radius: 10px;
-  overflow: hidden;
-`;
-
-const BtnWrap = styled.div`
-  height: 60px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-`;
-
-const CategoryBtn = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 500;
-  border: 1px solid var(--gray);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  background-color: var(--light-gray);
-  cursor: pointer;
-
-  &:first-child {
-    background-color: white;
-    border-bottom: none;
-  }
-`;
-
-const SForm = styled.form`
-  padding: 35px;
-  border: 1px solid var(--gray);
-  border-top: none;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-`;
 
 const InputBox = styled.input`
   width: 480px;

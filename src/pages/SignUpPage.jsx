@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../assets/soccer-market-logo.png'
 import checkBox from '../assets/chek-disabled.svg'
 import fillCheckBox from '../assets/check-ok.svg'
 import styled from 'styled-components'
 import Button from '../components/common/Button/Button'
-import agreeCheck from '../assets/agree-check.svg'
-import agreeCheckFill from '../assets/agree-check-fill.svg'
+import Logo from '../components/common/Logo/Logo'
+import FormContainer from '../components/common/Form/FormContainer'
+import CheckBox from '../components/common/Form/CheckBox'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
@@ -83,10 +83,10 @@ const SignUpPage = () => {
         break;
       case 'seller':
         setMemberType('seller');
+        break;
       default:
         break;
     }
-    console.log(memberType);
   } 
 
   const handleInputChange = (id) => (e) => {
@@ -106,8 +106,10 @@ const SignUpPage = () => {
         break;
       case 'companyNumber':
         setCompanyNumberState({...companyNumberState, companyRegistrationNumber: value});
+        break;
       case 'storeName': 
         setStoreNameState({...storeNameState, storeName: value});
+        break;
       default:
         break;
     }
@@ -159,9 +161,11 @@ const SignUpPage = () => {
         const companyNumberRequired = !companyNumberState.companyRegistrationNumber ? true : false;
         const isValidCompanyNumber = COMPANY_NUMBER_REGEX.test(companyNumberState.companyRegistrationNumber);
         setCompanyNumberState({...companyNumberState, companyNumberRequired, isValidCompanyNumber});
+        break;
       case 'storeName':
         const storeNameRequired = !storeNameState.storeName ? true : false;
         setStoreNameState({...storeNameState, storeNameRequired});
+        break;
       default:
         break;
     }
@@ -189,6 +193,12 @@ const SignUpPage = () => {
     } catch (error) {
       setCompanyNumberState({...companyNumberState, companyNumberMsg: error.response.data});
     }
+  }
+
+  const showErrorMsg = (condition, msg) => {
+    if(condition)
+      return <ErrorMsg>{msg}</ErrorMsg>
+    return null
   }
 
   useEffect(() => {
@@ -270,128 +280,87 @@ const SignUpPage = () => {
 
   return (
     <>
-      <SLogo>
-        <a href="/">
-          <img src={logo} alt="SoccerMarket 로고" />
-        </a>
-      </SLogo>
-      <FormContainer>
-        <BtnWrap>
-          <CategoryBtn memberType={memberType} onClick={handleMemberType('buyer')}>구매회원 로그인</CategoryBtn>
-          <CategoryBtn memberType={memberType} onClick={handleMemberType('seller')}>판매회원 로그인</CategoryBtn>
-        </BtnWrap>
-        <SForm>
-          <label htmlFor='id'>아이디</label>
-          <IdWrap>
-            <SIdInput id='id' type="text" onChange={handleInputChange('userId')} onBlur={checkValidation('userId')} autoComplete='off' required/>
-            <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!idState.isValidUserId}>
-              중복확인
-            </Button>
-          </IdWrap>
-          {
-            idState.userIdRequired && !idState.userId ? (
-              <ErrorMsg>필수 정보입니다.</ErrorMsg>
-            ) :
-              !idState.isValidUserId && idState.userId ? (
-                <ErrorMsg>20자 이내의 영문 대 소문자, 숫자만 사용 가능합니다.</ErrorMsg>
-              ) :
-              idState.userIdMsg.Success
-                ? (<CorrectMsg>{idState.userIdMsg.Success}</CorrectMsg>)
-                : (<ErrorMsg>{idState.userIdMsg.FAIL_Message}</ErrorMsg>)
-          }
-          <PwWrap isValidPw={pwState.isValidPw}>
-            <label htmlFor='pw'>비밀번호</label>
-            <SPwInput id='pw' type="password" onChange={handleInputChange('pw')} onBlur={checkValidation('pw')} autoComplete='new-password' required/>
-          </PwWrap>
-          {
-            pwState.pwRequired && !pwState.pw ? (
-              <ErrorMsg>필수 정보입니다.</ErrorMsg>
-            ) :
-              !pwState.isValidPw && pwState.pw && (
-                <ErrorMsg>8자이상의 영문 대 소문자, 숫자, 특수문자만 사용 가능합니다.</ErrorMsg>
-              )
-          }
-          <PwWrap isValidPw={pwCheckState.isValidPwCheck}>
-            <label htmlFor='pwCheck'>비밀번호 재확인</label>
-            <SPwInput id='pwCheck' type="password" onChange={handleInputChange('pwCheck')} onBlur={checkValidation('pwCheck')} autoComplete='new-password' required/>
-          </PwWrap>
-          {
-            pwCheckState.pwCheckRequired && !pwCheckState.pwCheck ? (
-              <ErrorMsg>필수 정보입니다.</ErrorMsg>
-            ) :
-              !pwCheckState.isValidPwCheck && pwCheckState.pwCheck && (
-                <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>
-              )
-          }
-          <label htmlFor='name'>이름</label>
-          <SInput id='name' type="text" onChange={handleInputChange('userName')} autoComplete='off' onBlur={checkValidation('userName')} required/>
-          {
-            userNameState.userNameRequired && !userNameState.userName && (
-              <ErrorMsg>필수 정보입니다.</ErrorMsg>
-            )
-          }
+      <Logo />
+      <FormContainer 
+        memberType={memberType}
+        onClickBuyer={handleMemberType('buyer')}
+        onClickSeller={handleMemberType('seller')}
+      >
+        <label htmlFor='id'>아이디</label>
+        <IdWrap>
+          <SIdInput id='id' type="text" onChange={handleInputChange('userId')} onBlur={checkValidation('userId')} autoComplete='off' required/>
+          <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!idState.isValidUserId}>
+            중복확인
+          </Button>
+        </IdWrap>
+        {showErrorMsg(idState.userIdRequired && !idState.userId, '필수 정보입니다.')}
+        {showErrorMsg(!idState.isValidUserId && idState.userId, '20자 이내의 영문 대 소문자, 숫자만 사용 가능합니다')}
+        {
+          idState.userIdMsg.Success
+            ? (<CorrectMsg>{idState.userIdMsg.Success}</CorrectMsg>)
+            : (<ErrorMsg>{idState.userIdMsg.FAIL_Message}</ErrorMsg>)
+        }
 
-          <label htmlFor='phone'>휴대폰번호</label>
-          <PhoneNumberWrap>
-            <SSelect name="phone" id="start" onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required>
-              <option value="010">010</option>
-              <option value="011">011</option>
-              <option value="016">016</option>
-              <option value="017">017</option>
-              <option value="018">018</option>
-              <option value="019">019</option>
-            </SSelect>
-            <SPhoneInput id='mid' type='tel' autoComplete='off' onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required/>
-            <SPhoneInput id='end' type='tel'autoComplete='off' onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required/>
-          </PhoneNumberWrap>
-          {
-            !phoneNumberState.isValidPhoneNumber && phoneNumberState.phoneNumberSplit.mid && phoneNumberState.phoneNumberSplit.end && (
-              <ErrorMsg>숫자만 입력 가능합니다.</ErrorMsg>
-            )
-          }
+        <PwWrap isValidPw={pwState.isValidPw}>
+          <label htmlFor='pw'>비밀번호</label>
+          <SPwInput id='pw' type="password" onChange={handleInputChange('pw')} onBlur={checkValidation('pw')} autoComplete='new-password' required/>
+        </PwWrap>
+        {showErrorMsg(pwState.pwRequired && !pwState.pw, '필수 정보입니다.')}
+        {showErrorMsg(!pwState.isValidPw && pwState.pw, '8자이상의 영문 대 소문자, 숫자, 특수문자만 사용 가능합니다.')}
 
-          {memberType === 'seller' && (
-            <>
-              <label htmlFor='companyRegistrationNumber'>사업자 등록번호</label>
-              <IdWrap>
-                <SIdInput id='companyRegistrationNumber' type="text" onChange={handleInputChange('companyNumber')} onBlur={checkValidation('companyNumber')} autoComplete='off' required/>
-                <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckCompanyNumber} disabled={!companyNumberState.isValidCompanyNumber}>
-                  인증
-                </Button>
-              </IdWrap>
-              {
-                companyNumberState.companyNumberRequired && !companyNumberState.companyRegistrationNumber && (
-                  <ErrorMsg>필수 정보입니다.</ErrorMsg>
-                )
-              }
-              {
-                !companyNumberState.isValidCompanyNumber && companyNumberState.companyRegistrationNumber && (
-                  <ErrorMsg>10자리로 이루어진 숫자를 입력해주세요.</ErrorMsg>
-                )
-              }
-              {
-                companyNumberState.companyNumberMsg.Success
-                ? (<CorrectMsg>{companyNumberState.companyNumberMsg.Success}</CorrectMsg>)
-                : (<ErrorMsg>{companyNumberState.companyNumberMsg.FAIL_Message}</ErrorMsg>)
-              }
-              <label htmlFor='storeName'>스토어 이름</label>
-              <SInput id='storeName' type="text" onChange={handleInputChange('storeName')} autoComplete='off' onBlur={checkValidation('storeName')} required/>
-              {
-                storeNameState.storeNameRequired && !storeNameState.storeName && (
-                  <ErrorMsg>필수 정보입니다.</ErrorMsg>
-                )
-              }
+        <PwWrap isValidPw={pwCheckState.isValidPwCheck}>
+          <label htmlFor='pwCheck'>비밀번호 재확인</label>
+          <SPwInput id='pwCheck' type="password" onChange={handleInputChange('pwCheck')} onBlur={checkValidation('pwCheck')} autoComplete='new-password' required/>
+        </PwWrap>
+        {showErrorMsg(pwCheckState.pwCheckRequired && !pwCheckState.pwCheck, '필수 정보입니다.')}
+        {showErrorMsg(!pwCheckState.isValidPwCheck && pwCheckState.pwCheck, '비밀번호가 일치하지 않습니다.')}
+
+
+        <label htmlFor='name'>이름</label>
+        <SInput id='name' type="text" onChange={handleInputChange('userName')} autoComplete='off' onBlur={checkValidation('userName')} required/>
+        {showErrorMsg(userNameState.userNameRequired && !userNameState.userName, '필수 정보입니다.')}
+
+        <label htmlFor='phone'>휴대폰번호</label>
+        <PhoneNumberWrap>
+          <SSelect name="phone" id="start" onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required>
+            <option value="010">010</option>
+            <option value="011">011</option>
+            <option value="016">016</option>
+            <option value="017">017</option>
+            <option value="018">018</option>
+            <option value="019">019</option>
+          </SSelect>
+          <SPhoneInput id='mid' type='tel' autoComplete='off' onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required/>
+          <SPhoneInput id='end' type='tel'autoComplete='off' onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required/>
+        </PhoneNumberWrap>
+        {showErrorMsg(!phoneNumberState.isValidPhoneNumber && phoneNumberState.phoneNumberSplit.mid && phoneNumberState.phoneNumberSplit.end,
+          '숫자만 입력 가능합니다.')}
+
+        {memberType === 'seller' && (
+          <>
+            <label htmlFor='companyRegistrationNumber'>사업자 등록번호</label>
+            <IdWrap>
+              <SIdInput id='companyRegistrationNumber' type="text" onChange={handleInputChange('companyNumber')} onBlur={checkValidation('companyNumber')} autoComplete='off' required/>
+              <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckCompanyNumber} disabled={!companyNumberState.isValidCompanyNumber}>
+                인증
+              </Button>
+            </IdWrap>
+            {showErrorMsg(companyNumberState.companyNumberRequired && !companyNumberState.companyRegistrationNumber, '필수 정보입니다.')}
+            {showErrorMsg(!companyNumberState.isValidCompanyNumber && companyNumberState.companyRegistrationNumber, '10자리로 이루어진 숫자를 입력해주세요.')}
+            {
+              companyNumberState.companyNumberMsg.Success
+              ? (<CorrectMsg>{companyNumberState.companyNumberMsg.Success}</CorrectMsg>)
+              : (<ErrorMsg>{companyNumberState.companyNumberMsg.FAIL_Message}</ErrorMsg>)
+            }
+
+            <label htmlFor='storeName'>스토어 이름</label>
+            <SInput id='storeName' type="text" onChange={handleInputChange('storeName')} autoComplete='off' onBlur={checkValidation('storeName')} required/>
+            {showErrorMsg(storeNameState.storeNameRequired && !storeNameState.storeName, '필수 정보입니다.')}
             </>
           )}
-        </SForm>
       </FormContainer>
       <BottomWrap>
-        <AgreeBox>
-          <CheckInput type="checkbox" id="agree" checked={checked} onChange={handleCheckboxChange}/>
-          <label htmlFor="agree">
-            싸커마켓의 <u>이용약관</u> 및 <u>개인정보처리방침</u>에 대한 내용을 확인하였고 동의합니다.
-          </label>
-        </AgreeBox>
+        <CheckBox id="agree" type="checkbox" checked={checked} onChange={handleCheckboxChange} />
         <Button width='480px' height='60px' disabled={!signUpBtnState} onClick={memberType === 'buyer' ? handleBuyerSignUp : handleSellerSignUp}>
           가입하기
         </Button> 
@@ -402,59 +371,9 @@ const SignUpPage = () => {
 
 export default SignUpPage
 
-const SLogo = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 50px 0;
-`;
-
-const FormContainer = styled.div`
-  width: 550px;
-  border-top: none;
-  border-radius: 10px;
-  overflow: hidden;
-`;
-
-const BtnWrap = styled.div`
-  height: 60px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-`;
-
-const CategoryBtn = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 500;
-  border: 1px solid var(--gray);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  background-color: ${({ memberType }) => memberType === 'seller' ? 'white' : 'var(--light-gray)'};
-  border-bottom: ${({ memberType }) => memberType === 'seller' ? 'none' : '1px solid var(--gray);'};
-  cursor: pointer;
-
-  &:first-child {
-    background-color: ${({ memberType }) => memberType === 'buyer' ? 'white' : 'var(--light-gray)'};
-    border-bottom: ${({ memberType }) => memberType === 'buyer' ? 'none' : '1px solid var(--gray);'};
-  }
-`;
-
-const SForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  padding: 35px;
-  border: 1px solid var(--gray);
-  border-top: none;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  color: var(--light-font-color);
-`;
-
 const SInput = styled.input`
   height: 54px;
+  width: 100%;
   padding: 16px;
   outline: none;
   border: 1px solid var(--gray);
@@ -553,24 +472,4 @@ const CorrectMsg = styled.div`
 
 const ErrorMsg = styled(CorrectMsg)`
   color: var(--red);
-`;
-
-const AgreeBox = styled.div`
-  width: 480px;
-  display: flex;
-  justify-content: center;
-`;
-
-const CheckInput = styled.input`
-  margin-right: 10px;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  outline: none;
-  cursor: pointer;
-  background: url(${agreeCheck}) center center / contain no-repeat;
-
-  &:checked {
-    background: url(${agreeCheckFill}) center center / contain no-repeat;
-  }
 `;
