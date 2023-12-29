@@ -3,38 +3,57 @@ import styled from 'styled-components'
 import Button from '../components/common/Button/Button'
 import Logo from '../components/common/Logo/Logo'
 import FormContainer from '../components/common/Form/FormContainer'
+import axios from 'axios'
 
-const LoginPage = () => {
-  const [memberType, setMemberType] = useState('buyer');
+const LogInPage = () => {
+  const url = 'https://openmarket.weniv.co.kr/';
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [memberType, setMemberType] = useState('BUYER');
 
   const handleMemberType = (id) => () => {
     switch(id){
-      case 'buyer':
-        setMemberType('buyer');
+      case 'BUYER':
+        setMemberType('BUYER');
         break;
-      case 'seller':
-        setMemberType('seller');
+      case 'SELLER':
+        setMemberType('SELLER');
         break;
       default:
         break;
     }
   } 
 
+  const handleLogIn = async () => {
+    const formData = {
+      username: userName,
+      password: password,
+      login_type: memberType,
+    }
+
+    try {
+      const response = await axios.post(url+`/accounts/login/`, formData);
+      console.log('로그인 성공: ', response.data);
+    } catch (error) {
+      console.error('로그인 실패', error.response.data);
+    }
+  }
+
   return (
     <>
       <Logo />
       <FormContainer 
         memberType={memberType}
-        onClickBuyer={handleMemberType('buyer')}
-        onClickSeller={handleMemberType('seller')}
+        onClickBuyer={handleMemberType('BUYER')}
+        onClickSeller={handleMemberType('SELLER')}
       >
         <label htmlFor='id'>
-          <InputBox id='id' placeholder='아이디' type='text' />
+          <InputBox id='id' placeholder='아이디' type='text' onChange={(e)=>setUserName(e.target.value)} autoComplete='off'/>
         </label>
         <label htmlFor='pw'>
-          <InputBox id='pw' placeholder='비밀번호' type='password' autoComplete='new-password'/>
+          <InputBox id='pw' placeholder='비밀번호' type='password' autoComplete='off'onChange={(e)=>setPassword(e.target.value)}/>
         </label>
-        <Button width="480px" height="60px">
+        <Button width="480px" height="60px" onClick={handleLogIn}>
           로그인
         </Button> 
       </FormContainer>
@@ -46,7 +65,7 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default LogInPage
 
 const InputBox = styled.input`
   width: 480px;

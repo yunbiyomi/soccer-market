@@ -40,13 +40,13 @@ const CategoryBtn = styled.div`
   border: 1px solid var(--gray);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  background-color: ${({ memberType }) => memberType === 'seller' ? 'white' : 'var(--light-gray)'};
-  border-bottom: ${({ memberType }) => memberType === 'seller' ? 'none' : '1px solid var(--gray);'};
+  background-color: ${({ memberType }) => memberType === 'SELLER' ? 'white' : 'var(--light-gray)'};
+  border-bottom: ${({ memberType }) => memberType === 'SELLER' ? 'none' : '1px solid var(--gray);'};
   cursor: pointer;
 
   &:first-child {
-    background-color: ${({ memberType }) => memberType === 'buyer' ? 'white' : 'var(--light-gray)'};
-    border-bottom: ${({ memberType }) => memberType === 'buyer' ? 'none' : '1px solid var(--gray);'};
+    background-color: ${({ memberType }) => memberType === 'BUYER' ? 'white' : 'var(--light-gray)'};
+    border-bottom: ${({ memberType }) => memberType === 'BUYER' ? 'none' : '1px solid var(--gray);'};
   }
 `;
 

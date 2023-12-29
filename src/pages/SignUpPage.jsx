@@ -68,7 +68,7 @@ const SignUpPage = () => {
   const [storeNameState, setStoreNameState] = useState(initialStoreName);
   const [checked, setChecked] = useState(false);
   const [signUpBtnState, setSignUpBtnState] = useState(false);
-  const [memberType, setMemberType] = useState('buyer');
+  const [memberType, setMemberType] = useState('BUYER');
 
   const ID_REGEX = new RegExp("^[A-Za-z0-9]{1,20}$");
   const PW_REGEX = new RegExp("^[A-Za-z0-99@$!%*?&-_]{8,}$");
@@ -78,11 +78,11 @@ const SignUpPage = () => {
 
   const handleMemberType = (id) => () => {
     switch(id){
-      case 'buyer':
-        setMemberType('buyer');
+      case 'BUYER':
+        setMemberType('BUYER');
         break;
-      case 'seller':
-        setMemberType('seller');
+      case 'SELLER':
+        setMemberType('SELLER');
         break;
       default:
         break;
@@ -283,8 +283,8 @@ const SignUpPage = () => {
       <Logo />
       <FormContainer 
         memberType={memberType}
-        onClickBuyer={handleMemberType('buyer')}
-        onClickSeller={handleMemberType('seller')}
+        onClickBuyer={handleMemberType('BUYER')}
+        onClickSeller={handleMemberType('SELLER')}
       >
         <label htmlFor='id'>아이디</label>
         <IdWrap>
@@ -361,7 +361,7 @@ const SignUpPage = () => {
       </FormContainer>
       <BottomWrap>
         <CheckBox id="agree" type="checkbox" checked={checked} onChange={handleCheckboxChange} />
-        <Button width='480px' height='60px' disabled={!signUpBtnState} onClick={memberType === 'buyer' ? handleBuyerSignUp : handleSellerSignUp}>
+        <Button width='480px' height='60px' disabled={!signUpBtnState} onClick={memberType === 'BUYER' ? handleBuyerSignUp : handleSellerSignUp}>
           가입하기
         </Button> 
       </BottomWrap>
