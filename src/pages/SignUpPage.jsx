@@ -174,7 +174,7 @@ const SignUpPage = () => {
   // 아이디 중복확인
   const handleCheckUserId = async () => {
     try {
-      const response = await axios.post(url+`/accounts/signup/valid/username/`,{
+      const response = await axios.post(url+`accounts/signup/valid/username/`,{
         username: idState.userId
       });
       setIdState({...idState, userIdMsg: response.data});
@@ -186,7 +186,7 @@ const SignUpPage = () => {
   // 사업자등록번호 중복확인
   const handleCheckCompanyNumber = async () => {
     try {
-      const response = await axios.post(url+`/accounts/signup/valid/company_registration_number/`,{
+      const response = await axios.post(url+`accounts/signup/valid/company_registration_number/`,{
         company_registration_number: companyNumberState.companyRegistrationNumber
       });
       setCompanyNumberState({...companyNumberState, companyNumberMsg: response.data});
@@ -249,7 +249,7 @@ const SignUpPage = () => {
     }
 
     try {
-      const response = await axios.post(url+`/accounts/signup/`, formData);
+      const response = await axios.post(url+`accounts/signup/`, formData);
       console.log('구매자 회원가입 성공: ', response.data);
       navigate('/login');
     } catch (error) {
@@ -270,7 +270,7 @@ const SignUpPage = () => {
     }
 
     try {
-      const response = await axios.post(url+`/accounts/signup_seller/`, formData);
+      const response = await axios.post(url+`accounts/signup_seller/`, formData);
       console.log('판매자 회원가입 성공: ', response.data);
       navigate('/login');
     } catch (error) {

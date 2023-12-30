@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Button from '../components/common/Button/Button'
 import Logo from '../components/common/Logo/Logo'
@@ -9,7 +9,13 @@ const LogInPage = () => {
   const url = 'https://openmarket.weniv.co.kr/';
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const [memberType, setMemberType] = useState('BUYER');
+  const idInputRef = useRef(null);
+  const pwInputRef = useRef(null);
+
+  const LOGIN_INCORRECT_ERROR = "로그인 정보가 없습니다.";
+  const MEMBER_TYPE_ERROR = "로그인 정보가 없습니다. 로그인 유형을 학인해주세요.";
 
   const handleMemberType = (id) => () => {
     switch(id){
@@ -24,7 +30,19 @@ const LogInPage = () => {
     }
   } 
 
+  // 로그인
   const handleLogIn = async () => {
+    if(!userName && idInputRef.current){
+      setErrorMsg('아이디를 입력해주세요.');
+      idInputRef.current.focus();
+      return
+    }
+    else if(!password && pwInputRef.current){
+      setErrorMsg('비밀번호를 입력해주세요.');
+      pwInputRef.current.focus();
+      return
+    }
+
     const formData = {
       username: userName,
       password: password,
@@ -32,13 +50,18 @@ const LogInPage = () => {
     }
 
     try {
-      const response = await axios.post(url+`/accounts/login/`, formData);
+      const response = await axios.post(url+`accounts/login/`, formData);
       console.log('로그인 성공: ', response.data);
+      setErrorMsg('');
     } catch (error) {
       console.error('로그인 실패', error.response.data);
+      if(error.response.data.FAIL_Message === LOGIN_INCORRECT_ERROR)
+        setErrorMsg('아이디 또는 비밀번호가 일치하지 않습니다.');
+      else if(error.response.data.FAIL_Message === MEMBER_TYPE_ERROR)
+        setErrorMsg('회원 유형을 확인해주세요.');
     }
   }
-
+  
   return (
     <>
       <Logo />
@@ -48,12 +71,17 @@ const LogInPage = () => {
         onClickSeller={handleMemberType('SELLER')}
       >
         <label htmlFor='id'>
-          <InputBox id='id' placeholder='아이디' type='text' onChange={(e)=>setUserName(e.target.value)} autoComplete='off'/>
+          <InputBox id='id' placeholder='아이디' type='text' onChange={(e)=>setUserName(e.target.value)} autoComplete='off' ref={idInputRef}/>
         </label>
         <label htmlFor='pw'>
-          <InputBox id='pw' placeholder='비밀번호' type='password' autoComplete='off'onChange={(e)=>setPassword(e.target.value)}/>
+          <InputBox id='pw' placeholder='비밀번호' type='password' autoComplete='off'onChange={(e)=>setPassword(e.target.value)} ref={pwInputRef}/>
         </label>
-        <Button width="480px" height="60px" onClick={handleLogIn}>
+        {
+          ErrorMsg && (
+            <ErrorMsg>{errorMsg}</ErrorMsg>
+          )
+        }
+        <Button width="480px" height="60px" margin="25px 0 0 0" onClick={handleLogIn}>
           로그인
         </Button> 
       </FormContainer>
@@ -76,7 +104,7 @@ const InputBox = styled.input`
   font-size: 16px;
 
   &:focus {
-    border-bottom: 1px solid var(--point-color);
+    border-bottom: 2px solid var(--point-color);
   }
 `;
 
@@ -100,4 +128,11 @@ const SLink = styled.a`
     transform: translateY(-50%);
     background-color: #313131;
   }
+`;
+
+const ErrorMsg = styled.div`
+  color: var(--red);
+  font-weight: 500;
+  margin-top: 25px;
+  padding-left: 3px;
 `;
