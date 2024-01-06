@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import Button from '../components/common/Button/Button'
 import Logo from '../components/common/Logo/Logo'
 import FormContainer from '../components/common/Form/FormContainer'
-import axios from 'axios'
+import axios from '../api/axios'
+import { setCookie } from '../hooks/Cookies'
 
 const LogInPage = () => {
-  const url = 'https://openmarket.weniv.co.kr/';
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -50,9 +50,18 @@ const LogInPage = () => {
     }
 
     try {
-      const response = await axios.post(url+`accounts/login/`, formData);
+      const response = await axios.post(`accounts/login/`, formData);
       console.log('로그인 성공: ', response.data);
       setErrorMsg('');
+      const token = response.data.token;
+      if(token){
+        setCookie("token", `JWT ${token}`, {
+          path: "/",
+          sameSite:'strict',
+          // secure: true,
+          // httpOnly: true,
+        })
+      }
     } catch (error) {
       console.error('로그인 실패', error.response.data);
       if(error.response.data.FAIL_Message === LOGIN_INCORRECT_ERROR)
