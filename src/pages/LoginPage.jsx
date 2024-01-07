@@ -51,15 +51,15 @@ const LogInPage = () => {
 
     try {
       const response = await axios.post(`accounts/login/`, formData);
-      console.log('로그인 성공: ', response.data);
+      // console.log('로그인 성공: ', response.data);
       setErrorMsg('');
       const token = response.data.token;
       if(token){
         setCookie("token", `JWT ${token}`, {
           path: "/",
-          sameSite:'strict',
-          // secure: true,
-          // httpOnly: true,
+          sameSite:'none',
+          secure: true,
+          httpOnly: true,
         })
       }
     } catch (error) {
