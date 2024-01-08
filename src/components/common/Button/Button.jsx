@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Button = (props) => {
-  const { type, onClick } = props;
+  const { type } = props;
   return (
     <SButton type={type ? type : 'button'} {...props} >
       {props.children}

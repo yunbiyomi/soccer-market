@@ -2,11 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 
 const FormContainer = (props) => {
+  const { memberType, onClickBuyer, onClickSeller } = props;
+
   return (
     <SFormContainer>
       <BtnWrap>
-        <CategoryBtn memberType={props.memberType} onClick={props.onClickBuyer}>구매회원 로그인</CategoryBtn>
-        <CategoryBtn memberType={props.memberType} onClick={props.onClickSeller}>판매회원 로그인</CategoryBtn>
+        <CategoryBtn memberType={memberType} onClick={onClickBuyer}>
+          구매회원 로그인
+        </CategoryBtn>
+        <CategoryBtn memberType={memberType} onClick={onClickSeller}>
+          판매회원 로그인
+        </CategoryBtn>
       </BtnWrap>
       <SForm>
         {props.children}

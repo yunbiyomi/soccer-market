@@ -5,8 +5,10 @@ import Logo from '../components/common/Logo/Logo'
 import FormContainer from '../components/common/Form/FormContainer'
 import axios from '../api/axios'
 import { setCookie } from '../hooks/Cookies'
+import { useNavigate } from 'react-router-dom'
 
 const LogInPage = () => {
+  const navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -30,6 +32,12 @@ const LogInPage = () => {
     }
   } 
 
+  // Enter키 눌러서 로그인
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') 
+      handleLogIn();
+  };
+
   // 로그인
   const handleLogIn = async () => {
     if(!userName && idInputRef.current){
@@ -51,7 +59,7 @@ const LogInPage = () => {
 
     try {
       const response = await axios.post(`accounts/login/`, formData);
-      // console.log('로그인 성공: ', response.data);
+      console.log('로그인 성공: ', response.data);
       setErrorMsg('');
       const token = response.data.token;
       if(token){
@@ -62,6 +70,7 @@ const LogInPage = () => {
           httpOnly: true,
         })
       }
+      navigate(-1);
     } catch (error) {
       console.error('로그인 실패', error.response.data);
       if(error.response.data.FAIL_Message === LOGIN_INCORRECT_ERROR)
@@ -80,10 +89,10 @@ const LogInPage = () => {
         onClickSeller={handleMemberType('SELLER')}
       >
         <label htmlFor='id'>
-          <InputBox id='id' placeholder='아이디' type='text' onChange={(e)=>setUserName(e.target.value)} autoComplete='off' ref={idInputRef}/>
+          <InputBox id='id' placeholder='아이디' type='text' onChange={(e)=>setUserName(e.target.value)} autoComplete='off' ref={idInputRef} onKeyDown={handleKeyDown}/>
         </label>
         <label htmlFor='pw'>
-          <InputBox id='pw' placeholder='비밀번호' type='password' autoComplete='off'onChange={(e)=>setPassword(e.target.value)} ref={pwInputRef}/>
+          <InputBox id='pw' placeholder='비밀번호' type='password' autoComplete='off'onChange={(e)=>setPassword(e.target.value)} ref={pwInputRef} onKeyDown={handleKeyDown}/>
         </label>
         {
           ErrorMsg && (
