@@ -360,7 +360,7 @@ const SignUpPage = () => {
       </FormContainer>
       <BottomWrap>
         <CheckBox id="agree" type="checkbox" checked={checked} onChange={handleCheckboxChange} />
-        <Button width='480px' height='60px' disabled={!signUpBtnState} onClick={memberType === 'BUYER' ? handleBuyerSignUp : handleSellerSignUp}>
+        <Button width='480px' height='60px' margin='35px 0' disabled={!signUpBtnState} onClick={memberType === 'BUYER' ? handleBuyerSignUp : handleSellerSignUp}>
           가입하기
         </Button> 
       </BottomWrap>
