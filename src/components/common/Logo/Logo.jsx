@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import logo from '../../../assets/soccer-market-logo.png'
 
-const Logo = () => {
+const Logo = (props) => {
   return (
     <SLogo>
       <a href="/">
-        <img src={logo} alt="SoccerMarket 로고" />
+        <img src={logo} alt="SoccerMarket 로고" width={props.width}/>
       </a>
     </SLogo>
   )

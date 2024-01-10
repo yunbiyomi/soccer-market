@@ -8,8 +8,8 @@ const GlobalStyles = createGlobalStyle`
     --red: #EB5757;
     --gray: #C4C4C4;
     --light-gray: #F2F2F2;
-    --disabled-gray: #E0E0E0
-    --light-font-color: #767676;
+    --disabled-gray: #E0E0E0;
+    --light-font: #767676;
   }
 
   @font-face {
@@ -29,7 +29,6 @@ const GlobalStyles = createGlobalStyle`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0;
   }
 
   a {
@@ -50,6 +49,10 @@ const GlobalStyles = createGlobalStyle`
     background-color: none;
     border: none;
     cursor: pointer;
+  }
+
+  input {
+    outline: none;
   }
 
   p {

@@ -28,6 +28,7 @@ const SFormContainer = styled.div`
   border-top: none;
   border-radius: 10px;
   overflow: hidden;
+  margin: 0 auto;
 `;
 
 const BtnWrap = styled.div`
