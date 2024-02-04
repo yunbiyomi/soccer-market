@@ -3,7 +3,9 @@ import styled from 'styled-components'
 import Logo from '../../../components/common/Logo/Logo'
 import SearchIcon from '../../../assets/icon-search.svg'
 import CartIcon from '../../../assets/icon-shopping-cart.svg'
+import CartIconColor from '../../../assets/icon-shopping-cart-color.svg'
 import UserIcon from '../../../assets/icon-user.svg'
+import UserIconColor from '../../../assets/icon-user-color.svg'
 
 const Header = () => {
   return (
@@ -24,7 +26,7 @@ const Header = () => {
             <CategoryName>장바구니</CategoryName>
           </SCategory>
           <SCategory href='/login'>
-            <CategoryIcon src={UserIcon} alt='Login' />
+            <CategoryUserIcon src={UserIcon} alt='Login' />
             <CategoryName >로그인</CategoryName>
           </SCategory>
         </CategoryWrap>
@@ -37,7 +39,7 @@ export default Header
 
 const MainContainer = styled.div`
   width: 100%;
-  box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.05); */
 `;
 
 const SHeader = styled.header`
@@ -89,21 +91,36 @@ const CategoryWrap = styled.div`
   cursor: pointer;
 `;
 
-const SCategory = styled.a`
-  margin-left: 26px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`; 
-
 const CategoryIcon = styled.img`
   width: 35px;
   height: 35px;
   margin-bottom: 5px;
 `;
 
+const CategoryUserIcon = styled(CategoryIcon)`
+`;
+
 const CategoryName = styled.a`
   color: var(--light-font);
   font-size: 14px;
+`; 
+
+const SCategory = styled.a`
+  margin-left: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  &:hover {
+    ${CategoryIcon} {
+      content: url(${CartIconColor});
+    }
+    ${CategoryUserIcon} {
+      content: url(${UserIconColor});
+    }
+    ${CategoryName} {
+      color: var(--point-color);
+    }
+  }
 `; 
