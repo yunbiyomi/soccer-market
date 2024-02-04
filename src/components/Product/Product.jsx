@@ -4,7 +4,7 @@ import React from 'react'
 const Product = ({ product }) => {
   return (
     <>
-      <SProduct key={product.id}>
+      <SProduct>
         <ProductImg src={product.image} alt={product.product_name} />
         <ProductStoreName>
           {product.store_name}

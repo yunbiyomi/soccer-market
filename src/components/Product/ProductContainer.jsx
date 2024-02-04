@@ -10,7 +10,6 @@ const ProductContainer = () => {
   const getProducts = async () => {
     try {
       const response = await axios.get(`products/`);
-      console.log("resoponse", response);
       setProducts(response.data.results);
       setLoad(true);
     } catch (error) {
@@ -27,7 +26,7 @@ const ProductContainer = () => {
       { load ?
         <ProductWrap>
           {products.map(product => (
-            <Product key={product.id} product={product} />
+            <Product key={product.product_id} product={product} />
           ))}
         </ProductWrap>
         : <p>로딩중</p>
