@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import React from 'react'
+import useCommaFormat from '../../hooks/useCommaFormat';
 
 const Product = ({ product }) => {
+  const shippingFee = useCommaFormat(product.shipping_fee);
   return (
     <>
       <SProduct>
@@ -14,7 +16,7 @@ const Product = ({ product }) => {
         </ProductName>
         <ProductFeeWrap>
           <ProductFee>
-            {product.shipping_fee}
+            {shippingFee}
           </ProductFee>
           원
         </ProductFeeWrap>
