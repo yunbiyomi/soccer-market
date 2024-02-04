@@ -6,6 +6,7 @@ import CartIcon from '../../../assets/icon-shopping-cart.svg'
 import CartIconColor from '../../../assets/icon-shopping-cart-color.svg'
 import UserIcon from '../../../assets/icon-user.svg'
 import UserIconColor from '../../../assets/icon-user-color.svg'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
   return (
@@ -21,11 +22,11 @@ const Header = () => {
           </InputWrap>
         </LeftWrap>
         <CategoryWrap>
-          <SCategory href='/cart'>
+          <SCategory to="/cart">
             <CategoryIcon src={CartIcon} alt='Cart' />
             <CategoryName>장바구니</CategoryName>
           </SCategory>
-          <SCategory href='/login'>
+          <SCategory to="/login">
             <CategoryUserIcon src={UserIcon} alt='Login' />
             <CategoryName >로그인</CategoryName>
           </SCategory>
@@ -105,7 +106,7 @@ const CategoryName = styled.a`
   font-size: 14px;
 `; 
 
-const SCategory = styled.div`
+const SCategory = styled(Link)`
   margin-left: 26px;
   display: flex;
   justify-content: center;
