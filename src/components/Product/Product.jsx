@@ -1,41 +1,61 @@
-import axios from '../../api/axios'
-import React, { useEffect, useState } from 'react'
+import styled from 'styled-components';
+import React from 'react'
 
-const Product = () => {
-  const [products, setProducts] = useState([]);
-  const [load, setLoad] = useState(false);
-
-  const getProducts = async () => {
-    try {
-      const response = await axios.get(`products/`);
-      console.log("resoponse", response);
-      setProducts(response.data.results);
-      setLoad(true);
-    } catch (error) {
-      console.error('상품 가져오기 실패', error.response.data);
-    }
-  }
-
-  useEffect(() => {
-    getProducts();
-  }, []);
-
+const Product = ({ product }) => {
   return (
     <>
-      { load ?
-        products.map(product => (
-          <div key={product.id}>
-            <img src={product.image} alt="Product" />
-            <p>{product.store_name}</p>
-            <p>{product.product_name}</p>
-            <p>{product.shipping_fee}</p>
-          </div>
-        ))
-        // console.log("products", products)
-        : <p>로딩중</p>
-      }
+      <SProduct key={product.id}>
+        <ProductImg src={product.image} alt={product.product_name} />
+        <ProductStoreName>
+          {product.store_name}
+        </ProductStoreName>
+        <ProductName>
+          {product.product_name}
+        </ProductName>
+        <ProductFeeWrap>
+          <ProductFee>
+            {product.shipping_fee}
+          </ProductFee>
+          원
+        </ProductFeeWrap>
+      </SProduct>
     </>
   )
 }
 
 export default Product
+
+const SProduct = styled.div`
+  cursor: pointer;
+`;
+
+const ProductImg = styled.img`
+  width: 380px;
+  height: 380px;
+  border-radius: 10px;
+  border: 1px solid var(--gray);
+  object-fit: cover;
+  cursor: pointer;
+`;
+
+const ProductStoreName = styled.p`
+  margin-top: 16px;
+  color: var(--light-font);
+`;
+
+const ProductName = styled.p`
+  margin-top: 10px;
+  font-size: 20px;
+`;
+
+const ProductFeeWrap = styled.div`
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+`;
+
+const ProductFee = styled.p`
+  margin-right: 2px;
+  font-size: 20px;
+  font-weight: bold;
+`;

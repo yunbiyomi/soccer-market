@@ -1,12 +1,12 @@
 import React from 'react'
 import Header from '../components/common/Header/Header'
-import Product from '../components/Product/Product'
+import ProductContainer from '../components/Product/ProductContainer'
 
 const MainPage = () => {
   return (
     <>
       <Header />
-      <Product />
+      <ProductContainer />
     </>
   )
 }
