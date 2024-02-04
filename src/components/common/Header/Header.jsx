@@ -105,7 +105,7 @@ const CategoryName = styled.a`
   font-size: 14px;
 `; 
 
-const SCategory = styled.a`
+const SCategory = styled.div`
   margin-left: 26px;
   display: flex;
   justify-content: center;
