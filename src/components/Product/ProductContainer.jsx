@@ -22,7 +22,7 @@ const ProductContainer = () => {
   }, []);
 
   return (
-    <>
+    <SProductContainer>
       { load ?
         <ProductWrap>
           {products.map(product => (
@@ -31,14 +31,22 @@ const ProductContainer = () => {
         </ProductWrap>
         : <p>로딩중</p>
       }
-    </>
+    </SProductContainer>
   )
 }
 
 export default ProductContainer
 
+const SProductContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const ProductWrap = styled.div`
+  width: 1280px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 90px;
+  gap: 70px;
+  margin: 80px 0;
 `;

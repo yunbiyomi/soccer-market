@@ -40,7 +40,7 @@ export default Header
 
 const MainContainer = styled.div`
   width: 100%;
-  /* box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.05); */
+  box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.05);
 `;
 
 const SHeader = styled.header`
@@ -101,7 +101,7 @@ const CategoryIcon = styled.img`
 const CategoryUserIcon = styled(CategoryIcon)`
 `;
 
-const CategoryName = styled.a`
+const CategoryName = styled.p`
   color: var(--light-font);
   font-size: 14px;
 `; 
