@@ -10,6 +10,7 @@ const ProductContainer = () => {
   const getProducts = async () => {
     try {
       const response = await axios.get(`products/`);
+      console.log(response.data);
       setProducts(response.data.results);
       setLoad(true);
     } catch (error) {
