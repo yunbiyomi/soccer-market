@@ -65,7 +65,7 @@ const InputWrap = styled.div`
 const SSearchInput = styled.input`
   width: 400px;
   height: 60px;
-  margin-left: 20px;
+  margin-left: 30px;
   padding: 0 17px;
   border-radius: 30px;
   border: 3px solid var(--point-color);
