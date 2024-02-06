@@ -1,23 +1,31 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
 const Pagination = ({ currentPage, pageCount, handlePreviousPage, handleNextPage, handlePageClick }) => {
+  const pageSize = 5;
+  const currentGroup = Math.ceil(currentPage / pageSize);
+  const startPage = (currentGroup - 1) * pageSize + 1;
+  const endPage = Math.min(currentGroup * pageSize, pageCount);
+
   return (
     <PaginationContainer>
-      <PaginationBtn onClick={handlePreviousPage} isLeft/>
-      {
-        Array.from({ length: pageCount }, (_, index) => (
-          <PageNumberWrap key={index+1} isCurrentPage={currentPage === index+1}>
-            <PageNumber onClick={() => handlePageClick(index + 1)} isCurrentPage={currentPage === index+1}>{index+1}</PageNumber>
-          </PageNumberWrap>
-        ))
-      }
-      <PaginationBtn onClick={handleNextPage} isRight/>
+      <PaginationBtn onClick={handlePreviousPage} isLeft />
+      {Array.from({ length: endPage - startPage + 1 }, (_, index) => {
+        const pageNumber = startPage + index;
+        return (
+        <PageNumberWrap key={pageNumber} isCurrentPage={currentPage === pageNumber}>
+          <PageNumber onClick={() => handlePageClick(pageNumber)} isCurrentPage={currentPage === pageNumber}>
+            {pageNumber}
+          </PageNumber>
+        </PageNumberWrap>
+        )}
+      )}
+      <PaginationBtn onClick={handleNextPage} isRight />
     </PaginationContainer>
-  )
-}
+  );
+};
 
-export default Pagination
+export default Pagination;
 
 const PaginationContainer = styled.ul`
   margin: 20px 0 60px 0;
@@ -38,10 +46,10 @@ const PaginationBtn = styled.button`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(${({ isLeft, isRight }) => (isLeft ? '-135deg' : (isRight ? '45deg' : '225deg'))});
-    width: 10px; 
-    height: 10px; 
+    width: 10px;
+    height: 10px;
     border-top: 3px solid #000;
-    border-right: 3px solid #000; 
+    border-right: 3px solid #000;
   }
 
   &:hover {
@@ -49,13 +57,12 @@ const PaginationBtn = styled.button`
   }
 `;
 
-
 const PageNumberWrap = styled.li`
   width: 40px;
   height: 40px;
   margin: 0 10px;
   border-radius: 50%;
-  background-color: ${({ isCurrentPage }) => isCurrentPage ? 'var(--point-color)' : 'transparent'};
+  background-color: ${({ isCurrentPage }) => (isCurrentPage ? 'var(--point-color)' : 'transparent')};
 `;
 
 const PageNumber = styled.span`
@@ -64,6 +71,6 @@ const PageNumber = styled.span`
   line-height: 2.3;
   font-size: 18px;
   font-weight: bold;
-  color: ${({ isCurrentPage }) => isCurrentPage ? 'white' : 'black'};
+  color: ${({ isCurrentPage }) => (isCurrentPage ? 'white' : 'black')};
   cursor: pointer;
 `;

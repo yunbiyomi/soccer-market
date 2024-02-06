@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react'
 
-
 const usePageNavigation = (totalCount) => {
   const[pageCount, setPageCount] = useState(1);
   const[currentPage, setCurrentPage] = useState(1);
+
+  const calculatePageCount = () => {
+    const limit = 15;
+    const count = Math.ceil(totalCount / limit);
+    setPageCount(count);
+  }
 
   const handlePreviousPage = () => {
     if(currentPage > 1)
@@ -17,12 +22,6 @@ const usePageNavigation = (totalCount) => {
 
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
-  }
-
-  const calculatePageCount = () => {
-    const limit = 15;
-    const count = Math.ceil(totalCount / limit);
-    setPageCount(count);
   }
 
   useEffect(() => {
