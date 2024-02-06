@@ -2,15 +2,27 @@ import styled from 'styled-components';
 import axios from '../../api/axios'
 import React, { useEffect, useState } from 'react'
 import Product from './Product';
+import Pagination from './Pagination';
+import usePageNavigation from '../../hooks/usePageNavigation';
 
 const ProductContainer = () => {
   const [products, setProducts] = useState([]);
   const [load, setLoad] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const {
+    currentPage,
+    pageCount,
+    handlePreviousPage,
+    handleNextPage,
+    handlePageClick,
+  } = usePageNavigation(totalCount);
 
   const getProducts = async () => {
     try {
-      const response = await axios.get(`products/`);
+      const response = await axios.get(`products/?page=${currentPage}`);
       console.log(response.data);
+      setTotalCount(response.data.count);
       setProducts(response.data.results);
       setLoad(true);
     } catch (error) {
@@ -20,17 +32,26 @@ const ProductContainer = () => {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [currentPage]);
 
   return (
     <SProductContainer>
-      { load ?
-        <ProductWrap>
-          {products.map(product => (
-            <Product key={product.product_id} product={product} />
-          ))}
-        </ProductWrap>
-        : <p>로딩중</p>
+      { load ? (
+        <>
+          <ProductWrap>
+            {products.map(product => (
+              <Product key={product.product_id} product={product} />
+            ))}
+          </ProductWrap>
+          <Pagination
+            currentPage={currentPage}
+            pageCount={pageCount}
+            handlePreviousPage={handlePreviousPage}
+            handleNextPage={handleNextPage}
+            handlePageClick={handlePageClick}
+          />
+        </>
+      ): <p>로딩중</p>
       }
     </SProductContainer>
   )
@@ -42,6 +63,7 @@ const SProductContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `;
 
 const ProductWrap = styled.div`
