@@ -27,7 +27,7 @@ const Product = ({ product }) => {
 
 export default Product
 
-const SProduct = styled.div`
+const SProduct = styled.section`
   cursor: pointer;
 `;
 

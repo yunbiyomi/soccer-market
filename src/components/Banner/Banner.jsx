@@ -65,7 +65,7 @@ const Banner = () => {
 
 export default Banner
 
-const BannerWrap = styled.div`
+const BannerWrap = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;

@@ -6,14 +6,14 @@ import SignUpPage from './pages/SignUpPage';
 
 function App() {
   return (
-    <div>
+    <>
       <GlobalStyles />
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='/login' element={<LogInPage />} />
         <Route path='/signup' element={<SignUpPage />} />
       </Routes>
-    </div>
+    </>
   );
 }
 export default App;

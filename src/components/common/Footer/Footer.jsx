@@ -27,7 +27,7 @@ const Footer = () => {
 
 export default Footer
 
-const SFooter = styled.div`
+const SFooter = styled.footer`
   width: 100%;
   height: 300px;
   background-color: var(--light-gray);

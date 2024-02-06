@@ -38,12 +38,12 @@ const Header = () => {
 
 export default Header
 
-const MainContainer = styled.div`
+const MainContainer = styled.header`
   width: 100%;
   box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.05);
 `;
 
-const SHeader = styled.header`
+const SHeader = styled.div`
   height: 120px;
   width: 1320px;
   margin: 0 auto;
@@ -87,7 +87,7 @@ const SSearchIcon = styled.img`
   height: 30px;
 `;
 
-const CategoryWrap = styled.div`
+const CategoryWrap = styled.nav`
   display: flex;
   cursor: pointer;
 `;
