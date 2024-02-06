@@ -33,6 +33,7 @@ const STopBtn = styled.button`
   font-weight: bold;
   background-color: var(--point-color);
   color: white;
+  transition: background-color .5s,  color .5s;
 
   &:hover {
     background-color: transparent;

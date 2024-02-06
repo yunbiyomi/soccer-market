@@ -44,7 +44,7 @@ const MainContainer = styled.div`
 `;
 
 const SHeader = styled.header`
-  height: 100px;
+  height: 120px;
   width: 1320px;
   margin: 0 auto;
   display: flex;
