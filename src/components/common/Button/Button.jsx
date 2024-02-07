@@ -32,5 +32,6 @@ const SButton = styled.button`
     background-color: var(--gray);
     border: none;
     color: white;
+    cursor: auto;
   }
 `;

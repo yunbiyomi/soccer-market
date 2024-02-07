@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import React from 'react'
 import useCommaFormat from '../../hooks/useCommaFormat';
+import { Link } from 'react-router-dom';
 
 const Product = ({ product }) => {
   const shippingFee = useCommaFormat(product.shipping_fee);
   return (
     <>
-      <SProduct>
+      <SProduct to={`/detail?id=${product.product_id}`}>
         <ProductImg src={product.image} alt={product.product_name} />
         <ProductStoreName>
           {product.store_name}
@@ -27,7 +28,7 @@ const Product = ({ product }) => {
 
 export default Product
 
-const SProduct = styled.section`
+const SProduct = styled(Link)`
   cursor: pointer;
 `;
 
