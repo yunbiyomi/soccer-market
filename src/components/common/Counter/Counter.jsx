@@ -38,6 +38,7 @@ export default Counter
 
 const CounterWrap = styled.div`
   display: flex;
+  justify-content: end;
   margin: 30px 0;
 `;
 

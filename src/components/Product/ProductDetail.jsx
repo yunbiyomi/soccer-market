@@ -5,6 +5,7 @@ import Counter from '../common/Counter/Counter'
 import Button from '../common/Button/Button'
 
 const ProductDetail = ({ product }) => {
+  const stoke = product.stock;
   const productPrice = useCommaFormat(product.price);
   const shippingFee = useCommaFormat(product.shipping_fee);
   const [totalNum, setTotalNum] = useState(1);
@@ -29,13 +30,21 @@ const ProductDetail = ({ product }) => {
             {delivery} / {shippingFee}원
           </DeliverWay>
           <SLine />
-          <Counter totalNum={totalNum} setTotalNum={setTotalNum} stoke={product.stock}/>
+          {
+            stoke
+              ? <Counter totalNum={totalNum} setTotalNum={setTotalNum} stoke={stoke}/>
+              : <NoStokeMsg>현재 재고가 없습니다</NoStokeMsg>
+          }
           <SLine />
         </CountWrap>
         <TotalWrap>
-          <TotalContent>총 상품 금액</TotalContent>
+          <TotalContent>
+            총 상품 금액
+          </TotalContent>
           <TotalCountWrap>
-            <TotalContent>총 수량 {totalNum}개</TotalContent>
+            <TotalContent>
+              총 수량 <TotalNumText>{totalNum}</TotalNumText>개
+            </TotalContent>
             <TotalSideBar />
             <ProductFee isTotal>
               {totalFee} 원
@@ -43,8 +52,12 @@ const ProductDetail = ({ product }) => {
           </TotalCountWrap>
         </TotalWrap>
         <BtnWrap>
-          <SBtn width='416px'>바로 구매</SBtn>
-          <SBtn width='200px' disabled>장바구니</SBtn>
+          <SBtn width='416px' disabled={!stoke}>
+            바로 구매
+          </SBtn>
+          <SBtn width='200px' disabled>
+            장바구니
+          </SBtn>
         </BtnWrap>
       </ProductRightContainer>
     </ProductInfoWrap>
@@ -93,6 +106,7 @@ const CountWrap = styled.div`
 `;
 
 const DeliverWay = styled.p`
+  text-align: end;
   font-size: 16px;
   color: var(--light-font);
   margin-bottom: 20px;
@@ -105,6 +119,13 @@ const SLine = styled.div`
   margin: 10px 0;
 `;
 
+const NoStokeMsg = styled.p`
+  margin: 40px 0;
+  font-size: 25px;
+  text-align: center;
+  color: var(--gray);
+`;
+
 const TotalWrap = styled.div`
   height: 100px;
   display: flex;
@@ -115,6 +136,11 @@ const TotalWrap = styled.div`
 
 const TotalContent = styled.p`
   font-size: 18px;
+`;
+
+const TotalNumText = styled.span`
+  color: var(--point-color);
+  font-weight: bold;
 `;
 
 const TotalCountWrap = styled.div`
