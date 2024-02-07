@@ -44,7 +44,7 @@ const MainContainer = styled.header`
 `;
 
 const SHeader = styled.div`
-  height: 120px;
+  height: 100px;
   width: 1320px;
   margin: 0 auto;
   display: flex;
@@ -64,12 +64,12 @@ const InputWrap = styled.div`
 
 const SSearchInput = styled.input`
   width: 400px;
-  height: 60px;
-  margin-left: 30px;
-  padding: 0 17px;
+  height: 45px;
+  margin-left: 35px;
+  padding: 0 20px;
   border-radius: 30px;
-  border: 3px solid var(--point-color);
-  font-size: 18px;
+  border: 2.6px solid var(--point-color);
+  font-size: 15px;
 `;
 
 const SearchButton = styled.button`
@@ -83,8 +83,9 @@ const SearchButton = styled.button`
 `;
 
 const SSearchIcon = styled.img`
-  width: 30px; 
-  height: 30px;
+  width: 25px; 
+  height: 25px;
+  object-fit: cover;
 `;
 
 const CategoryWrap = styled.nav`
@@ -93,8 +94,8 @@ const CategoryWrap = styled.nav`
 `;
 
 const CategoryIcon = styled.img`
-  width: 35px;
-  height: 35px;
+  width: 33px;
+  height: 33px;
   margin-bottom: 5px;
 `;
 
