@@ -63,6 +63,11 @@ const PageNumberWrap = styled.li`
   margin: 0 10px;
   border-radius: 50%;
   background-color: ${({ isCurrentPage }) => (isCurrentPage ? 'var(--point-color)' : 'transparent')};
+  transition: background-color .15s,  color .15s;
+
+  &:hover {
+    background-color: var(--gray);
+  }
 `;
 
 const PageNumber = styled.span`
@@ -73,4 +78,8 @@ const PageNumber = styled.span`
   font-weight: bold;
   color: ${({ isCurrentPage }) => (isCurrentPage ? 'white' : 'black')};
   cursor: pointer;
+
+  &:hover {
+    color: white;
+  }
 `;
