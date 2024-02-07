@@ -8,13 +8,14 @@ import UserIcon from '../../../assets/icon-user.svg'
 import UserIconColor from '../../../assets/icon-user-color.svg'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { getCookie, removeCookie } from '../../../hooks/Cookies'
+import { removeCookie } from '../../../hooks/Cookies'
 
 const Header = () => {
   const isLogIn = useSelector(state => state.auth.isLogIn);
 
   const handleLogOut = () => {
     removeCookie('token', { path: "/"});
+    alert('로그아웃됩니다.');
     window.location.reload();
   }
 
