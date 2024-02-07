@@ -4,7 +4,7 @@ import useCommaFormat from '../../hooks/useCommaFormat';
 import { Link } from 'react-router-dom';
 
 const Product = ({ product }) => {
-  const shippingFee = useCommaFormat(product.shipping_fee);
+  const productPrice = useCommaFormat(product.price);
   return (
     <>
       <SProduct to={`/detail?id=${product.product_id}`}>
@@ -17,7 +17,7 @@ const Product = ({ product }) => {
         </ProductName>
         <ProductFeeWrap>
           <ProductFee>
-            {shippingFee}
+            {productPrice}
           </ProductFee>
           원
         </ProductFeeWrap>

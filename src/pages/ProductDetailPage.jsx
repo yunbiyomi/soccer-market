@@ -35,7 +35,7 @@ const ProductDetailPage = () => {
           ? (
             <DetailContainer>
               <ProductDetail product={product} />
-              <DetailInfoBar />
+              <DetailInfoBar content={product.product_info}/>
             </DetailContainer>
           )
           : <p>로딩중</p>

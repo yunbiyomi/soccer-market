@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import useCommaFormat from '../../hooks/useCommaFormat'
 import Counter from '../common/Counter/Counter'
 import Button from '../common/Button/Button'
 
 const ProductDetail = ({ product }) => {
-  const productFee = useCommaFormat(product.shipping_fee)
+  const productPrice = useCommaFormat(product.price);
+  const shippingFee = useCommaFormat(product.shipping_fee);
+  const [totalNum, setTotalNum] = useState(1);
+  const totalFee = useCommaFormat(product.price * totalNum);
+  const delivery = product.shipping_method === 'PARCEL' ? '택배배송' : '화물배송';
 
   return (
     <ProductInfoWrap>
@@ -18,22 +22,23 @@ const ProductDetail = ({ product }) => {
           {product.product_name}
         </ProductName>
         <ProductFee>
-          {productFee}원
+          {productPrice} 원
         </ProductFee>
         <CountWrap>
           <DeliverWay>
-            택배배송 / 무료배송
+            {delivery} / {shippingFee}원
           </DeliverWay>
           <SLine />
-          <Counter />
+          <Counter totalNum={totalNum} setTotalNum={setTotalNum} stoke={product.stock}/>
           <SLine />
         </CountWrap>
         <TotalWrap>
           <TotalContent>총 상품 금액</TotalContent>
           <TotalCountWrap>
-            <TotalContent>총 수량 1개</TotalContent>
+            <TotalContent>총 수량 {totalNum}개</TotalContent>
+            <TotalSideBar />
             <ProductFee isTotal>
-              {productFee}원
+              {totalFee} 원
             </ProductFee>
           </TotalCountWrap>
         </TotalWrap>
@@ -116,16 +121,13 @@ const TotalCountWrap = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  gap: 40px;
+`;
 
-  &::before {
-    position: absolute;
-    content: "";
-    left: 105px;
-    width: 1.5px;
-    height: 20px;
-    background-color: var(--gray);
-  }
+const TotalSideBar = styled.div`
+  width: 1.5px;
+  height: 20px;
+  background-color: var(--gray);
+  margin: 0 15px;
 `;
 
 const BtnWrap = styled.div`

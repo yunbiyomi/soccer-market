@@ -1,25 +1,35 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const DetailInfoBar = () => {
+const DetailInfoBar = ({ content }) => {
+  const [title, ...details] = content.split('<br />').filter(line => line.trim() !== '');
+
   return (
     <DetailInfoWrap>
-      <InfoWrap>
-        <Infocontent active>상세보기</Infocontent>
-        <InfoBar active/>
-      </InfoWrap>
-      <InfoWrap>
-        <Infocontent>리뷰</Infocontent>
-        <InfoBar />
-      </InfoWrap>
-      <InfoWrap>
-        <Infocontent>Q&A</Infocontent>
-        <InfoBar />
-      </InfoWrap>
-      <InfoWrap>
-        <Infocontent>반품/교환정보</Infocontent>
-        <InfoBar />
-      </InfoWrap>
+      <InfoBarWrap>
+        <InfoWrap>
+          <Infocontent active>상세보기</Infocontent>
+          <InfoBar active/>
+        </InfoWrap>
+        <InfoWrap>
+          <Infocontent>리뷰</Infocontent>
+          <InfoBar />
+        </InfoWrap>
+        <InfoWrap>
+          <Infocontent>Q&A</Infocontent>
+          <InfoBar />
+        </InfoWrap>
+        <InfoWrap>
+          <Infocontent>반품/교환정보</Infocontent>
+          <InfoBar />
+        </InfoWrap>
+      </InfoBarWrap>
+      <DetailContentWrap>
+        <DetailTitle>{title}</DetailTitle>
+        {details.map((detail, index) => (
+          <DetailItem key={index}>{detail}</DetailItem>
+        ))}
+      </DetailContentWrap>
     </DetailInfoWrap>
   )
 }
@@ -27,11 +37,18 @@ const DetailInfoBar = () => {
 export default DetailInfoBar
 
 const DetailInfoWrap = styled.div`
+  width: 1280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const InfoBarWrap = styled.div`
   display: flex;
 `;
 
 const InfoWrap = styled.div`
-  margin-bottom: 360px;
   cursor: pointer;
 `;
 
@@ -47,4 +64,23 @@ const InfoBar = styled.div`
   width: 320px;
   height: 4px;
   background-color: ${({ active }) => active ? 'var(--point-color)' : 'var(--gray)'};
+`;
+
+const DetailContentWrap = styled.div`
+  margin: 100px 0 200px 0;
+`;
+
+const DetailContent = styled.p`
+  font-size: 25px;
+`;
+
+const DetailTitle = styled.h2`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+`;
+
+const DetailItem = styled.p`
+  font-size: 18px;
+  line-height: 1.5;
 `;

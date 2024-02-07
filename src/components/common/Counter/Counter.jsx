@@ -1,12 +1,35 @@
 import React from 'react'
 import styled from 'styled-components';
 
-const Counter = () => {
+const Counter = ({ totalNum, setTotalNum, stoke }) => {
+  const onIncrease = () => {
+    setTotalNum(totalNum => totalNum + 1);
+  } 
+
+  const onDecrease = () => {
+    if(totalNum > 1)
+      setTotalNum(totalNum => totalNum - 1);
+  }
+
   return (
     <CounterWrap>
-      <CountBtn isLeft>-</CountBtn>
-      <NumBox>1</NumBox>
-      <CountBtn isRight>+</CountBtn>
+      <CountBtn 
+        onClick={onDecrease} 
+        disabled={totalNum === 1}
+        isLeft 
+      >
+        -
+      </CountBtn>
+      <NumBox>
+        {totalNum}
+      </NumBox>
+      <CountBtn
+        onClick={onIncrease}
+        disabled={totalNum >= stoke}
+        isRight
+      >
+        +
+      </CountBtn>
     </CounterWrap>
   )
 }
@@ -29,6 +52,11 @@ const CountBtn = styled.button`
 
   &:hover {
     color: white;
+    background-color: var(--gray);
+  }
+
+  &:disabled {
+    color: var(--light-gray);
     background-color: var(--gray);
   }
 `;
