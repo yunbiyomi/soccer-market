@@ -6,6 +6,8 @@ import FormContainer from '../components/common/Form/FormContainer'
 import axios from '../api/axios'
 import { setCookie } from '../hooks/Cookies'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { login } from '../store/authActions'
 
 const LogInPage = () => {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ const LogInPage = () => {
   const [memberType, setMemberType] = useState('BUYER');
   const idInputRef = useRef(null);
   const pwInputRef = useRef(null);
+  const dispatch = useDispatch();
 
   const LOGIN_INCORRECT_ERROR = "로그인 정보가 없습니다.";
   const MEMBER_TYPE_ERROR = "로그인 정보가 없습니다. 로그인 유형을 학인해주세요.";
@@ -65,10 +68,11 @@ const LogInPage = () => {
       if(token){
         setCookie("token", `JWT ${token}`, {
           path: "/",
-          sameSite:'none',
+          sameSite:'strict',
           secure: true,
           httpOnly: true,
         })
+        dispatch(login(token));
       }
       navigate(-1);
     } catch (error) {

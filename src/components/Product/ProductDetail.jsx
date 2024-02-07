@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import useCommaFormat from '../../hooks/useCommaFormat'
 import Counter from '../common/Counter/Counter'
 import Button from '../common/Button/Button'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const ProductDetail = ({ product }) => {
   const stoke = product.stock;
@@ -11,8 +13,17 @@ const ProductDetail = ({ product }) => {
   const [totalNum, setTotalNum] = useState(1);
   const totalFee = useCommaFormat(product.price * totalNum);
   const delivery = product.shipping_method === 'PARCEL' ? '택배배송' : '화물배송';
+  const isLogIn = useSelector(state => state.auth.isLogIn)
+  const navigate = useNavigate();
 
-
+  const handleImmediatelyBuy = () => {
+    if(isLogIn) 
+      navigate('/buy');
+    else {
+      alert('로그인이 필요합니다.');
+      navigate('/login')
+    }
+  }
 
   return (
     <ProductInfoWrap>
@@ -54,10 +65,10 @@ const ProductDetail = ({ product }) => {
           </TotalCountWrap>
         </TotalWrap>
         <BtnWrap>
-          <SBtn width='416px' disabled={!stoke}>
+          <SBtn width='416px' onClick={handleImmediatelyBuy} disabled={!stoke}>
             바로 구매
           </SBtn>
-          <SBtn width='200px' disabled>
+          <SBtn width='200px' disabled={!isLogIn}>
             장바구니
           </SBtn>
         </BtnWrap>

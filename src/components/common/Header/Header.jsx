@@ -7,8 +7,11 @@ import CartIconColor from '../../../assets/icon-shopping-cart-color.svg'
 import UserIcon from '../../../assets/icon-user.svg'
 import UserIconColor from '../../../assets/icon-user-color.svg'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const Header = () => {
+  const isLogIn = useSelector(state => state.auth.isLogIn);
+
   return (
     <MainContainer>
       <SHeader>
@@ -22,14 +25,27 @@ const Header = () => {
           </InputWrap>
         </LeftWrap>
         <CategoryWrap>
-          <SCategory to="/cart">
-            <CategoryIcon src={CartIcon} alt='Cart' />
-            <CategoryName>장바구니</CategoryName>
-          </SCategory>
-          <SCategory to="/login">
-            <CategoryUserIcon src={UserIcon} alt='Login' />
-            <CategoryName >로그인</CategoryName>
-          </SCategory>
+          {
+            isLogIn && (
+              <SCategory to="/cart">
+                <CategoryIcon src={CartIcon} alt='Cart' />
+                <CategoryName>장바구니</CategoryName>
+              </SCategory>
+            )
+          }
+          {
+            isLogIn ? (
+              <SCategory to="/login">
+                <CategoryUserIcon src={UserIcon} alt='Login' />
+                <CategoryName>마이페이지</CategoryName>
+              </SCategory>
+            ) : (
+              <SCategory to="/login">
+                <CategoryUserIcon src={UserIcon} alt='Login' />
+                <CategoryName>로그인</CategoryName>
+              </SCategory>
+            )
+          }
         </CategoryWrap>
       </SHeader>
     </MainContainer>
