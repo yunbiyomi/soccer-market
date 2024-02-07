@@ -68,7 +68,7 @@ const LogInPage = () => {
       if(token){
         setCookie("token", `JWT ${token}`, {
           path: "/",
-          sameSite:'strict',
+          sameSite:'none',
           secure: true,
           httpOnly: true,
         })

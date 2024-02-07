@@ -8,9 +8,15 @@ import UserIcon from '../../../assets/icon-user.svg'
 import UserIconColor from '../../../assets/icon-user-color.svg'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { getCookie, removeCookie } from '../../../hooks/Cookies'
 
 const Header = () => {
   const isLogIn = useSelector(state => state.auth.isLogIn);
+
+  const handleLogOut = () => {
+    removeCookie('token', { path: "/"});
+    window.location.reload();
+  }
 
   return (
     <MainContainer>
@@ -35,8 +41,8 @@ const Header = () => {
           }
           {
             isLogIn ? (
-              <SCategory to="/login">
-                <CategoryUserIcon src={UserIcon} alt='Login' />
+              <SCategory>
+                <CategoryUserIcon onClick={handleLogOut} src={UserIcon} alt='Login' />
                 <CategoryName>마이페이지</CategoryName>
               </SCategory>
             ) : (
