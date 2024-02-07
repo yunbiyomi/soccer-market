@@ -12,6 +12,8 @@ const ProductDetail = ({ product }) => {
   const totalFee = useCommaFormat(product.price * totalNum);
   const delivery = product.shipping_method === 'PARCEL' ? '택배배송' : '화물배송';
 
+
+
   return (
     <ProductInfoWrap>
       <ProductImg src={product.image} />
@@ -27,7 +29,7 @@ const ProductDetail = ({ product }) => {
         </ProductFee>
         <CountWrap>
           <DeliverWay>
-            {delivery} / {shippingFee}원
+            {delivery} / {shippingFee === '0' ? '무료배송' : `${shippingFee}원`}
           </DeliverWay>
           <SLine />
           {
