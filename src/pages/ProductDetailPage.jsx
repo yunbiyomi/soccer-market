@@ -4,6 +4,8 @@ import useQueryString from '../hooks/useQueryString';
 import Header from '../components/common/Header/Header'
 import Footer from '../components/common/Footer/Footer'
 import ProductDetail from '../components/Product/ProductDetail';
+import DetailInfoBar from '../components/Product/DetailInfoBar';
+import styled from 'styled-components';
 
 const ProductDetailPage = () => {
   const [product, setProduct] = useState({});
@@ -30,7 +32,12 @@ const ProductDetailPage = () => {
       <Header />
       {
         load
-          ? <ProductDetail product={product} />
+          ? (
+            <DetailContainer>
+              <ProductDetail product={product} />
+              <DetailInfoBar />
+            </DetailContainer>
+          )
           : <p>로딩중</p>
       }
       <Footer />
@@ -39,3 +46,10 @@ const ProductDetailPage = () => {
 }
 
 export default ProductDetailPage
+
+const DetailContainer = styled.main`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;

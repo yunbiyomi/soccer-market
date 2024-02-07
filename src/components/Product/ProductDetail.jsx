@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import useCommaFormat from '../../hooks/useCommaFormat'
 import Counter from '../common/Counter/Counter'
@@ -6,78 +6,51 @@ import Button from '../common/Button/Button'
 
 const ProductDetail = ({ product }) => {
   const productFee = useCommaFormat(product.shipping_fee)
-  const [a, setA] = useState(0);
+
   return (
-    <ProductDetailContainer>
-      <ProductInfoWrap>
-        <ProductImg src={product.image} />
-        <ProductRightContainer>
-          <ProductStoreName>
-            {product.store_name}
-          </ProductStoreName>
-          <ProductName>
-            {product.product_name}
-          </ProductName>
-          <ProductFee>
-            {productFee}
-          </ProductFee>
-          <CountWrap>
-            <DeliverWay>
-              택배배송 / 무료배송
-            </DeliverWay>
-            <SLine />
-            <Counter />
-            <SLine />
-          </CountWrap>
-          <TotalWrap>
-            <TotalContent>총 상품 금액</TotalContent>
-            <TotalCountWrap>
-              <TotalContent>총 수량 1개</TotalContent>
-              <ProductFee isTotal>
-                {productFee}
-              </ProductFee>
-            </TotalCountWrap>
-          </TotalWrap>
-          <BtnWrap>
-            <SBtn width='416px'>바로 구매</SBtn>
-            <SBtn width='200px' disabled>장바구니</SBtn>
-          </BtnWrap>
-        </ProductRightContainer>
-      </ProductInfoWrap>
-      <DetailInfoWrap>
-        <InfoWrap>
-          <Infocontent active>상세보기</Infocontent>
-          <InfoBar active/>
-        </InfoWrap>
-        <InfoWrap>
-          <Infocontent>리뷰</Infocontent>
-          <InfoBar />
-        </InfoWrap>
-        <InfoWrap>
-          <Infocontent>Q&A</Infocontent>
-          <InfoBar />
-        </InfoWrap>
-        <InfoWrap>
-          <Infocontent>반품/교환정보</Infocontent>
-          <InfoBar />
-        </InfoWrap>
-      </DetailInfoWrap>
-    </ProductDetailContainer>
+    <ProductInfoWrap>
+      <ProductImg src={product.image} />
+      <ProductRightContainer>
+        <ProductStoreName>
+          {product.store_name}
+        </ProductStoreName>
+        <ProductName>
+          {product.product_name}
+        </ProductName>
+        <ProductFee>
+          {productFee}원
+        </ProductFee>
+        <CountWrap>
+          <DeliverWay>
+            택배배송 / 무료배송
+          </DeliverWay>
+          <SLine />
+          <Counter />
+          <SLine />
+        </CountWrap>
+        <TotalWrap>
+          <TotalContent>총 상품 금액</TotalContent>
+          <TotalCountWrap>
+            <TotalContent>총 수량 1개</TotalContent>
+            <ProductFee isTotal>
+              {productFee}원
+            </ProductFee>
+          </TotalCountWrap>
+        </TotalWrap>
+        <BtnWrap>
+          <SBtn width='416px'>바로 구매</SBtn>
+          <SBtn width='200px' disabled>장바구니</SBtn>
+        </BtnWrap>
+      </ProductRightContainer>
+    </ProductInfoWrap>
   )
 }
 
 export default ProductDetail
 
-const ProductDetailContainer = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
 const ProductInfoWrap = styled.div`
   width: 1280px;
-  margin: 80px 0;
+  margin: 80px 0 180px 0;
   display: flex;
 `;
 
@@ -165,26 +138,4 @@ const SBtn = styled(Button)`
   width: ${props => props.width || '100%'}; 
   height: 60px;
   margin: 0;
-`;
-
-const DetailInfoWrap = styled.div`
-  display: flex;
-`;
-
-const InfoWrap = styled.div`
-  margin-bottom: 360px;
-`;
-
-const Infocontent = styled.p`
-  margin-bottom: 12px;
-  font-size: 18px;
-  font-weight: bold;
-  color: ${({ active }) => active ? 'var(--point-color)' : 'var(--gray)'};
-  text-align: center;
-`;
-
-const InfoBar = styled.div`
-  width: 320px;
-  height: 4px;
-  background-color: ${({ active }) => active ? 'var(--point-color)' : 'var(--gray)'};
 `;
