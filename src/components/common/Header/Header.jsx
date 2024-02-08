@@ -10,17 +10,24 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeCookie } from '../../../hooks/Cookies'
 import { logout } from '../../../store/authActions'
+import axios from '../../../api/axios'
 
 const Header = () => {
   const dispatch = useDispatch();
   const isLogIn = useSelector(state => state.auth.isLogIn);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLogOut = () => {
-    dispatch(logout());
-    removeCookie('token', { path: "/"});
-    alert('로그아웃됩니다.');
-    window.location.reload();
+  const handleLogOut = async () => {
+    try {
+      const response = await axios.post(`/accounts/logout/`);
+      console.log(response);
+      removeCookie('token', { path: "/"});
+      dispatch(logout());
+      alert(response.data.detail);
+      window.location.reload();
+    } catch (error) {
+      console.error('로그아웃 오류: ', error.response.data);
+    }
   }
 
   const toggleDropdown = () => {
