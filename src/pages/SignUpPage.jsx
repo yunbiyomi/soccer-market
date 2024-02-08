@@ -335,7 +335,7 @@ const SignUpPage = () => {
         {showErrorMsg(!phoneNumberState.isValidPhoneNumber && phoneNumberState.phoneNumberSplit.mid && phoneNumberState.phoneNumberSplit.end,
           '숫자만 입력 가능합니다.')}
 
-        {memberType === 'seller' && (
+        {memberType === 'SELLER' && (
           <>
             <label htmlFor='companyRegistrationNumber'>사업자 등록번호</label>
             <IdWrap>
