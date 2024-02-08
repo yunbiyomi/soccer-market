@@ -1,4 +1,4 @@
-import { LOGIN } from "./authActions";
+import { LOGIN, LOGOUT } from "./authActions";
 
 const initialState = {
   isLogIn: false,
@@ -12,6 +12,12 @@ const authReducer = ( state=initialState, action ) => {
         ...state,
         isLogIn: true,
         token: action.payload.token
+      }
+    case LOGOUT: 
+      return {
+        ...state,
+        isLogIn: false,
+        token: null
       }
     default:
       return state;

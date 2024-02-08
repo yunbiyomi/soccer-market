@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Logo from '../../../components/common/Logo/Logo'
 import SearchIcon from '../../../assets/icon-search.svg'
@@ -7,13 +7,16 @@ import CartIconColor from '../../../assets/icon-shopping-cart-color.svg'
 import UserIcon from '../../../assets/icon-user.svg'
 import UserIconColor from '../../../assets/icon-user-color.svg'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { removeCookie } from '../../../hooks/Cookies'
+import { logout } from '../../../store/authActions'
 
 const Header = () => {
+  const dispatch = useDispatch();
   const isLogIn = useSelector(state => state.auth.isLogIn);
 
   const handleLogOut = () => {
+    dispatch(logout());
     removeCookie('token', { path: "/"});
     alert('로그아웃됩니다.');
     window.location.reload();
@@ -42,8 +45,8 @@ const Header = () => {
           }
           {
             isLogIn ? (
-              <SCategory>
-                <CategoryUserIcon onClick={handleLogOut} src={UserIcon} alt='Login' />
+              <SCategory onClick={handleLogOut}>
+                <CategoryUserIcon src={UserIcon} alt='Login' />
                 <CategoryName>마이페이지</CategoryName>
               </SCategory>
             ) : (

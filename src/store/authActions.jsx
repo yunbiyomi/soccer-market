@@ -1,7 +1,7 @@
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
-export function login(token, loginType) {
+export function login(token) {
   return {
     type: LOGIN,
     payload: {
