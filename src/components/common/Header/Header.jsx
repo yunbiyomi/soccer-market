@@ -6,7 +6,7 @@ import CartIcon from '../../../assets/icon-shopping-cart.svg'
 import CartIconColor from '../../../assets/icon-shopping-cart-color.svg'
 import UserIcon from '../../../assets/icon-user.svg'
 import UserIconColor from '../../../assets/icon-user-color.svg'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeCookie } from '../../../hooks/Cookies'
 import { logout } from '../../../store/authActions'
@@ -14,6 +14,7 @@ import axios from '../../../api/axios'
 
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isLogIn = useSelector(state => state.auth.isLogIn);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,6 +25,7 @@ const Header = () => {
       removeCookie('token', { path: "/"});
       dispatch(logout());
       alert(response.data.detail);
+      navigate('/');
       window.location.reload();
     } catch (error) {
       console.error('로그아웃 오류: ', error.response.data);
