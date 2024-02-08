@@ -14,12 +14,18 @@ import { logout } from '../../../store/authActions'
 const Header = () => {
   const dispatch = useDispatch();
   const isLogIn = useSelector(state => state.auth.isLogIn);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogOut = () => {
     dispatch(logout());
     removeCookie('token', { path: "/"});
     alert('로그아웃됩니다.');
     window.location.reload();
+  }
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+    console.log(isOpen);
   }
 
   return (
@@ -45,10 +51,16 @@ const Header = () => {
           }
           {
             isLogIn ? (
-              <SCategory onClick={handleLogOut}>
+              <SCategoryBtn onClick={toggleDropdown}>
                 <CategoryUserIcon src={UserIcon} alt='Login' />
                 <CategoryName>마이페이지</CategoryName>
-              </SCategory>
+                { isOpen && (
+                  <DropdownBox>
+                    <MenuItem to={"/mypage"}>마이페이지</MenuItem>
+                    <MenuItem onClick={handleLogOut}>로그아웃</MenuItem>
+                  </DropdownBox>
+                )}
+              </SCategoryBtn>
             ) : (
               <SCategory to="/login">
                 <CategoryUserIcon src={UserIcon} alt='Login' />
@@ -126,6 +138,7 @@ const CategoryIcon = styled.img`
 `;
 
 const CategoryUserIcon = styled(CategoryIcon)`
+  position: relative;
 `;
 
 const CategoryName = styled.p`
@@ -139,6 +152,7 @@ const SCategory = styled(Link)`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: white;
 
   &:hover {
     ${CategoryIcon} {
@@ -152,3 +166,75 @@ const SCategory = styled(Link)`
     }
   }
 `; 
+
+const SCategoryBtn = styled.button`
+  margin-left: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+
+  &:hover {
+    ${CategoryIcon} {
+      content: url(${CartIconColor});
+    }
+    ${CategoryUserIcon} {
+      content: url(${UserIconColor});
+    }
+    ${CategoryName} {
+      color: var(--point-color);
+    }
+  }
+`; 
+
+const DropdownBox = styled.div`
+  position: absolute;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  top: 95px;
+  border-radius: 10px;
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, .1),
+              1px 0 0 0 rgba(0, 0, 0, .1),
+              0 -1px 0 0 rgba(0, 0, 0, .1),
+              -1px 0 0 0 rgba(0, 0, 0, .1);
+  background-color: white;
+  z-index: 2;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -10px;
+    left: 50px;
+    background-color: white;
+    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, .1),
+                -1px 0 0 0 rgba(0, 0, 0, .1);
+    transform: rotate(45deg);
+  }
+`;
+
+const MenuItem = styled(Link)`
+  margin: 10px 11px;
+  height: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  color: #636363;
+  background-color: white;
+  cursor: pointer;
+  z-index: 999;
+
+  &:hover {
+    background-color: var(--point-color);
+    color: white;
+    border-radius: 5px;
+  }
+
+  &:first-child {
+    margin-bottom: 0;
+  }
+`;
