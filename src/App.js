@@ -14,8 +14,10 @@ function App() {
 
   useEffect(() => {
     const token = getCookie('token');
+    const memberType = getCookie('memberType');
+
     if(token)
-      dispatch(login(token));
+      dispatch(login(token, memberType));
   }, [dispatch])
 
   return (

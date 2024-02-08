@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Product = ({ product }) => {
   const productPrice = useCommaFormat(product.price);
+  
   return (
     <>
       <SProduct to={`/detail?id=${product.product_id}`}>

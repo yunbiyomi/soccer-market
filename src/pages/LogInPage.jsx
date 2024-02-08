@@ -70,7 +70,11 @@ const LogInPage = () => {
           path: "/",
           sameSite:'strict'
         })
-        dispatch(login(token));
+        setCookie("memberType", `${memberType}`, {
+          path: "/",
+          sameSite:'strict'
+        })
+        dispatch(login(token, memberType));
       }
       navigate(-1);
     } catch (error) {
