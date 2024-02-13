@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import CartIcon from '../../../assets/icon-shopping-cart.svg'
 import CartIconColor from '../../../assets/icon-shopping-cart-color.svg'
 import UserIcon from '../../../assets/icon-user.svg'
@@ -17,6 +17,7 @@ const Category = () => {
   const isLogIn = useSelector(state => state.auth.isLogIn);
   const memberType = useSelector(state => state.auth.memberType);
   const [isOpen, setIsOpen] = useState(false);
+  const dropDownRef = useRef();
 
   const handleLogOut = async () => {
     try {
@@ -34,11 +35,21 @@ const Category = () => {
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
-    console.log(isOpen);
   }
 
+  useEffect(() => {
+    const outSideClick = (e) => {
+      const { target } = e;
+
+      if(isOpen && dropDownRef.current && !dropDownRef.current.contains(target))
+        setIsOpen(false);
+    }
+
+    document.addEventListener("mousedown", outSideClick);
+  }, [isOpen])
+
   return (
-    <CategoryWrap>
+    <CategoryWrap ref={dropDownRef}>
       { isLogIn ? (
         memberType === 'BUYER' ? (
           <>
