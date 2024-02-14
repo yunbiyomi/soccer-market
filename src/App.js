@@ -7,7 +7,9 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getCookie } from './hooks/Cookies';
-import { login } from './store/authActions';
+import CartPage from './pages/CartPage';
+import { login } from './features/user/authActions';
+import { declare } from './features/price/totalPriceActions';
 
 function App() {
   const dispatch = useDispatch();
@@ -15,9 +17,14 @@ function App() {
   useEffect(() => {
     const token = getCookie('token');
     const memberType = getCookie('memberType');
+    const totalProductFee = getCookie('totalProductFee');
+    const totalShippingFee = getCookie('totalShippingFee');
 
-    if(token)
+    if(token){
       dispatch(login(token, memberType));
+      dispatch(declare(totalProductFee, totalShippingFee));
+    }
+
   }, [dispatch])
 
   return (
@@ -28,6 +35,7 @@ function App() {
         <Route path='/login' element={<LogInPage />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/detail' element={<ProductDetailPage />} />
+        <Route path='/cart' element={<CartPage />} />
       </Routes>
     </>
   );

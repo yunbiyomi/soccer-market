@@ -1,20 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from '../../../api/axios'
 import styled from 'styled-components'
 import useCommaFormat from '../../../hooks/useCommaFormat'
 import Counter from '../../common/Counter/Counter'
 import Button from '../../common/Button/Button'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import ProductDeliverWay from '../ProductDeliverWay'
+import { plus } from '../../../features/price/totalPriceActions'
+import { setCookie } from '../../../hooks/Cookies'
 
 const ProductDetail = ({ product }) => {
   const stoke = product.stock;
   const productPrice = useCommaFormat(product.price);
-  const shippingFee = useCommaFormat(product.shipping_fee);
   const [totalNum, setTotalNum] = useState(1);
   const totalFee = useCommaFormat(product.price * totalNum);
-  const delivery = product.shipping_method === 'PARCEL' ? '택배배송' : '화물배송';
-  const isLogIn = useSelector(state => state.auth.isLogIn)
+  const isLogIn = useSelector(state => state.auth.isLogIn);
+  const currentProductFee= product.price * totalNum;
+  const totalProductFee = useSelector(state => state.price.totalProductFee);
+  const totalShippingFee = useSelector(state => state.price.totalShippingFee);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // 바로 구매 버튼 누를시
   const handleImmediatelyBuy = () => {
@@ -25,6 +31,28 @@ const ProductDetail = ({ product }) => {
       navigate('/login')
     }
   }
+
+  // 장바구니 버튼 누를시 상품이 장바구니에 담기는 과정
+  const handleProductCart = async () => {
+    const formData = {
+      product_id: product.product_id,
+      quantity: totalNum,
+      check: true,
+    }
+
+    try {
+      const response = await axios.post(`cart/`, formData);
+      dispatch(plus(currentProductFee, product.shipping_fee));
+      navigate('/cart');
+    } catch (error) {
+      console.error('상품 장바구니 담기 실패', error.response.data);
+    }
+  }
+
+  useEffect(() => {
+    setCookie('totalProductFee', `${totalProductFee}`);
+    setCookie('totalShippingFee', `${totalShippingFee}`);
+  }, [totalProductFee, totalShippingFee]);
 
   return (
     <ProductInfoWrap>
@@ -40,9 +68,7 @@ const ProductDetail = ({ product }) => {
           {productPrice} 원
         </ProductFee>
         <CountWrap>
-          <DeliverWay>
-            {delivery} / {shippingFee === '0' ? '무료배송' : `${shippingFee}원`}
-          </DeliverWay>
+          <ProductDeliverWay shippingMethod={product.shipping_method} shippingFee={product.shipping_fee} textAlign='end' />
           <SLine />
           {
             stoke
@@ -69,7 +95,7 @@ const ProductDetail = ({ product }) => {
           <SBtn width='416px' onClick={handleImmediatelyBuy} disabled={!stoke}>
             바로 구매
           </SBtn>
-          <SBtn width='200px' disabled={!isLogIn}>
+          <SBtn width='200px' onClick={handleProductCart} disabled={!isLogIn}>
             장바구니
           </SBtn>
         </BtnWrap>
@@ -117,13 +143,6 @@ const ProductFee = styled.p`
 const CountWrap = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const DeliverWay = styled.p`
-  text-align: end;
-  font-size: 16px;
-  color: var(--light-font);
-  margin-bottom: 20px;
 `;
 
 const SLine = styled.div`
