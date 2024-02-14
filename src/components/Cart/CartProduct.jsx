@@ -82,7 +82,7 @@ const CartProduct = ({ product }) => {
             </ProductTotalCount>
             <ProductTotalMoneyWrap>
               <ProductTotalMoney>{totalFee}원</ProductTotalMoney>
-              <Button width='130px' height='40px' margin='0' fontSize='16px' fontWeight='medium' onClick={deleteAllProduct}>전체삭제</Button>
+              <Button width='130px' height='40px' margin='0' fontSize='16px' fontWeight='medium' onClick={deleteAllProduct}>주문하기</Button>
             </ProductTotalMoneyWrap>
             <ProductDeleteBtn onClick={deleteProduct} />
           </CartProductContainer>
