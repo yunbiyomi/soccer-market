@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import useCommaFormat from '../../hooks/useCommaFormat'
-import Counter from '../common/Counter/Counter'
-import Button from '../common/Button/Button'
+import useCommaFormat from '../../../hooks/useCommaFormat'
+import Counter from '../../common/Counter/Counter'
+import Button from '../../common/Button/Button'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,6 +16,7 @@ const ProductDetail = ({ product }) => {
   const isLogIn = useSelector(state => state.auth.isLogIn)
   const navigate = useNavigate();
 
+  // 바로 구매 버튼 누를시
   const handleImmediatelyBuy = () => {
     if(isLogIn) 
       navigate('/buy');

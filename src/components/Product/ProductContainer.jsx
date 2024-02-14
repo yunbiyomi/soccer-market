@@ -10,6 +10,7 @@ const ProductContainer = () => {
   const [load, setLoad] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
 
+  // 페이지네이션 hook return 값
   const {
     currentPage,
     pageCount,
@@ -18,6 +19,7 @@ const ProductContainer = () => {
     handlePageClick,
   } = usePageNavigation(totalCount);
 
+  // 페이지별 상품들 가져오기
   const getProducts = async () => {
     try {
       const response = await axios.get(`products/?page=${currentPage}`);
