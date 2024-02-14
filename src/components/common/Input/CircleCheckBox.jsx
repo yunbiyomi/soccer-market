@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import CheckBox from '../../../assets/circle-check-box.svg'
 import CheckBoxFill from '../../../assets/circle-check-box-Fill.svg'
 
-const CircleCheckBox = () => {
+const CircleCheckBox = ({ checked, onChange }) => {
   return (
-    <CartListCheck type='checkbox'/>
+    <CartListCheck type='checkbox' checked={checked} onChange={onChange} />
   )
 }
 

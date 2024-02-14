@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { minus, reset } from '../../features/price/totalPriceActions'
 import { setCookie } from '../../hooks/Cookies'
 
-const CartProduct = ({ product }) => {
+const CartProduct = ({ product, toggleProductSelection }) => {
   const productId = product.product_id;
   const [totalNum, setTotalNum] = useState(product.quantity);
   const [cartProduct, setCartProduct] = useState([]);
@@ -21,6 +21,10 @@ const CartProduct = ({ product }) => {
   const currentFee = cartProduct.price * totalNum;
   const totalProductFee = useSelector(state => state.price.totalProductFee);
   const totalShippingFee = useSelector(state => state.price.totalShippingFee);
+
+  const handleToggleSelection = () => {
+    toggleProductSelection(product.product_id);
+  };
 
   // 상품 상세 정보 가져오기
   const getCartProducts = async () => {
@@ -74,7 +78,7 @@ const CartProduct = ({ product }) => {
         ?(
           <CartProductContainer>
             <CheckBox>
-              <CircleCheckBox />
+              <CircleCheckBox  checked={product.isSelected} onChange={handleToggleSelection} />
             </CheckBox>
             <CartProductInfo product={cartProduct} />
             <ProductTotalCount>
@@ -82,7 +86,7 @@ const CartProduct = ({ product }) => {
             </ProductTotalCount>
             <ProductTotalMoneyWrap>
               <ProductTotalMoney>{totalFee}원</ProductTotalMoney>
-              <Button width='130px' height='40px' margin='0' fontSize='16px' fontWeight='medium' onClick={deleteAllProduct}>주문하기</Button>
+              <Button width='130px' height='40px' margin='0' fontSize='16px' fontWeight='medium' onClick={deleteAllProduct} disabled={!product.isSelected}>주문하기</Button>
             </ProductTotalMoneyWrap>
             <ProductDeleteBtn onClick={deleteProduct} />
           </CartProductContainer>
