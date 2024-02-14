@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeCookie } from '../../../hooks/Cookies'
-import { logout } from '../../../store/authActions'
+import { logout } from '../../../features/user/authActions'
 import axios from '../../../api/axios'
 import Button from '../Button/Button'
 

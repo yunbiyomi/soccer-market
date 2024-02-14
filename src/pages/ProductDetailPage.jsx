@@ -3,8 +3,8 @@ import axios from '../api/axios'
 import useQueryString from '../hooks/useQueryString';
 import Header from '../components/common/Header/Header'
 import Footer from '../components/common/Footer/Footer'
-import ProductDetail from '../components/Product/ProductDetail';
-import DetailInfoBar from '../components/Product/DetailInfoBar';
+import ProductDetail from '../components/Product/Detail/ProductDetail';
+import DetailInfoBar from '../components/Product/Detail/DetailInfoBar';
 import styled from 'styled-components';
 
 const ProductDetailPage = () => {

@@ -7,7 +7,7 @@ import axios from '../api/axios'
 import { setCookie } from '../hooks/Cookies'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { login } from '../store/authActions'
+import { login } from '../features/user/authActions'
 
 const LogInPage = () => {
   const navigate = useNavigate();
