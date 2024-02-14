@@ -12,10 +12,10 @@ const ProductDetailPage = () => {
   const productId = useQueryString();
   const [load, setLoad] = useState(false);
 
+  // 현재 페이지에 알맞는 상품 정보 가져오기
   const getProduct = async () => {
     try {
       const response = await axios.get(`/products/${productId}`);
-      console.log(response.data);
       setProduct(response.data);
       setLoad(true);
     } catch (error) {
