@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import TotalFeeBox from '../Product/Detail/TotalFeeBox';
 import CartProduct from './CartProduct';
 import CartListBar from './CartListBar';
+import EmptyCart from './EmptyCart';
 
 const CartList = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -27,9 +28,13 @@ const CartList = () => {
     <CartListContainer>
       <CartListBar />
       <CartProductWrap>
-        {cartProducts.map(product => (
-          <CartProduct key={product.product_id} product={product} />
-        ))}
+        { cartProducts.length === 0
+          ? <EmptyCart />
+          : (cartProducts.map(product => (
+            <CartProduct key={product.product_id} product={product} />
+        )))
+        }
+        
       </CartProductWrap>
       <TotalFeeBox />
     </CartListContainer>
