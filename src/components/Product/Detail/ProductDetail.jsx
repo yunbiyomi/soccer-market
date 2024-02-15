@@ -15,6 +15,8 @@ const ProductDetail = ({ product }) => {
   const productPrice = useCommaFormat(product.price);
   const [totalNum, setTotalNum] = useState(1);
   const totalFee = useCommaFormat(product.price * totalNum);
+  const [existProduct, setExistProduct] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
   const isLogIn = useSelector(state => state.auth.isLogIn);
   const currentProductFee= product.price * totalNum;
   const totalProductFee = useSelector(state => state.price.totalProductFee);
@@ -32,20 +34,40 @@ const ProductDetail = ({ product }) => {
     }
   }
 
+  // 장바구니에 해당 상품이 있는지 판별 
+  const judgeExistProduct = async () => {
+    try {
+      const response = await axios.get(`cart/`);
+      const cartItems = response.data.results;
+      setCartItems(cartItems);
+      const foundItem = cartItems.find(item => item.product_id === product.product_id);
+      setExistProduct(foundItem !== undefined);
+      console.log(existProduct);
+    } catch (error) {
+      console.error('장바구니 상품 중복 여부 판단 실패', error.response.data);
+    }
+  }
+
   // 장바구니 버튼 누를시 상품이 장바구니에 담기는 과정
   const handleProductCart = async () => {
-    const formData = {
-      product_id: product.product_id,
-      quantity: totalNum,
-      check: true,
+    if(!existProduct) {
+      const formData = {
+        product_id: product.product_id,
+        quantity: totalNum,
+        check: true,
+      }
+  
+      try {
+        const response = await axios.post(`cart/`, formData);
+        dispatch(plus(currentProductFee, product.shipping_fee));
+        navigate('/cart');
+      } catch (error) {
+        console.error('상품 장바구니 담기 실패', error.response.data);
+      }
     }
-
-    try {
-      const response = await axios.post(`cart/`, formData);
-      dispatch(plus(currentProductFee, product.shipping_fee));
-      navigate('/cart');
-    } catch (error) {
-      console.error('상품 장바구니 담기 실패', error.response.data);
+    
+    else {
+      alert("이미 장바구니에 상품이 존재합니다.");
     }
   }
 
@@ -54,6 +76,10 @@ const ProductDetail = ({ product }) => {
     setCookie('totalShippingFee', `${totalShippingFee}`);
   }, [totalProductFee, totalShippingFee]);
 
+  useEffect(() => {
+    judgeExistProduct();
+  }, []);
+  
   return (
     <ProductInfoWrap>
       <ProductImg src={product.image} />

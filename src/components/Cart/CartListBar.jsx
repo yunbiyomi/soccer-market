@@ -1,19 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import CircleCheckBox from '../common/Input/CircleCheckBox'
 
-const CartListBar = ({ onSelectAll }) => {
-  const [isCheckedAll, setIsCheckedAll] = useState(false);
-
-  const handleCheckAll = () => {
-    setIsCheckedAll(!isCheckedAll);
-    onSelectAll(!isCheckedAll);
-  };
-
+const CartListBar = () => {
   return (
     <CartListBarContainer>
       <CartListTitle>
-        <CircleCheckBox checked={isCheckedAll} onChange={handleCheckAll} />
+        <CircleCheckBox />
       </CartListTitle>
       <CartListTitle>상품정보</CartListTitle>
       <CartListTitle>수량</CartListTitle>

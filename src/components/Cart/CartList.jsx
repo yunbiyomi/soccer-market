@@ -13,11 +13,7 @@ const CartList = () => {
   const getCartItem = async () => {
     try {
       const response = await axios.get(`cart/`);
-      const productsWithSelection = response.data.results.map(product => ({
-        ...product,
-        isSelected: false,
-      }));
-      setCartProducts(productsWithSelection);
+      setCartProducts(response.data.results);
     } catch (error) {
       console.error('장바구니 상품 목록 가져오기 실패', error.response.data);
     }
@@ -27,29 +23,14 @@ const CartList = () => {
     getCartItem();
   }, []);
 
-  const toggleProductSelection = (productId) => {
-    setCartProducts(prevProducts =>
-      prevProducts.map(product =>
-        product.product_id === productId ? { ...product, isSelected: !product.isSelected } : product
-      )
-    );
-  }
-
-  const handleSelectAll = () => {
-    const allSelected = cartProducts.every(product => product.isSelected);
-    setCartProducts(prevProducts =>
-      prevProducts.map(product => ({ ...product, isSelected: !allSelected }))
-    );
-  }
-
   return (
     <CartListContainer>
-      <CartListBar onSelectAll={handleSelectAll} />
+      <CartListBar />
       <CartProductWrap>
         { cartProducts.length === 0
           ? <EmptyCart />
           : (cartProducts.map(product => (
-            <CartProduct key={product.product_id} product={product} ichecked={cartProducts.every(product => product.isSelected)} onSelectItem={handleSelectAll} toggleProductSelection={toggleProductSelection}/>
+            <CartProduct key={product.product_id} product={product} />
         )))
         }
         
