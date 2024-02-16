@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { minus } from '../../features/price/totalPriceActions'
 import { setCookie } from '../../hooks/Cookies'
 
-const CartProduct = ({ product }) => {
+const CartProduct = ({ product, isChecked, handleSingleCheck }) => {
   const productId = product.product_id;
   const [totalNum, setTotalNum] = useState(product.quantity);
   const [cartProduct, setCartProduct] = useState([]);
@@ -50,7 +50,6 @@ const CartProduct = ({ product }) => {
     setCookie('totalShippingFee', `${totalShippingFee}`);
   }, [totalProductFee, totalShippingFee]);
 
-
   useEffect(() => {
     getCartProducts();
   }, [])
@@ -62,7 +61,10 @@ const CartProduct = ({ product }) => {
         ?(
           <CartProductContainer>
             <CheckBox>
-              <CircleCheckBox />
+              <CircleCheckBox
+                checked={isChecked}
+                onChange={(e) => handleSingleCheck(e.target.checked, product.product_id)} 
+              />
             </CheckBox>
             <CartProductInfo product={cartProduct} />
             <ProductTotalCount>

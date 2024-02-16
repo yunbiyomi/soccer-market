@@ -2,11 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import CircleCheckBox from '../common/Input/CircleCheckBox'
 
-const CartListBar = () => {
+const CartListBar = ({ isAllChecked, handleAllCheck }) => {
   return (
     <CartListBarContainer>
       <CartListTitle>
-        <CircleCheckBox />
+        <CircleCheckBox
+          checked={isAllChecked} // 전체 선택/해제 상태 반영
+          onChange={(e) => handleAllCheck(e.target.checked)}
+        />
       </CartListTitle>
       <CartListTitle>상품정보</CartListTitle>
       <CartListTitle>수량</CartListTitle>

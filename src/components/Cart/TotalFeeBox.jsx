@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import useCommaFormat from '../../../hooks/useCommaFormat';
-import PlusIcon from '../../../assets/plus-icon_2.svg'
-import MinusIcon from '../../../assets/minus-icon_2.svg'
+import useCommaFormat from '../../hooks/useCommaFormat';
+import PlusIcon from '../../assets/plus-icon_2.svg'
+import MinusIcon from '../../assets/minus-icon_2.svg'
 
 const TotalFeeBox = () => {
   const totalProductFee = useSelector(state => state.price.totalProductFee);
