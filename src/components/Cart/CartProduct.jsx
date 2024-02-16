@@ -8,7 +8,7 @@ import CircleCheckBox from '../common/Input/CircleCheckBox'
 import CartProductInfo from './CartProductInfo'
 import useCommaFormat from '../../hooks/useCommaFormat'
 import { useDispatch, useSelector } from 'react-redux'
-import { minus, reset } from '../../features/price/totalPriceActions'
+import { minus } from '../../features/price/totalPriceActions'
 import { setCookie } from '../../hooks/Cookies'
 
 const CartProduct = ({ product }) => {
@@ -45,18 +45,6 @@ const CartProduct = ({ product }) => {
     }
   }
 
-  // 장바구니 상품 전체 삭제
-  const deleteAllProduct = async () => {
-    try {
-      const response = await axios.delete(`cart/`);
-      dispatch(reset());
-      alert('장바구니의 모든 상품이 삭제되었습니다.');
-      window.location.reload();
-    } catch (error) {
-      console.error('장바구니 상품 전체 삭제 실패', error.response.data);
-    }
-  }
-
   useEffect(() => {
     setCookie('totalProductFee', `${totalProductFee}`);
     setCookie('totalShippingFee', `${totalShippingFee}`);
@@ -82,7 +70,7 @@ const CartProduct = ({ product }) => {
             </ProductTotalCount>
             <ProductTotalMoneyWrap>
               <ProductTotalMoney>{totalFee}원</ProductTotalMoney>
-              <Button width='130px' height='40px' margin='0' fontSize='16px' fontWeight='medium' onClick={deleteAllProduct}>주문하기</Button>
+              <Button width='130px' height='40px' margin='0' fontSize='16px' fontWeight='medium'>주문하기</Button>
             </ProductTotalMoneyWrap>
             <ProductDeleteBtn onClick={deleteProduct} />
           </CartProductContainer>
@@ -101,7 +89,7 @@ const CartProductContainer = styled.li`
   grid-template-columns: .25fr 3fr 1fr 1fr;
   margin-bottom: 10px;
   position: relative;
-  border: 2px solid var(--gray);
+  border: 1px solid var(--gray);
   border-radius: 10px;
 `;
 
