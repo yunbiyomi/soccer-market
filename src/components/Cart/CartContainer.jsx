@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import Button from '../common/Button/Button'
 import CartList from './CartList'
 
 const CartContainer = () => {
@@ -8,7 +7,6 @@ const CartContainer = () => {
     <SCartContainer>
       <CartTitle>장바구니</CartTitle>
       <CartList />
-      <Button width='220px' height='68px' margin='40px 0 160px 0'>주문하기</Button>
     </SCartContainer>
   )
 }
@@ -20,6 +18,7 @@ const SCartContainer = styled.section`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 160px;
 `;
 
 const CartTitle = styled.h2`

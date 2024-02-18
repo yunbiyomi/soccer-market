@@ -6,7 +6,7 @@ import CartProduct from './CartProduct';
 import CartListBar from './CartListBar';
 import EmptyCart from './EmptyCart';
 import { useDispatch } from 'react-redux';
-import { reset } from '../../features/price/totalPriceActions';
+import Button from '../common/Button/Button';
 
 const CartList = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -30,7 +30,6 @@ const CartList = () => {
   const deleteAllProduct = async () => {
     try {
       const response = await axios.delete(`cart/`);
-      dispatch(reset());
       alert('장바구니의 모든 상품이 삭제되었습니다.');
       window.location.reload();
     } catch (error) {
@@ -96,6 +95,7 @@ const CartList = () => {
           : (cartProducts.map(product => (
             <React.Fragment key={product.product_id}>
               <CartProduct 
+                cartProducts={cartProducts}
                 product={product}
                 putProductInfo={putProductInfo}
               />
@@ -104,7 +104,14 @@ const CartList = () => {
         )))
         }
       </CartProductWrap>
-      <TotalFeeBox />
+      {
+        cartProducts.length === 0
+        ? <></>
+        : <>
+            <TotalFeeBox />
+            <Button width='220px' height='68px' margin='40px 0 0 0'>주문하기</Button>
+          </>
+      }
     </CartListContainer>
   )
 }
