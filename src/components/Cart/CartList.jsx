@@ -10,15 +10,17 @@ import { reset } from '../../features/price/totalPriceActions';
 
 const CartList = () => {
   const [cartProducts, setCartProducts] = useState([]);
-  const [checkItems, setCheckItems] = useState([]);
-  const [isAllChecked, setIsAllChecked] = useState(false);
   const dispatch = useDispatch();
+  const [isAllCheck, setIsAllCheck] = useState(true);
+  const [clickAllCheck, setClickAllCheck] = useState(true);
   
   // 사용자의 장바구니에 있는 상품들 가져오기
   const getCartItem = async () => {
     try {
       const response = await axios.get(`cart/`);
-      setCartProducts(response.data.results);
+      const products = response.data.results;
+      console.log(response);
+      setCartProducts(products);
     } catch (error) {
       console.error('장바구니 상품 목록 가져오기 실패', error.response.data);
     }
@@ -35,41 +37,66 @@ const CartList = () => {
       console.error('장바구니 상품 전체 삭제 실패', error.response.data);
     }
   }
+  
+  // 수정된 상품 정보 보내기
+  const putProductInfo = async (product, isCheck) => {
+    const formData = {
+      product_id: product.product_id,
+      quantity: product.quantity,
+      is_active: isCheck
+    };
 
-  // 전체 선택/해제
-  const handleAllCheck = (checked) => {
-    setIsAllChecked(prevState => !prevState);
-    if (!isAllChecked) {
-      const allProductIds = cartProducts.map(product => product.product_id);
-      setCheckItems(allProductIds);
-    } else {
-      setCheckItems([]);
+    try {
+      const response = await axios.put(`cart/${product.cart_item_id}/`, formData);
+      setCartProducts(prevProducts => prevProducts.map(prevProduct => {
+        if (prevProduct.product_id === product.product_id) {
+          return { ...prevProduct, is_active: isCheck };
+        }
+        return prevProduct;
+      }));
+    } catch (error) {
+      console.error('장바구니 상품 수정하기 실패', error.response.data);
     }
   }
 
-  // 단일 체크박스 선택
-  const handleSingleCheck = (checked, id) => {
-    if (checked) {
-      setCheckItems(prev => [...prev, id]);
-    } else {
-      setCheckItems(checkItems.filter(el => el !== id));
-    }
-  };
-
   useEffect(() => {
-    // 전체 상품의 체크 상태가 변경되면 전체 선택 버튼의 상태도 변경
-    setIsAllChecked(cartProducts.length > 0 && checkItems.length === cartProducts.length);
-  }, [checkItems]);
+    const checkArr = cartProducts.map((product) => product.is_active);
+    console.log(checkArr);
+    checkArr.includes(false) ? setIsAllCheck(false) : setIsAllCheck(true);
+  }, [cartProducts])
+
+  // 상품 전체 체크 박스
+  const handleAllCheck = () => {
+    if(clickAllCheck){
+      setIsAllCheck(false);
+      setClickAllCheck(false);
+      cartProducts.map((product) => {
+        const isCheck = false;
+        putProductInfo(product, isCheck);
+      })
+      const checkArr = cartProducts.map((product) => product.is_active);
+      console.log(checkArr);
+    } else {
+      setIsAllCheck(true);
+      setClickAllCheck(true);
+      cartProducts.map((product) => {
+        const isCheck = true;
+        putProductInfo(product, isCheck);
+      })
+      const checkArr = cartProducts.map((product) => product.is_active);
+      console.log(checkArr);
+    }
+  }
 
   useEffect(() => {
     getCartItem();
-  }, []);
+  }, [])
 
   return (
     <CartListContainer>
-      <CartListBar 
-        isAllChecked={isAllChecked}
-        handleAllCheck={handleAllCheck}
+      <CartListBar
+        checked={isAllCheck}
+        onChange={handleAllCheck}
       />
       <CartProductWrap>
         { cartProducts.length === 0
@@ -77,9 +104,8 @@ const CartList = () => {
           : (cartProducts.map(product => (
             <React.Fragment key={product.product_id}>
               <CartProduct 
-                  product={product}
-                  handleSingleCheck={handleSingleCheck}
-                  isChecked={checkItems.includes(product.product_id)}
+                product={product}
+                putProductInfo={putProductInfo}
               />
               <AllDeleteBtn onClick={deleteAllProduct}>전체 삭제</AllDeleteBtn>
             </React.Fragment>

@@ -7,20 +7,14 @@ import Button from '../common/Button/Button'
 import CircleCheckBox from '../common/Input/CircleCheckBox'
 import CartProductInfo from './CartProductInfo'
 import useCommaFormat from '../../hooks/useCommaFormat'
-import { useDispatch, useSelector } from 'react-redux'
-import { minus } from '../../features/price/totalPriceActions'
-import { setCookie } from '../../hooks/Cookies'
 
-const CartProduct = ({ product, isChecked, handleSingleCheck }) => {
+const CartProduct = ({ product, putProductInfo }) => {
   const productId = product.product_id;
   const [totalNum, setTotalNum] = useState(product.quantity);
   const [cartProduct, setCartProduct] = useState([]);
   const totalFee = useCommaFormat(cartProduct.price * totalNum);
   const [load, setLoad] = useState(false);
-  const dispatch = useDispatch();
-  const currentFee = cartProduct.price * totalNum;
-  const totalProductFee = useSelector(state => state.price.totalProductFee);
-  const totalShippingFee = useSelector(state => state.price.totalShippingFee);
+  const [isCheck, setIsCheck] = useState(product.is_active);
 
   // 상품 상세 정보 가져오기
   const getCartProducts = async () => {
@@ -37,7 +31,6 @@ const CartProduct = ({ product, isChecked, handleSingleCheck }) => {
   const deleteProduct = async () => {
     try {
       const response = await axios.delete(`cart/${product.cart_item_id}`);
-      dispatch(minus(currentFee, cartProduct.shipping_fee));
       alert('상품이 삭제되었습니다.');
       window.location.reload();
     } catch (error) {
@@ -45,14 +38,18 @@ const CartProduct = ({ product, isChecked, handleSingleCheck }) => {
     }
   }
 
-  useEffect(() => {
-    setCookie('totalProductFee', `${totalProductFee}`);
-    setCookie('totalShippingFee', `${totalShippingFee}`);
-  }, [totalProductFee, totalShippingFee]);
+  // 상품 단일 체크 박스
+  const handleSingleCheck = async () => {
+    setIsCheck(prevIsCheck => !prevIsCheck);
+  };
 
   useEffect(() => {
     getCartProducts();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    putProductInfo(product, isCheck);
+  }, [isCheck])
 
   return (
     <>
@@ -61,10 +58,7 @@ const CartProduct = ({ product, isChecked, handleSingleCheck }) => {
         ?(
           <CartProductContainer>
             <CheckBox>
-              <CircleCheckBox
-                checked={isChecked}
-                onChange={(e) => handleSingleCheck(e.target.checked, product.product_id)} 
-              />
+              <CircleCheckBox checked={isCheck} onChange={handleSingleCheck} />
             </CheckBox>
             <CartProductInfo product={cartProduct} />
             <ProductTotalCount>
