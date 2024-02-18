@@ -45,10 +45,11 @@ const CartList = () => {
       quantity: product.quantity,
       is_active: isCheck
     };
-
+  
     try {
       const response = await axios.put(`cart/${product.cart_item_id}/`, formData);
-      setCartProducts(prevProducts => prevProducts.map(prevProduct => {
+      // 상태를 업데이트하기 전에 API 요청이 완료될 때까지 기다립니다.
+      await setCartProducts(prevProducts => prevProducts.map(prevProduct => {
         if (prevProduct.product_id === product.product_id) {
           return { ...prevProduct, is_active: isCheck };
         }
@@ -61,31 +62,22 @@ const CartList = () => {
 
   useEffect(() => {
     const checkArr = cartProducts.map((product) => product.is_active);
-    console.log(checkArr);
     checkArr.includes(false) ? setIsAllCheck(false) : setIsAllCheck(true);
   }, [cartProducts])
 
   // 상품 전체 체크 박스
-  const handleAllCheck = () => {
-    if(clickAllCheck){
-      setIsAllCheck(false);
-      setClickAllCheck(false);
-      cartProducts.map((product) => {
-        const isCheck = false;
-        putProductInfo(product, isCheck);
-      })
-      const checkArr = cartProducts.map((product) => product.is_active);
-      console.log(checkArr);
-    } else {
-      setIsAllCheck(true);
-      setClickAllCheck(true);
-      cartProducts.map((product) => {
-        const isCheck = true;
-        putProductInfo(product, isCheck);
-      })
-      const checkArr = cartProducts.map((product) => product.is_active);
-      console.log(checkArr);
-    }
+  const handleAllCheck = async () => {
+    const newIsAllCheck = !isAllCheck;
+    setIsAllCheck(newIsAllCheck);
+    setClickAllCheck(newIsAllCheck);
+
+    const updatedProducts = await Promise.all(cartProducts.map(async (product) => {
+      const isCheck = newIsAllCheck;
+      await putProductInfo(product, isCheck);
+      return { ...product, is_active: isCheck };
+    }));
+
+    setCartProducts(updatedProducts);
   }
 
   useEffect(() => {

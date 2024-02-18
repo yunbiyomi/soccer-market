@@ -58,7 +58,7 @@ const CartProduct = ({ product, putProductInfo }) => {
         ?(
           <CartProductContainer>
             <CheckBox>
-              <CircleCheckBox checked={isCheck} onChange={handleSingleCheck} />
+              <CircleCheckBox checked={product.is_active} onChange={handleSingleCheck} />
             </CheckBox>
             <CartProductInfo product={cartProduct} />
             <ProductTotalCount>
