@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import CartList from './CartList'
+import { useDispatch } from 'react-redux'
+import { reset } from '../../features/price/totalPriceActions'
 
 const CartContainer = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(reset())
+  }, [])
+
   return (
     <SCartContainer>
       <CartTitle>장바구니</CartTitle>

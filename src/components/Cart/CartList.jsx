@@ -5,12 +5,16 @@ import TotalFeeBox from './TotalFeeBox';
 import CartProduct from './CartProduct';
 import CartListBar from './CartListBar';
 import EmptyCart from './EmptyCart';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../common/Button/Button';
+import { reset } from '../../features/price/totalPriceActions';
+import { setCookie } from '../../hooks/Cookies';
 
 const CartList = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const dispatch = useDispatch();
+  const totalProductFee = useSelector(state => state.price.totalProductFee);
+  const totalShippingFee = useSelector(state => state.price.totalShippingFee); 
   const [isAllCheck, setIsAllCheck] = useState(true);
   const [clickAllCheck, setClickAllCheck] = useState(true);
   
@@ -19,7 +23,6 @@ const CartList = () => {
     try {
       const response = await axios.get(`cart/`);
       const products = response.data.results;
-      console.log(response);
       setCartProducts(products);
     } catch (error) {
       console.error('장바구니 상품 목록 가져오기 실패', error.response.data);
@@ -30,6 +33,7 @@ const CartList = () => {
   const deleteAllProduct = async () => {
     try {
       const response = await axios.delete(`cart/`);
+      dispatch(reset());
       alert('장바구니의 모든 상품이 삭제되었습니다.');
       window.location.reload();
     } catch (error) {
@@ -83,6 +87,11 @@ const CartList = () => {
     getCartItem();
   }, [])
 
+  useEffect(() => {
+    setCookie('totalProductFee', `${totalProductFee}`);
+    setCookie('totalShippingFee', `${totalShippingFee}`);
+  }, [totalProductFee, totalShippingFee]);
+
   return (
     <CartListContainer>
       <CartListBar
@@ -99,7 +108,11 @@ const CartList = () => {
                 product={product}
                 putProductInfo={putProductInfo}
               />
-              <AllDeleteBtn onClick={deleteAllProduct}>전체 삭제</AllDeleteBtn>
+              <AllDeleteBtn 
+                onClick={deleteAllProduct}
+              >
+                전체 삭제
+              </AllDeleteBtn>
             </React.Fragment>
         )))
         }
@@ -109,7 +122,13 @@ const CartList = () => {
         ? <></>
         : <>
             <TotalFeeBox />
-            <Button width='220px' height='68px' margin='40px 0 0 0'>주문하기</Button>
+            <Button
+              width='220px' 
+              height='68px' 
+              margin='40px 0 0 0'
+            >
+              주문하기
+            </Button>
           </>
       }
     </CartListContainer>

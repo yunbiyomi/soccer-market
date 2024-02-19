@@ -4,11 +4,9 @@ import styled from 'styled-components'
 import useCommaFormat from '../../../hooks/useCommaFormat'
 import Counter from '../../common/Counter/Counter'
 import Button from '../../common/Button/Button'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import ProductDeliverWay from '../ProductDeliverWay'
-import { plus } from '../../../features/price/totalPriceActions'
-import { setCookie } from '../../../hooks/Cookies'
 
 const ProductDetail = ({ product }) => {
   const stoke = product.stock;
@@ -18,11 +16,7 @@ const ProductDetail = ({ product }) => {
   const [existProduct, setExistProduct] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const isLogIn = useSelector(state => state.auth.isLogIn);
-  const currentProductFee= product.price * totalNum;
-  const totalProductFee = useSelector(state => state.price.totalProductFee);
-  const totalShippingFee = useSelector(state => state.price.totalShippingFee);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   // 바로 구매 버튼 누를시
   const handleImmediatelyBuy = () => {
@@ -56,25 +50,17 @@ const ProductDetail = ({ product }) => {
         quantity: totalNum,
         check: true,
       }
-  
       try {
         const response = await axios.post(`cart/`, formData);
-        dispatch(plus(currentProductFee, product.shipping_fee));
         navigate('/cart');
       } catch (error) {
         console.error('상품 장바구니 담기 실패', error.response.data);
       }
     }
-    
     else {
       alert("이미 장바구니에 상품이 존재합니다.");
     }
   }
-
-  useEffect(() => {
-    setCookie('totalProductFee', `${totalProductFee}`);
-    setCookie('totalShippingFee', `${totalShippingFee}`);
-  }, [totalProductFee, totalShippingFee]);
 
   useEffect(() => {
     judgeExistProduct();

@@ -8,10 +8,10 @@ import CircleCheckBox from '../common/Input/CircleCheckBox'
 import CartProductInfo from './CartProductInfo'
 import useCommaFormat from '../../hooks/useCommaFormat'
 
-const CartProduct = ({ product, putProductInfo }) => {
+const CartProduct = ({ cartProducts, product, putProductInfo }) => {
   const productId = product.product_id;
   const [totalNum, setTotalNum] = useState(product.quantity);
-  const [cartProduct, setCartProduct] = useState([]);
+  const [cartProduct, setCartProduct] = useState({});
   const totalFee = useCommaFormat(cartProduct.price * totalNum);
   const [load, setLoad] = useState(false);
   const [isCheck, setIsCheck] = useState(product.is_active);
@@ -44,12 +44,12 @@ const CartProduct = ({ product, putProductInfo }) => {
   };
 
   useEffect(() => {
-    getCartProducts();
-  }, []);
-
-  useEffect(() => {
     putProductInfo(product, isCheck);
   }, [isCheck])
+
+  useEffect(() => {
+    getCartProducts();
+  }, []);
 
   return (
     <>
@@ -58,17 +58,38 @@ const CartProduct = ({ product, putProductInfo }) => {
         ?(
           <CartProductContainer>
             <CheckBox>
-              <CircleCheckBox checked={product.is_active} onChange={handleSingleCheck} />
+              <CircleCheckBox 
+                checked={product.is_active} 
+                onChange={handleSingleCheck} 
+              />
             </CheckBox>
-            <CartProductInfo product={cartProduct} />
+            <CartProductInfo 
+              product={cartProduct} 
+              isCheck={isCheck} 
+              quantity={product.quantity}
+            />
             <ProductTotalCount>
-              <Counter totalNum={totalNum} setTotalNum={setTotalNum} stoke={cartProduct.stock} />
+              <Counter 
+                totalNum={totalNum} 
+                setTotalNum={setTotalNum} 
+                stoke={cartProduct.stock} 
+              />
             </ProductTotalCount>
             <ProductTotalMoneyWrap>
               <ProductTotalMoney>{totalFee}원</ProductTotalMoney>
-              <Button width='130px' height='40px' margin='0' fontSize='16px' fontWeight='medium'>주문하기</Button>
+              <Button 
+                width='130px' 
+                height='40px' 
+                margin='0' 
+                fontSize='16px' 
+                fontWeight='medium'
+                > 
+                  주문하기
+                </Button>
             </ProductTotalMoneyWrap>
-            <ProductDeleteBtn onClick={deleteProduct} />
+            <ProductDeleteBtn
+              onClick={deleteProduct}
+            />
           </CartProductContainer>
         ) : <p>로딩중</p>
     }
