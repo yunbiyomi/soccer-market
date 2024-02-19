@@ -7,6 +7,7 @@ import Button from '../../common/Button/Button'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import ProductDeliverWay from '../ProductDeliverWay'
+import Modal from '../../common/Modal/Modal'
 
 const ProductDetail = ({ product }) => {
   const stoke = product.stock;
@@ -17,15 +18,35 @@ const ProductDetail = ({ product }) => {
   const [cartItems, setCartItems] = useState([]);
   const isLogIn = useSelector(state => state.auth.isLogIn);
   const navigate = useNavigate();
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isExistModalOpen, setIsExistModalOpen] = useState(false);
+
+  const openCartModal = () => setIsCartModalOpen(true);
+  const closeCartModal = () => setIsCartModalOpen(false);
+  const openLoginModal = () => setIsLoginModalOpen(true);
+  const closeLoginModal = () => setIsLoginModalOpen(false);
+  const openExistModal = () => setIsExistModalOpen(true);
+  const closeExistModal = () => setIsExistModalOpen(false);
 
   // 바로 구매 버튼 누를시
   const handleImmediatelyBuy = () => {
     if(isLogIn) 
       navigate('/buy');
-    else {
-      alert('로그인이 필요합니다.');
-      navigate('/login')
-    }
+    else
+      openLoginModal();
+  }
+
+  // 로그인 안되어있을 때 로그인으로 이동
+  const handleLogin = () => {
+    closeLoginModal();
+    navigate('/login');
+  };
+  
+  // 이미 존재하는 상품일 때 장바구니로 이동
+  const handleCart = () => {
+    closeExistModal();
+    navigate('/cart');
   }
 
   // 장바구니에 해당 상품이 있는지 판별 
@@ -58,7 +79,8 @@ const ProductDetail = ({ product }) => {
       }
     }
     else {
-      alert("이미 장바구니에 상품이 존재합니다.");
+      closeCartModal();
+      openExistModal();
     }
   }
 
@@ -107,11 +129,43 @@ const ProductDetail = ({ product }) => {
           <SBtn width='416px' onClick={handleImmediatelyBuy} disabled={!stoke}>
             바로 구매
           </SBtn>
-          <SBtn width='200px' onClick={handleProductCart} disabled={!isLogIn}>
+          <SBtn width='200px' onClick={openCartModal} disabled={!isLogIn}>
             장바구니
           </SBtn>
         </BtnWrap>
       </ProductRightContainer>
+      {
+        isCartModalOpen && 
+          <Modal 
+            closeModal={closeCartModal}
+            onClick={handleProductCart}
+          >
+            장바구니에 상품을 담았습니다.<br/>
+            장바구니로 이동하시겠습니까?
+          </Modal>
+      }
+      { 
+        isLoginModalOpen && 
+          <Modal
+            closeModal={closeLoginModal}
+            onClick={handleLogin}
+          >
+            로그인이 필요한 서비스입니다.
+            <br />
+            로그인 하시겠습니까?
+          </Modal>
+      }
+      { 
+        isExistModalOpen && 
+          <Modal
+            closeModal={closeExistModal}
+            onClick={handleCart}
+          >
+            이미 장바구니에 있는 상품입니다.
+            <br />
+            장바구니로 이동하시겠습니까?
+          </Modal>
+      }
     </ProductInfoWrap>
   )
 }

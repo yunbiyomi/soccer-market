@@ -10,6 +10,7 @@ import { removeCookie } from '../../../hooks/Cookies'
 import { logout } from '../../../features/user/authActions'
 import axios from '../../../api/axios'
 import Button from '../Button/Button'
+import Modal from '../Modal/Modal'
 
 const Category = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,10 @@ const Category = () => {
   const memberType = useSelector(state => state.auth.memberType);
   const [isOpen, setIsOpen] = useState(false);
   const dropDownRef = useRef();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleLogOut = async () => {
     try {
@@ -25,7 +30,7 @@ const Category = () => {
       console.log(response);
       removeCookie('token', { path: "/"});
       dispatch(logout());
-      alert(response.data.detail);
+      // alert(response.data.detail);
       navigate('/');
       window.location.reload();
     } catch (error) {
@@ -63,7 +68,7 @@ const Category = () => {
               { isOpen && (
                 <DropdownBox>
                   <MenuItem to={"/mypage"}>마이페이지</MenuItem>
-                  <MenuItem onClick={handleLogOut}>로그아웃</MenuItem>
+                  <MenuItem onClick={openModal}>로그아웃</MenuItem>
                 </DropdownBox>
               )}
             </SCategoryBtn>
@@ -76,7 +81,7 @@ const Category = () => {
               { isOpen && (
                 <DropdownBox>
                   <MenuItem to={"/mypage"}>마이페이지</MenuItem>
-                  <MenuItem onClick={handleLogOut}>로그아웃</MenuItem>
+                  <MenuItem onClick={openModal}>로그아웃</MenuItem>
                 </DropdownBox>
               )}
             </SCategoryBtn>
@@ -89,6 +94,15 @@ const Category = () => {
           <CategoryName>로그인</CategoryName>
         </SCategory>
       )
+      }
+      {
+        isModalOpen && 
+          <Modal 
+            closeModal={closeModal}
+            onClick={handleLogOut}
+          >
+            정말로 로그아웃 하시겠습니까?
+          </Modal>
       }
     </CategoryWrap>
   )

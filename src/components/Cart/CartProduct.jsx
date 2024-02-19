@@ -7,6 +7,7 @@ import Button from '../common/Button/Button'
 import CircleCheckBox from '../common/Input/CircleCheckBox'
 import CartProductInfo from './CartProductInfo'
 import useCommaFormat from '../../hooks/useCommaFormat'
+import Modal from '../common/Modal/Modal'
 
 const CartProduct = ({ cartProducts, product, putProductInfo }) => {
   const productId = product.product_id;
@@ -15,6 +16,10 @@ const CartProduct = ({ cartProducts, product, putProductInfo }) => {
   const totalFee = useCommaFormat(cartProduct.price * totalNum);
   const [load, setLoad] = useState(false);
   const [isCheck, setIsCheck] = useState(product.is_active);
+  const [isDelModalOpen, setIsDelModalOpen] = useState(false);
+
+  const openDelModal = () => setIsDelModalOpen(true);
+  const closeDelModal = () => setIsDelModalOpen(false);
 
   // 상품 상세 정보 가져오기
   const getCartProducts = async () => {
@@ -31,7 +36,8 @@ const CartProduct = ({ cartProducts, product, putProductInfo }) => {
   const deleteProduct = async () => {
     try {
       const response = await axios.delete(`cart/${product.cart_item_id}`);
-      alert('상품이 삭제되었습니다.');
+      closeDelModal();
+      // alert('상품이 삭제되었습니다.');
       window.location.reload();
     } catch (error) {
       console.error('장바구니 상품 삭제 실패', error.response.data);
@@ -88,8 +94,17 @@ const CartProduct = ({ cartProducts, product, putProductInfo }) => {
                 </Button>
             </ProductTotalMoneyWrap>
             <ProductDeleteBtn
-              onClick={deleteProduct}
+              onClick={openDelModal}
             />
+            {
+              isDelModalOpen && 
+                <Modal 
+                  closeModal={closeDelModal}
+                  onClick={deleteProduct}
+                >
+                  상품을 삭제하시겠습니까?
+                </Modal>
+            }
           </CartProductContainer>
         ) : <p>로딩중</p>
     }

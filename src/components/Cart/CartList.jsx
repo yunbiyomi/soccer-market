@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../common/Button/Button';
 import { reset } from '../../features/price/totalPriceActions';
 import { setCookie } from '../../hooks/Cookies';
+import Modal from '../common/Modal/Modal';
 
 const CartList = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -17,6 +18,10 @@ const CartList = () => {
   const totalShippingFee = useSelector(state => state.price.totalShippingFee); 
   const [isAllCheck, setIsAllCheck] = useState(true);
   const [clickAllCheck, setClickAllCheck] = useState(true);
+  const [isDelAllModalOpen, setIsDelAllModalOpen] = useState(false);
+
+  const openDelAllModal = () => setIsDelAllModalOpen(true);
+  const closeDelAllModal = () => setIsDelAllModalOpen(false);
   
   // 사용자의 장바구니에 있는 상품들 가져오기
   const getCartItem = async () => {
@@ -33,8 +38,9 @@ const CartList = () => {
   const deleteAllProduct = async () => {
     try {
       const response = await axios.delete(`cart/`);
+      closeDelAllModal();
       dispatch(reset());
-      alert('장바구니의 모든 상품이 삭제되었습니다.');
+      // alert('장바구니의 모든 상품이 삭제되었습니다.');
       window.location.reload();
     } catch (error) {
       console.error('장바구니 상품 전체 삭제 실패', error.response.data);
@@ -109,10 +115,19 @@ const CartList = () => {
                 putProductInfo={putProductInfo}
               />
               <AllDeleteBtn 
-                onClick={deleteAllProduct}
+                onClick={openDelAllModal}
               >
                 전체 삭제
               </AllDeleteBtn>
+              {
+                isDelAllModalOpen && 
+                  <Modal 
+                    closeModal={closeDelAllModal}
+                    onClick={deleteAllProduct}
+                  >
+                    상품 전체를 삭제하시겠습니까?
+                  </Modal>
+              }
             </React.Fragment>
         )))
         }

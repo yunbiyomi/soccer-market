@@ -61,7 +61,7 @@ const DeleteBtn = styled.button`
 `;
 
 const ModalContent = styled.p`
-  font-size: 18px;
+  font-size: 16px;
 `;
 
 const BtnWrap = styled.div`
