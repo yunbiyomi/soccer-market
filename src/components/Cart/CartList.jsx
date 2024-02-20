@@ -112,6 +112,7 @@ const CartList = () => {
               <CartProduct 
                 product={product}
                 putProductInfo={putProductInfo}
+                isAllCheck={isAllCheck}
               />
               <AllDeleteBtn 
                 onClick={openDelAllModal}

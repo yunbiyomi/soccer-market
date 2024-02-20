@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import ProductDeliverWay from '../Product/ProductDeliverWay';
 import useCommaFormat from '../../hooks/useCommaFormat';
 import { useDispatch, useSelector } from 'react-redux';
-import { minus, plus } from '../../features/price/totalPriceActions';
+import { minus, plus, reset } from '../../features/price/totalPriceActions';
 import { setCookie } from '../../hooks/Cookies';
 
-const CartProductInfo = ({ product, isCheck, quantity, totalNum }) => {
+const CartProductInfo = ({ product, isCheck, quantity, totalNum, isAllCheck }) => {
   const productPrice = useCommaFormat(product.price);
   const dispatch = useDispatch();
   const totalProductFee = useSelector(state => state.price.totalProductFee);
@@ -18,7 +18,11 @@ const CartProductInfo = ({ product, isCheck, quantity, totalNum }) => {
     if (isCheck) {
       dispatch(plus(product.price * quantity, product.shipping_fee));
     } else {
-      dispatch(minus(product.price * quantity, product.shipping_fee));
+      if(isAllCheck === false) {
+        dispatch(reset());
+      } else {
+        dispatch(minus(product.price * quantity, product.shipping_fee));
+      }
     }
   }
 
