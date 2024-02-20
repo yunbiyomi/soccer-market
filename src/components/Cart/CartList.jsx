@@ -10,10 +10,12 @@ import Button from '../common/Button/Button';
 import { reset } from '../../features/price/totalPriceActions';
 import { setCookie } from '../../hooks/Cookies';
 import Modal from '../common/Modal/Modal';
+import { useNavigate } from 'react-router-dom';
 
 const CartList = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const totalProductFee = useSelector(state => state.price.totalProductFee);
   const totalShippingFee = useSelector(state => state.price.totalShippingFee); 
   const [isAllCheck, setIsAllCheck] = useState(true);
@@ -98,6 +100,10 @@ const CartList = () => {
     setCookie('totalShippingFee', `${totalShippingFee}`);
   }, [totalProductFee, totalShippingFee]);
 
+  const navigateOrderPage = () => {
+    navigate('/order');
+  }
+
   return (
     <CartListContainer>
       <CartListBar
@@ -125,7 +131,7 @@ const CartList = () => {
                     closeModal={closeDelAllModal}
                     onClick={deleteAllProduct}
                   >
-                    상품 전체를 삭제하시겠습니까?
+                    전체 상품을 삭제하시겠습니까?
                   </Modal>
               }
             </React.Fragment>
@@ -141,6 +147,7 @@ const CartList = () => {
               width='220px' 
               height='68px' 
               margin='40px 0 0 0'
+              onClick={navigateOrderPage}
             >
               주문하기
             </Button>

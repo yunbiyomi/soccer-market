@@ -10,6 +10,7 @@ import { getCookie } from './hooks/Cookies';
 import CartPage from './pages/CartPage';
 import { login } from './features/user/authActions';
 import { declare } from './features/price/totalPriceActions';
+import OrderPage from './pages/OrderPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function App() {
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/detail' element={<ProductDetailPage />} />
         <Route path='/cart' element={<CartPage />} />
+        <Route path='/order' element={<OrderPage />} />
       </Routes>
     </>
   );
