@@ -97,6 +97,7 @@ const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
                 margin='0' 
                 fontSize='16px' 
                 fontWeight='medium'
+                disabled={!isCheck}
                 > 
                   주문하기
                 </Button>
