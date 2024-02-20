@@ -48,10 +48,10 @@ const CartList = () => {
   }
   
   // 수정된 상품 정보 보내기
-  const putProductInfo = async (product, isCheck) => {
+  const putProductInfo = async (product, quantity, isCheck) => {
     const formData = {
       product_id: product.product_id,
-      quantity: product.quantity,
+      quantity: quantity,
       is_active: isCheck
     };
   
@@ -60,7 +60,7 @@ const CartList = () => {
       // 상태를 업데이트하기 전에 API 요청이 완료될 때까지 기다립니다.
       await setCartProducts(prevProducts => prevProducts.map(prevProduct => {
         if (prevProduct.product_id === product.product_id) {
-          return { ...prevProduct, is_active: isCheck };
+          return { ...prevProduct, is_active: isCheck, quantity: quantity };
         }
         return prevProduct;
       }));
@@ -82,7 +82,7 @@ const CartList = () => {
 
     const updatedProducts = await Promise.all(cartProducts.map(async (product) => {
       const isCheck = newIsAllCheck;
-      await putProductInfo(product, isCheck);
+      await putProductInfo(product, product.quantity, isCheck);
       return { ...product, is_active: isCheck };
     }));
 
@@ -110,7 +110,6 @@ const CartList = () => {
           : (cartProducts.map(product => (
             <React.Fragment key={product.product_id}>
               <CartProduct 
-                cartProducts={cartProducts}
                 product={product}
                 putProductInfo={putProductInfo}
               />

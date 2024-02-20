@@ -8,8 +8,11 @@ import CircleCheckBox from '../common/Input/CircleCheckBox'
 import CartProductInfo from './CartProductInfo'
 import useCommaFormat from '../../hooks/useCommaFormat'
 import Modal from '../common/Modal/Modal'
+import { setCookie } from '../../hooks/Cookies'
+import { useDispatch, useSelector } from 'react-redux'
+import { plus } from '../../features/price/totalPriceActions'
 
-const CartProduct = ({ cartProducts, product, putProductInfo }) => {
+const CartProduct = ({ cartProducts, product, putProductInfo,  }) => {
   const productId = product.product_id;
   const [totalNum, setTotalNum] = useState(product.quantity);
   const [cartProduct, setCartProduct] = useState({});
@@ -17,6 +20,9 @@ const CartProduct = ({ cartProducts, product, putProductInfo }) => {
   const [load, setLoad] = useState(false);
   const [isCheck, setIsCheck] = useState(product.is_active);
   const [isDelModalOpen, setIsDelModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const totalProductFee = useSelector(state => state.price.totalProductFee);
+  const totalShippingFee = useSelector(state => state.price.totalShippingFee); 
 
   const openDelModal = () => setIsDelModalOpen(true);
   const closeDelModal = () => setIsDelModalOpen(false);
@@ -49,9 +55,15 @@ const CartProduct = ({ cartProducts, product, putProductInfo }) => {
     setIsCheck(prevIsCheck => !prevIsCheck);
   };
 
+  // 체크 상태 변경시 수정
   useEffect(() => {
-    putProductInfo(product, isCheck);
+    putProductInfo(product, product.quantity, isCheck);
   }, [isCheck])
+
+  // 수량 변경시 수정
+  useEffect(() => {
+    putProductInfo(product, totalNum, isCheck);
+  }, [totalNum])
 
   useEffect(() => {
     getCartProducts();
@@ -73,6 +85,7 @@ const CartProduct = ({ cartProducts, product, putProductInfo }) => {
               product={cartProduct} 
               isCheck={isCheck} 
               quantity={product.quantity}
+              totalNum={totalNum}
             />
             <ProductTotalCount>
               <Counter 
