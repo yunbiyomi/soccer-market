@@ -1,15 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Button from '../common/Button/Button'
 import { useSelector } from 'react-redux';
 import useCommaFormat from '../../hooks/useCommaFormat';
 import agreeCheck from '../../assets/agree-check.svg'
 import agreeCheckFill from '../../assets/agree-check-fill.svg'
+import ZipCodeModal from '../common/Modal/ZipCodeModal';
 
 const OrderInfo = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const totalProductFee = useSelector(state => state.price.totalProductFee);
   const totalShippingFee = useSelector(state => state.price.totalShippingFee); 
   const totalFee = totalProductFee + totalShippingFee;
+  const [isAddress, setIsAddress] = useState("");
+  const [isZoneCode, setIsZoneCode] = useState();
+
+  const openPostCode = () => {
+    setIsPopupOpen(true);
+  }
+
+  const closePostCode = () => {
+    setIsPopupOpen(false);
+  }
+
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+    setIsZoneCode(data.zonecode);
+    setIsAddress(fullAddress);
+    setIsPopupOpen(false);
+  };
 
   return (
     <DeliverContainer>
@@ -52,35 +83,42 @@ const OrderInfo = () => {
           </PhoneInputWrap>
         </InputWrap>
         <InputWrap>
-          <SLabel htmlFor='deliver-adress'>배송주소</SLabel>
+          <SLabel htmlFor='deliver-adress' className='adress'>배송주소</SLabel>
           <AdressWrap>
             <ZipCodeWrap>
               <SLabel htmlFor='zip-code' className='a11y-hidden'>우편번호</SLabel>
-              <SmallInput id='zip-code' type='text' required/>
+              <SmallInput id='zip-code' type='text' placeholder='우편번호'  defaultValue={isZoneCode} required/>
               <Button
                 width='154px'
                 height='40px'
                 margin='0 0 0 10px'
                 fontSize='15px'
                 fontWeight='400'
+                onClick={openPostCode}
               >
                 우편번호 조회
               </Button>
+              {isPopupOpen && (
+                <ZipCodeModal 
+                  onComplete={handleComplete}
+                  closeModal={closePostCode}
+                />
+              )}
             </ZipCodeWrap>
-            <DeliverInput id='deliver-adress' type='text' required />
-            <DeliverInput id='deliver-adress' type='text' required />
+            <DeliverInput id='deliver-adress' type='text' placeholder='주소' defaultValue={isAddress} required />
+            <DeliverInput id='deliver-adress' type='text' placeholder='상세주소' required />
           </AdressWrap>
         </InputWrap>
         <InputWrap>
           <SLabel htmlFor='deliver-msg'>배송 메세지</SLabel>
-          <DeliverInput id='deliver-msg' type='text' required />
+          <DeliverInput id='deliver-msg' type='text' placeholder='예) 배송 전 연락바랍니다.' required />
         </InputWrap>
       </ReceiverWrap>
       <BottomWrap>
         <PaymentMethodWrap>
           <SubTitle>결제수단</SubTitle>
           <RadioWrap>
-            <PaymentInput id='card' type='radio' name='paymennts' checked/>
+            <PaymentInput id='card' type='radio' name='paymennts'/>
             <PaymentLabel htmlFor='card'>신용/체크카드</PaymentLabel>
             <PaymentInput id='bank-transfer' type='radio' name='paymennts' />
             <PaymentLabel htmlFor='bank-transfer'>무통장 입금</PaymentLabel>
@@ -166,6 +204,10 @@ const InputWrap = styled.div`
 const SLabel = styled.label`
   display: inline-block;
   width: 150px;
+
+  &.adress {
+    position: relative;
+  }
 `;
 
 const SInput = styled.input`
