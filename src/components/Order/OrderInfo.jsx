@@ -1,20 +1,83 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import axios from '../../api/axios'
 import Button from '../common/Button/Button'
-import { useSelector } from 'react-redux';
-import useCommaFormat from '../../hooks/useCommaFormat';
+import { useSelector } from 'react-redux'
+import useCommaFormat from '../../hooks/useCommaFormat'
 import agreeCheck from '../../assets/agree-check.svg'
 import agreeCheckFill from '../../assets/agree-check-fill.svg'
-import ZipCodeModal from '../common/Modal/ZipCodeModal';
+import ZipCodeModal from '../common/Modal/ZipCodeModal'
 
-const OrderInfo = () => {
+const OrderInfo = ({ products }) => {
+  const initialOrderState = {
+    receiver: '',
+    receiverPhoneNumber: '',
+    phoneNumberSplit: {
+      start: '',
+      mid: '',
+      end: '',
+    },
+    address: '',
+    detailAddress: '',
+    addressMessage: '',
+    paymentMethod: '',
+  }
+
+  const [orderState, setOrderState] = useState(initialOrderState);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isAddress, setIsAddress] = useState("");
+  const [isZipCode, setIsZipCode] = useState();
+  const [isChecked, setIsChecked] = useState(false);
+  const productIds = products.map(product => product.product_id);
+  const quantities = products.map(product => product.quantity);
+  const orderKind = 'cart_order';
   const totalProductFee = useSelector(state => state.price.totalProductFee);
   const totalShippingFee = useSelector(state => state.price.totalShippingFee); 
   const totalFee = totalProductFee + totalShippingFee;
-  const [isAddress, setIsAddress] = useState("");
-  const [isZoneCode, setIsZoneCode] = useState();
 
+  const handleInptChange = (id) => (e) => {
+    const value = e.currentTarget.value;
+    switch(id){
+      case 'receiver':
+        setOrderState({...orderState, receiver: value});
+        break;
+      case 'detailAddress':
+        setOrderState({...orderState, detailAddress: value});
+        break;
+      case 'addressMessage':
+        setOrderState({...orderState, addressMessage: value});
+        break;
+      default:
+        break;
+    }
+  }
+
+  // 결제 수단 저장
+  const handlePaymentChange = (e) => {
+    const value = e.target.id
+    setOrderState({...orderState, paymentMethod: value})
+  }
+
+  // 휴대폰 번호 저장
+  const handlePhoneChange = (e) => {
+    const { name, value } = e.target;
+    setOrderState(prevState => ({
+      ...prevState,
+      phoneNumberSplit: {
+        ...prevState.phoneNumberSplit,
+        [name]: value
+      }
+    }));
+  };
+
+  useEffect(() => {
+    setOrderState({
+      ...orderState, 
+      receiverPhoneNumber: `${orderState.phoneNumberSplit.start}${orderState.phoneNumberSplit.mid}${orderState.phoneNumberSplit.end}`
+    });
+  }, [orderState.phoneNumberSplit])
+
+  // 우편번호 모달 열고 닫기
   const openPostCode = () => {
     setIsPopupOpen(true);
   }
@@ -23,6 +86,7 @@ const OrderInfo = () => {
     setIsPopupOpen(false);
   }
 
+  // 우편번호, 주소 저장
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let extraAddress = "";
@@ -37,10 +101,52 @@ const OrderInfo = () => {
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
-    setIsZoneCode(data.zonecode);
+    setIsZipCode(data.zonecode);
     setIsAddress(fullAddress);
     setIsPopupOpen(false);
   };
+
+  // 집 주소 전체 저장
+  useEffect(() => {
+    setOrderState({
+      ...orderState,
+      address: `(${isZipCode}) ${isAddress} ${orderState.detailAddress}`
+    });
+  }, [isZipCode, isAddress, orderState.detailAddress])
+
+  const handleIsCheck = () => {
+    setIsChecked(!isChecked);
+  }
+
+  // 버튼 disabled 조건
+  const isValidOrder =
+    orderState.receiver &&
+    orderState.receiverPhoneNumber &&
+    orderState.address &&
+    orderState.addressMessage &&
+    orderState.paymentMethod &&
+    isChecked;
+
+  const putOrder = async () => {
+    const formData = {
+      product_ids: productIds,
+      quantities: quantities,
+      order_kind: orderKind,
+      receiver: orderState.receiver,
+      receiver_phone_number: orderState.receiverPhoneNumber,
+      address: orderState.address,
+      address_message: orderState.addressMessage,
+      payment_method: orderState.paymentMethod,
+      total_price: totalFee
+    };
+  
+    try {
+      const response = await axios.post(`order/`, formData);
+      console.log(response);
+    } catch (error) {
+      console.error('direct_order 실패: ', error);
+    }
+  }
 
   return (
     <DeliverContainer>
@@ -70,16 +176,16 @@ const OrderInfo = () => {
       <SubTitle>배송지 정보</SubTitle>
         <InputWrap>
           <SLabel htmlFor='receiver-name'>수령인</SLabel>
-          <SInput id='receiver-name' type='text' required />
+          <SInput id='receiver-name' type='text' onChange={handleInptChange('receiver')} required />
         </InputWrap>
         <InputWrap>
           <SLabel htmlFor='receiver-phone'>휴대폰</SLabel>
           <PhoneInputWrap>
-            <SmallInput id='receiver-phone' type='tel' required />
+            <SmallInput id='receiver-phone' name='start' type='tel' onChange={handlePhoneChange} required />
             <SLine>-</SLine>
-            <SmallInput id='receiver-phone' type='tel' required />
+            <SmallInput id='receiver-phone' name='mid' type='tel' onChange={handlePhoneChange} required />
             <SLine>-</SLine>
-            <SmallInput id='receiver-phone' type='tel' required />
+            <SmallInput id='receiver-phone' name='end' type='tel' onChange={handlePhoneChange} required />
           </PhoneInputWrap>
         </InputWrap>
         <InputWrap>
@@ -87,7 +193,7 @@ const OrderInfo = () => {
           <AdressWrap>
             <ZipCodeWrap>
               <SLabel htmlFor='zip-code' className='a11y-hidden'>우편번호</SLabel>
-              <SmallInput id='zip-code' type='text' placeholder='우편번호'  defaultValue={isZoneCode} required/>
+              <SmallInput id='zip-code' type='text' placeholder='우편번호'  defaultValue={isZipCode} required/>
               <Button
                 width='154px'
                 height='40px'
@@ -106,28 +212,28 @@ const OrderInfo = () => {
               )}
             </ZipCodeWrap>
             <DeliverInput id='deliver-adress' type='text' placeholder='주소' defaultValue={isAddress} required />
-            <DeliverInput id='deliver-adress' type='text' placeholder='상세주소' required />
+            <DeliverInput id='deliver-adress' type='text' placeholder='상세주소' onChange={handleInptChange('detailAddress')} required />
           </AdressWrap>
         </InputWrap>
         <InputWrap>
           <SLabel htmlFor='deliver-msg'>배송 메세지</SLabel>
-          <DeliverInput id='deliver-msg' type='text' placeholder='예) 배송 전 연락바랍니다.' required />
+          <DeliverInput id='deliver-msg' type='text' onChange={handleInptChange('addressMessage')} placeholder='예) 배송 전 연락바랍니다.' required />
         </InputWrap>
       </ReceiverWrap>
       <BottomWrap>
         <PaymentMethodWrap>
           <SubTitle>결제수단</SubTitle>
           <RadioWrap>
-            <PaymentInput id='card' type='radio' name='paymennts'/>
-            <PaymentLabel htmlFor='card'>신용/체크카드</PaymentLabel>
-            <PaymentInput id='bank-transfer' type='radio' name='paymennts' />
-            <PaymentLabel htmlFor='bank-transfer'>무통장 입금</PaymentLabel>
-            <PaymentInput id='phone-payment' type='radio' name='paymennts' />
-            <PaymentLabel htmlFor='phone-payment'>휴대폰 결제</PaymentLabel>
-            <PaymentInput id='naver-pay' type='radio' name='paymennts' />
-            <PaymentLabel htmlFor='naver-pay'>네이버페이</PaymentLabel>
-            <PaymentInput id='kakao-pay' type='radio' name='paymennts' />
-            <PaymentLabel htmlFor='kakao-pay'>카카오페이</PaymentLabel>
+            <PaymentInput id='CARD' type='radio' name='paymennts' onChange={handlePaymentChange} />
+            <PaymentLabel htmlFor='CARD'>신용/체크카드</PaymentLabel>
+            <PaymentInput id='DEPOSIT' type='radio' name='paymennts' onChange={handlePaymentChange} />
+            <PaymentLabel htmlFor='DEPOSIT'>무통장 입금</PaymentLabel>
+            <PaymentInput id='PHONE_PAYMENT' type='radio' name='paymennts' onChange={handlePaymentChange} />
+            <PaymentLabel htmlFor='PHONE_PAYMENT'>휴대폰 결제</PaymentLabel>
+            <PaymentInput id='NAVERPAY' type='radio' name='paymennts' onChange={handlePaymentChange} />
+            <PaymentLabel htmlFor='NAVERPAY'>네이버페이</PaymentLabel>
+            <PaymentInput id='KAKAOPAY' type='radio' name='paymennts' onChange={handlePaymentChange} />
+            <PaymentLabel htmlFor='KAKAOPAY'>카카오페이</PaymentLabel>
           </RadioWrap>
         </PaymentMethodWrap>
         <FinalPaymentWrap>
@@ -153,12 +259,12 @@ const OrderInfo = () => {
             </FinalPriceBox>
             <FinalCheckBox>
               <AgreeBox>
-                <CheckInput id='payment-agree' type='checkbox' />
+                <CheckInput id='payment-agree' type='checkbox' checked={isChecked} onChange={handleIsCheck}/>
                 <label htmlFor='payment-agree'>
                   주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.
                 </label>
               </AgreeBox>
-              <Button width='220px' height='68px' fontSize='24px' margin='30px 0 0 0 ' disabled>결제하기</Button>
+              <Button width='220px' height='68px' fontSize='24px' margin='30px 0 0 0 ' disabled={!isValidOrder} onClick={putOrder}>결제하기</Button>
             </FinalCheckBox>
           </FinalPaymentBox>
         </FinalPaymentWrap>

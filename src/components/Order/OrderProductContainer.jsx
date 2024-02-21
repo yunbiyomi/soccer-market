@@ -1,42 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components';
-import axios from '../../api/axios'
 import OrderListBar from './OrderListBar';
 import OrderProduct from './OrderProduct';
 import { useSelector } from 'react-redux';
 import useCommaFormat from '../../hooks/useCommaFormat';
 
-const OrderProductContainer = () => {
-  const [orderProducts, setOrderProducts] = useState([]);
+const OrderProductContainer = ({ products }) => {
   const totalProductFee = useSelector(state => state.price.totalProductFee);
   const totalShippingFee = useSelector(state => state.price.totalShippingFee);
   const totalFee = useCommaFormat(totalProductFee + totalShippingFee);
-
-  // is_active인 상품만 가져오기
-  const getOrderItem = async () => {
-    try {
-      const response = await axios.get(`cart/`);
-      const isActiveProducts = response.data.results.filter(product => product.is_active);
-      setOrderProducts(isActiveProducts);
-    } catch (error) {
-      console.error('주문할 상품 목록 가져오기 실패', error.response.data);
-    }
-  }
-
-  useEffect(() => {
-    getOrderItem();
-  }, [])
-
-  useEffect(() => {
-    console.log(orderProducts);
-  }, [orderProducts]);
 
   return (
     <SOrderProductContainer>
       <OrderListBar />
       <OrderProductWrap>
         {
-          orderProducts.map(product => 
+          products.map(product => 
             <OrderProduct 
               key={product.product_id}
               product={product}

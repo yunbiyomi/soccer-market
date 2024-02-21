@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import OrderProductInfo from './OrderProductInfo'
 import axios from '../../api/axios'
-import ProductDeliverWay from '../Product/ProductDeliverWay'
 import useCommaFormat from '../../hooks/useCommaFormat'
 
 const OrderProduct = ({ product }) => {
@@ -24,10 +23,6 @@ const OrderProduct = ({ product }) => {
   useEffect(() => {
     getDetailOrderProduct();
   }, [])
-
-  useEffect(() => {
-    console.log('detail', detailProduct);
-  }, [detailProduct])
 
   return (
     <SOrderProductContainer>
