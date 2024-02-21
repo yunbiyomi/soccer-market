@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components';
 import OrderProductContainer from './OrderProductContainer';
+import OrderInfo from './OrderInfo';
 
 const Order = () => {
   return (
     <SOrderContainer>
       <OrderTitle>주문/결제하기</OrderTitle>
       <OrderProductContainer />
+      <OrderInfo />
     </SOrderContainer>
   )
 }

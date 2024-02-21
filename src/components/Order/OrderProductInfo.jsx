@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import useCommaFormat from '../../hooks/useCommaFormat'
 
 const OrderProductInfo = ({ product, detailProduct }) => {
-  const productPrice = useCommaFormat(detailProduct.price)
+  const price = useCommaFormat(detailProduct.price);
 
   return (
     <SOrderProductContainer>
@@ -13,6 +13,7 @@ const OrderProductInfo = ({ product, detailProduct }) => {
       <SInfoWrap>
         <SStoreName>{detailProduct.store_name}</SStoreName>
         <SProductName>{detailProduct.product_name}</SProductName>
+        <SProductPrice>{price}원</SProductPrice>
         <SQuantity>수량: {product.quantity}개</SQuantity>
       </SInfoWrap>
     </SOrderProductContainer>
@@ -43,12 +44,18 @@ const SInfoWrap = styled.div`
 const SStoreName = styled.p`
   font-size: 14px;
   color: var(--light-font);
-  margin-bottom: 10px;
+  margin-bottom: 3px;
 `;
 
 const SProductName = styled.p`
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+`;
+
+const SProductPrice = styled.p`
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: bold;
 `;
 
 const SQuantity = styled.p`

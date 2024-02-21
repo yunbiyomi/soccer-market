@@ -62,5 +62,6 @@ const SContent = styled.p`
 `;
 
 const SPrice = styled(SContent)`
-  color: black;
+  color: var(--green);
+  font-weight: bold;
 `;

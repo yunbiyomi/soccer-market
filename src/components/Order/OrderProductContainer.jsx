@@ -12,7 +12,6 @@ const OrderProductContainer = () => {
   const totalShippingFee = useSelector(state => state.price.totalShippingFee);
   const totalFee = useCommaFormat(totalProductFee + totalShippingFee);
 
-
   // is_active인 상품만 가져오기
   const getOrderItem = async () => {
     try {
@@ -62,7 +61,7 @@ const SOrderProductContainer = styled.div`
   flex-direction: column;
 `;
 
-const OrderProductWrap = styled.div`
+const OrderProductWrap = styled.ul`
   width: 100%;
 `;
 
@@ -71,7 +70,7 @@ const TotalBox = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
-  margin-top: 35px;
+  margin: 35px 0 100px 0;
   font-size: 18px;
 `;
 
@@ -79,5 +78,5 @@ const STotalFee = styled.span`
   margin-left: 9px;
   font-size: 24px;
   font-weight: bold;
-  color: var(--green);
+  color: var(--point-color);
 `;
