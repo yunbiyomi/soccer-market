@@ -7,6 +7,8 @@ import useCommaFormat from '../../hooks/useCommaFormat'
 import agreeCheck from '../../assets/agree-check.svg'
 import agreeCheckFill from '../../assets/agree-check-fill.svg'
 import ZipCodeModal from '../common/Modal/ZipCodeModal'
+import { getCookie, removeCookie } from '../../hooks/Cookies'
+import { useNavigate } from 'react-router-dom'
 
 const OrderInfo = ({ products }) => {
   const initialOrderState = {
@@ -28,9 +30,10 @@ const OrderInfo = ({ products }) => {
   const [isAddress, setIsAddress] = useState("");
   const [isZipCode, setIsZipCode] = useState();
   const [isChecked, setIsChecked] = useState(false);
-  const productIds = products.map(product => product.product_id);
-  const quantities = products.map(product => product.quantity);
-  const orderKind = 'cart_order';
+  const navigate = useNavigate();
+  const productId = products.length > 0 ? products[0].product_id : 0;
+  const quantity = products.length > 0 ? products[0].quantity : 0;
+  const orderKind = getCookie('orderKind');
   const totalProductFee = useSelector(state => state.price.totalProductFee);
   const totalShippingFee = useSelector(state => state.price.totalShippingFee); 
   const totalFee = totalProductFee + totalShippingFee;
@@ -128,9 +131,16 @@ const OrderInfo = ({ products }) => {
     isChecked;
 
   const putOrder = async () => {
-    const formData = {
-      product_ids: productIds,
-      quantities: quantities,
+    const formData = {};
+
+    if (orderKind !== 'cart_order') {
+      Object.assign(formData, {
+        product_id: productId,
+        quantity: quantity,
+      });
+    }
+
+    Object.assign(formData, {
       order_kind: orderKind,
       receiver: orderState.receiver,
       receiver_phone_number: orderState.receiverPhoneNumber,
@@ -138,11 +148,13 @@ const OrderInfo = ({ products }) => {
       address_message: orderState.addressMessage,
       payment_method: orderState.paymentMethod,
       total_price: totalFee
-    };
+    });
   
     try {
       const response = await axios.post(`order/`, formData);
       console.log(response);
+      removeCookie('orderKind', '');
+      navigate('/');
     } catch (error) {
       console.error('direct_order 실패: ', error);
     }

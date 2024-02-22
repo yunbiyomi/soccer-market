@@ -8,6 +8,8 @@ import CircleCheckBox from '../common/Input/CircleCheckBox'
 import CartProductInfo from './CartProductInfo'
 import useCommaFormat from '../../hooks/useCommaFormat'
 import Modal from '../common/Modal/Modal'
+import { setCookie } from '../../hooks/Cookies'
+import { useNavigate } from 'react-router-dom'
 
 const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
   const productId = product.product_id;
@@ -17,6 +19,7 @@ const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
   const [load, setLoad] = useState(false);
   const [isCheck, setIsCheck] = useState(product.is_active);
   const [isDelModalOpen, setIsDelModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const openDelModal = () => setIsDelModalOpen(true);
   const closeDelModal = () => setIsDelModalOpen(false);
@@ -59,6 +62,12 @@ const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
     putProductInfo(product, totalNum, isCheck);
   }, [totalNum])
 
+  // 장바구니에서 한가지 상품만 주문하기
+  const navigateOrderPage = () => {
+    setCookie('orderKind', 'cart_one_order');
+    navigate('/order');
+  }
+
   useEffect(() => {
     getCartProducts();
   }, []);
@@ -97,6 +106,7 @@ const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
                 margin='0' 
                 fontSize='16px' 
                 fontWeight='medium'
+                onClick={navigateOrderPage}
                 disabled={!isCheck}
                 > 
                   주문하기

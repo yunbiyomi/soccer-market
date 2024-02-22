@@ -91,6 +91,12 @@ const CartList = () => {
     setCartProducts(updatedProducts);
   }
 
+  // 장바구니 전체 상품 주문하기
+  const navigateOrderPage = () => {
+    setCookie('orderKind', 'cart_order');
+    navigate('/order');
+  }
+
   useEffect(() => {
     getCartItem();
   }, [])
@@ -99,10 +105,6 @@ const CartList = () => {
     setCookie('totalProductFee', `${totalProductFee}`);
     setCookie('totalShippingFee', `${totalShippingFee}`);
   }, [totalProductFee, totalShippingFee]);
-
-  const navigateOrderPage = () => {
-    navigate('/order');
-  }
 
   return (
     <CartListContainer>
