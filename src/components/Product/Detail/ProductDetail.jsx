@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import ProductDeliverWay from '../ProductDeliverWay'
 import Modal from '../../common/Modal/Modal'
+import { setCookie } from '../../../hooks/Cookies'
 
 const ProductDetail = ({ product }) => {
   const stoke = product.stock;
@@ -31,8 +32,12 @@ const ProductDetail = ({ product }) => {
 
   // 바로 구매 버튼 누를시
   const handleImmediatelyBuy = () => {
-    if(isLogIn) 
-      navigate('/buy');
+    if(isLogIn) {
+      setCookie('orderKind', 'direct_order');
+      setCookie('quantity', totalNum);
+      setCookie('productId', product.product_id);
+      navigate('/order');
+    }
     else
       openLoginModal();
   }
