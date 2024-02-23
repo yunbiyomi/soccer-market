@@ -15,6 +15,7 @@ export default Button
 const SButton = styled.button`
   width: ${props => props.width || '100%'}; 
   height: ${props => props.height || '100%'};
+  border: ${props => props.border || ''};
   border-radius: 5px;
   background-color: ${props => props.bgColor || 'var(--point-color)'};
   color:${props => props.color || 'white'};
