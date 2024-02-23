@@ -2,8 +2,11 @@ import React from 'react'
 import styled from 'styled-components';
 import ErrorImg from '../assets/icon-404.svg';
 import Button from '../components/common/Button/Button';
+import { useNavigate } from 'react-router-dom';
 
 const NotFoundPage = () => {
+  const navigate = useNavigate();
+
   return (
     <NotFoundContainer>
       <ContentWrap>
@@ -20,6 +23,7 @@ const NotFoundPage = () => {
               width='200px'
               height='60px'
               margin='0'
+              onClick={() => navigate('/')}
             >메인으로</Button>
             <Button
               width='200px'
@@ -28,6 +32,7 @@ const NotFoundPage = () => {
               bgColor='white'
               color='gray'
               border='1px solid var(--gray)'
+              onClick={() => navigate(-1)}
             >이전 페이지</Button>
           </ButtonWrap>
         </SContent>

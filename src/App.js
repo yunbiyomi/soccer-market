@@ -12,6 +12,7 @@ import { login } from './features/user/authActions';
 import { declare } from './features/price/totalPriceActions';
 import OrderPage from './pages/OrderPage';
 import BackToTop from './hooks/BackToTop';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function App() {
           <Route path='/detail' element={<ProductDetailPage />} />
           <Route path='/cart' element={<CartPage />} />
           <Route path='/order' element={<OrderPage />} />
+          <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </BackToTop>
     </>
