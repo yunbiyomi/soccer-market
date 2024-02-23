@@ -8,9 +8,10 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import ProductDeliverWay from '../ProductDeliverWay'
 import Modal from '../../common/Modal/Modal'
-import { setCookie } from '../../../hooks/Cookies'
+import { getCookie, setCookie } from '../../../hooks/Cookies'
 
 const ProductDetail = ({ product }) => {
+  const memberType = getCookie('memberType');
   const stoke = product.stock;
   const productPrice = useCommaFormat(product.price);
   const [totalNum, setTotalNum] = useState(1);
@@ -89,8 +90,17 @@ const ProductDetail = ({ product }) => {
     }
   }
 
+  // memberType이 SELLER인 경우 버튼들 disabled
+  const handleDisabled = () => {
+    if (memberType === 'SELLER') 
+      return true;
+    
+    return false; 
+  };
+
   useEffect(() => {
-    judgeExistProduct();
+    if(memberType === 'BUYER')
+      judgeExistProduct();
   }, []);
   
   return (
@@ -131,10 +141,10 @@ const ProductDetail = ({ product }) => {
           </TotalCountWrap>
         </TotalWrap>
         <BtnWrap>
-          <SBtn width='416px' onClick={handleImmediatelyBuy} disabled={!stoke}>
+          <SBtn width='416px' onClick={handleImmediatelyBuy} disabled={!stoke || handleDisabled()}>
             바로 구매
           </SBtn>
-          <SBtn width='200px' onClick={openCartModal} disabled={!isLogIn}>
+          <SBtn width='200px' onClick={openCartModal} disabled={!isLogIn || handleDisabled()}>
             장바구니
           </SBtn>
         </BtnWrap>

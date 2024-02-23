@@ -28,9 +28,11 @@ const Category = () => {
     try {
       const response = await axios.post(`/accounts/logout/`);
       console.log(response);
+      removeCookie('memberType');
+      removeCookie('totalShippingFee');
+      removeCookie('totalProductFee');
       removeCookie('token', { path: "/"});
       dispatch(logout());
-      // alert(response.data.detail);
       navigate('/');
       window.location.reload();
     } catch (error) {
