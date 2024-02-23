@@ -3,26 +3,41 @@ import styled from 'styled-components'
 import OrderProductInfo from './OrderProductInfo'
 import axios from '../../api/axios'
 import useCommaFormat from '../../hooks/useCommaFormat'
+import { getCookie } from '../../hooks/Cookies'
 
-const OrderProduct = ({ product }) => {
+const OrderProduct = ({ product, productFee }) => {
   const productId = product.product_id;
   const [detailProduct, setDetailProduct] = useState([]);
   const shippingFee = useCommaFormat(detailProduct.shipping_fee);
-  const productTotalFee = useCommaFormat(product.quantity * detailProduct.price);
+  const orderKind = getCookie('orderKind');
+  const productInfo = getCookie('product');
+  const productTotalFee = orderKind === 'cart_order' ? product.quantity * detailProduct.price : productFee;
 
   // 주문 상품 상세 정보 가져오기
   const getDetailOrderProduct = async () => {
-    try {
-      const response = await axios.get(`products/${productId}`);
-      setDetailProduct(response.data);
-    } catch (error) {
-      console.error('주문 상품 상세 정보 가져오기 실패', error.response.data);
+    if(orderKind === 'cart_order'){
+      try {
+        const response = await axios.get(`products/${productId}`);
+        setDetailProduct(response.data);
+      } catch (error) {
+        console.error('주문 상품 상세 정보 가져오기 실패', error.response.data);
+      }
+    } else {
+      setDetailProduct(product);
     }
   }
 
   useEffect(() => {
     getDetailOrderProduct();
   }, [])
+
+  useEffect(() => {
+    console.log(productInfo);
+  }, [productInfo])
+
+  useEffect(() => {
+    console.log(detailProduct);
+  }, [detailProduct])
 
   return (
     <SOrderProductContainer>
@@ -32,7 +47,7 @@ const OrderProduct = ({ product }) => {
       />
       <SContent>-</SContent>
       <SContent>{shippingFee=== '0' ? '무료배송' : `${shippingFee}원`}</SContent>
-      <SPrice>{productTotalFee}원</SPrice>
+      <SPrice>{useCommaFormat(productTotalFee)}원</SPrice>
     </SOrderProductContainer>
   )
 }

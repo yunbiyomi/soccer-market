@@ -4,10 +4,15 @@ import OrderListBar from './OrderListBar';
 import OrderProduct from './OrderProduct';
 import { useSelector } from 'react-redux';
 import useCommaFormat from '../../hooks/useCommaFormat';
+import { getCookie } from '../../hooks/Cookies';
 
 const OrderProductContainer = ({ products }) => {
-  const totalProductFee = useSelector(state => state.price.totalProductFee);
-  const totalShippingFee = useSelector(state => state.price.totalShippingFee);
+  const orderKind = getCookie('orderKind');
+  const cookieQuantity = getCookie('quantity');
+  const cookieTotalProductFee = useSelector(state => state.price.totalProductFee);
+  const cookieTotalShippingFee = useSelector(state => state.price.totalShippingFee);
+  const totalProductFee = orderKind === 'cart_order' ? cookieTotalProductFee : products.price * cookieQuantity;
+  const totalShippingFee = orderKind === 'cart_order' ? cookieTotalShippingFee : products.shipping_fee;
   const totalFee = useCommaFormat(totalProductFee + totalShippingFee);
 
   return (
@@ -15,10 +20,18 @@ const OrderProductContainer = ({ products }) => {
       <OrderListBar />
       <OrderProductWrap>
         {
-          products.map(product => 
+          Array.isArray(products) ? (
+            products.map(product => 
+              <OrderProduct 
+                key={product.product_id}
+                product={product}
+              />
+            )
+          ) : (
             <OrderProduct 
-              key={product.product_id}
-              product={product}
+              key={products.product_id}
+              product={products}
+              productFee={totalProductFee}
             />
           )
         }

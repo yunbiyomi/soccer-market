@@ -31,11 +31,13 @@ const OrderInfo = ({ products }) => {
   const [isZipCode, setIsZipCode] = useState();
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
-  const productId = products.length > 0 ? products[0].product_id : 0;
-  const quantity = products.length > 0 ? products[0].quantity : 0;
   const orderKind = getCookie('orderKind');
-  const totalProductFee = useSelector(state => state.price.totalProductFee);
-  const totalShippingFee = useSelector(state => state.price.totalShippingFee); 
+  const cookieQuantity = getCookie('quantity');
+  const cookieProductID = getCookie('productId');
+  const cookieTotalProductFee = useSelector(state => state.price.totalProductFee);
+  const cookieTotalShippingFee = useSelector(state => state.price.totalShippingFee);
+  const totalProductFee = orderKind === 'cart_order' ? cookieTotalProductFee : products.price * cookieQuantity ;
+  const totalShippingFee = orderKind === 'cart_order' ? cookieTotalShippingFee : products.shipping_fee;
   const totalFee = totalProductFee + totalShippingFee;
 
   const handleInptChange = (id) => (e) => {
@@ -117,6 +119,7 @@ const OrderInfo = ({ products }) => {
     });
   }, [isZipCode, isAddress, orderState.detailAddress])
 
+  // 동의 유무
   const handleIsCheck = () => {
     setIsChecked(!isChecked);
   }
@@ -130,13 +133,14 @@ const OrderInfo = ({ products }) => {
     orderState.paymentMethod &&
     isChecked;
 
+  // 주문하기
   const putOrder = async () => {
     const formData = {};
 
     if (orderKind !== 'cart_order') {
       Object.assign(formData, {
-        product_id: productId,
-        quantity: quantity,
+        product_id: cookieProductID,
+        quantity: cookieQuantity,
       });
     }
 
@@ -154,6 +158,8 @@ const OrderInfo = ({ products }) => {
       const response = await axios.post(`order/`, formData);
       console.log(response);
       removeCookie('orderKind', '');
+      removeCookie('productId', '');
+      removeCookie('quantity', '');
       navigate('/');
     } catch (error) {
       console.error('direct_order 실패: ', error);

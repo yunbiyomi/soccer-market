@@ -65,6 +65,8 @@ const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
   // 장바구니에서 한가지 상품만 주문하기
   const navigateOrderPage = () => {
     setCookie('orderKind', 'cart_one_order');
+    setCookie('productId', product.product_id);
+    setCookie('quantity', totalNum);
     navigate('/order');
   }
 
