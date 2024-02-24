@@ -1,18 +1,20 @@
 import { Route, Routes } from 'react-router-dom'
 import GlobalStyles from './styles/GlobalStyles'
-import MainPage from './pages/MainPage';
-import LogInPage from './pages/LogInPage';
-import SignUpPage from './pages/SignUpPage';
-import ProductDetailPage from './pages/ProductDetailPage';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { getCookie } from './hooks/Cookies';
-import CartPage from './pages/CartPage';
-import { login } from './features/user/authActions';
-import { declare } from './features/price/totalPriceActions';
-import OrderPage from './pages/OrderPage';
-import BackToTop from './hooks/BackToTop';
-import NotFoundPage from './pages/NotFoundPage';
+import MainPage from './pages/MainPage'
+import LogInPage from './pages/LogInPage'
+import SignUpPage from './pages/SignUpPage'
+import ProductDetailPage from './pages/ProductDetailPage'
+import CartPage from './pages/CartPage'
+import OrderPage from './pages/OrderPage'
+import BackToTop from './hooks/BackToTop'
+import NotFoundPage from './pages/NotFoundPage'
+import SellerCenterPage from './pages/SellerCenterPage'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { getCookie } from './hooks/Cookies'
+import { login } from './features/user/authActions'
+import { declare } from './features/price/totalPriceActions'
+
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +43,7 @@ function App() {
           <Route path='/detail' element={<ProductDetailPage />} />
           <Route path='/cart' element={<CartPage />} />
           <Route path='/order' element={<OrderPage />} />
+          <Route path='/sellercenter' element={<SellerCenterPage />} />
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </BackToTop>

@@ -44,11 +44,15 @@ const Category = () => {
     setIsOpen(!isOpen);
   }
 
+  // 토글 박스 영역 밖 선택시 닫힘
   useEffect(() => {
     const outSideClick = (e) => {
       const { target } = e;
 
-      if(isOpen && dropDownRef.current && !dropDownRef.current.contains(target))
+      if(isOpen && 
+        dropDownRef.current && 
+        !dropDownRef.current.contains(target)
+      )
         setIsOpen(false);
     }
 
@@ -60,40 +64,91 @@ const Category = () => {
       { isLogIn ? (
         memberType === 'BUYER' ? (
           <>
-            <SCategory to="/cart">
-              <CategoryIcon src={CartIcon} alt='Cart' />
-              <CategoryName>장바구니</CategoryName>
+            <SCategory 
+              to="/cart"
+            >
+              <CategoryIcon 
+                src={CartIcon} 
+                alt='Cart'
+              />
+              <CategoryName>
+                장바구니
+              </CategoryName>
             </SCategory>
-            <SCategoryBtn onClick={toggleDropdown}>
-              <CategoryUserIcon src={UserIcon} alt='Login' />
-              <CategoryName>마이페이지</CategoryName>
+            <SCategoryBtn 
+              onClick={toggleDropdown}
+            >
+              <CategoryUserIcon 
+                src={UserIcon} 
+                alt='Login' 
+              />
+              <CategoryName>
+                마이페이지
+              </CategoryName>
               { isOpen && (
                 <DropdownBox>
-                  <MenuItem to={"/mypage"}>마이페이지</MenuItem>
-                  <MenuItem onClick={openModal}>로그아웃</MenuItem>
+                  <MenuItem 
+                    to={"/mypage"}
+                  >
+                    마이페이지
+                  </MenuItem>
+                  <MenuItem 
+                    onClick={openModal}
+                  >
+                    로그아웃
+                  </MenuItem>
                 </DropdownBox>
               )}
             </SCategoryBtn>
           </>
         ) : (
           <SellerBtnWrap>
-            <SCategoryBtn onClick={toggleDropdown}>
-              <CategoryUserIcon src={UserIcon} alt='Login' />
-              <CategoryName>마이페이지</CategoryName>
+            <SCategoryBtn 
+              onClick={toggleDropdown}
+            >
+              <CategoryUserIcon 
+                src={UserIcon} 
+                alt='Login' 
+              />
+              <CategoryName>
+                마이페이지
+              </CategoryName>
               { isOpen && (
                 <DropdownBox>
-                  <MenuItem to={"/mypage"}>마이페이지</MenuItem>
-                  <MenuItem onClick={openModal}>로그아웃</MenuItem>
+                  <MenuItem 
+                    to={"/mypage"}
+                  >
+                    마이페이지
+                  </MenuItem>
+                  <MenuItem 
+                    onClick={openModal}
+                  >
+                    로그아웃
+                  </MenuItem>
                 </DropdownBox>
               )}
             </SCategoryBtn>
-            <Button width='160px' height='54px' margin='0 0 0 30px'>판매자 센터</Button>
+            <Button 
+              width='160px' 
+              height='54px' 
+              margin='0 0 0 30px' 
+              onClick={() => navigate('/sellercenter')}
+            >
+              판매자 센터
+            </Button>
           </SellerBtnWrap>
         )
       ) : (
-        <SCategory to="/login">
-          <CategoryUserIcon src={UserIcon} alt='Login' />
-          <CategoryName>로그인</CategoryName>
+        <SCategory 
+          to="/login"
+        >
+          <CategoryUserIcon 
+            src={UserIcon} 
+            alt='Login' 
+          />
+          <CategoryName>
+            로그인
+          </CategoryName>
         </SCategory>
       )
       }
