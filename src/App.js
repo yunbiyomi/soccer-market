@@ -9,12 +9,12 @@ import OrderPage from './pages/OrderPage'
 import BackToTop from './hooks/BackToTop'
 import NotFoundPage from './pages/NotFoundPage'
 import SellerCenterPage from './pages/SellerCenterPage'
+import ProductUploadPage from './pages/ProductUploadPage'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { getCookie } from './hooks/Cookies'
 import { login } from './features/user/authActions'
 import { declare } from './features/price/totalPriceActions'
-
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +44,7 @@ function App() {
           <Route path='/cart' element={<CartPage />} />
           <Route path='/order' element={<OrderPage />} />
           <Route path='/sellercenter' element={<SellerCenterPage />} />
+          <Route path='/productupload' element={<ProductUploadPage />} />
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </BackToTop>

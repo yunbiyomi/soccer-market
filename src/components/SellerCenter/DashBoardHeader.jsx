@@ -2,8 +2,11 @@ import React from 'react'
 import styled from 'styled-components';
 import Button from '../common/Button/Button'
 import PlusIcon from '../../assets/icon-plus.svg'
+import { useNavigate } from 'react-router-dom';
 
 const DashBoardHeader = () => {
+  const navigate = useNavigate();
+
   return (
     <SDashBoardHeader>
       <TitleWrap>
@@ -14,7 +17,9 @@ const DashBoardHeader = () => {
           Tottenham
         </StoreName>
       </TitleWrap>
-      <SButton>
+      <SButton
+        onClick={() => navigate('/productupload')}
+      >
         <SPlusIcon 
           src={PlusIcon}
           alt='Plus Icon'
@@ -27,7 +32,7 @@ const DashBoardHeader = () => {
 
 export default DashBoardHeader
 
-const SDashBoardHeader = styled.div`
+const SDashBoardHeader = styled.header`
   width: 1280px;
   display: flex;
   justify-content: space-between;
@@ -54,7 +59,7 @@ const SPlusIcon = styled.img`
   width: 32px;
   height: 32px;
   object-fit: cover;
-  margin-right: 10 px;
+  margin-right: 7px;
 `;
 
 const SButton = styled(Button)`
