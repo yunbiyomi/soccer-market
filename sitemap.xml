@@ -8,4 +8,13 @@
   <url>
     <loc>https://soccer-market.vercel.app/</loc>
   </url>
+  <url>
+    <loc>https://soccer-market.vercel.app/login</loc>
+  </url>
+  <url>
+    <loc>https://soccer-market.vercel.app/signup</loc>
+  </url>
+  <url>
+    <loc>https://soccer-market.vercel.app/detail</loc>
+  </url>
 </urlset>
