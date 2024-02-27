@@ -10,7 +10,10 @@ const NotFoundPage = () => {
   return (
     <NotFoundContainer>
       <ContentWrap>
-        <SErrorImg src={ErrorImg} />
+        <SErrorImg 
+          src={ErrorImg} 
+          alt='Error Image'
+        />
         <SContent>
           <STitle>페이지를 찾을 수 없습니다.</STitle>
           <SExplanation>

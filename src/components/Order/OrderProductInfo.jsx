@@ -13,6 +13,7 @@ const OrderProductInfo = ({ product, detailProduct }) => {
     <SOrderProductContainer>
       <OrderProductImg 
         src={detailProduct.image}
+        alt={detailProduct.product_name}
       />
       <SInfoWrap>
         <SStoreName>{detailProduct.store_name}</SStoreName>

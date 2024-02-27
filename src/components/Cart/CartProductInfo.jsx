@@ -52,6 +52,7 @@ const CartProductInfo = ({ product, isCheck, quantity, totalNum, isAllCheck }) =
     <ProductInfoContainer>
       <SProductImg 
         src={product.image}
+        alt={product.product_name}
       />
       <ProductInfoWrap>
         <SStoreName>{product.store_name}</SStoreName>

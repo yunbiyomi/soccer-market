@@ -9,7 +9,10 @@ const Product = ({ product }) => {
   return (
     <>
       <SProduct to={`/detail?id=${product.product_id}`}>
-        <ProductImg src={product.image} alt={product.product_name} />
+        <ProductImg 
+          src={product.image} 
+          alt={product.product_name} 
+        />
         <ProductStoreName>
           {product.store_name}
         </ProductStoreName>

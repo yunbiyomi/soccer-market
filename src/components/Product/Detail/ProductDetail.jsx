@@ -105,7 +105,10 @@ const ProductDetail = ({ product }) => {
   
   return (
     <ProductInfoWrap>
-      <ProductImg src={product.image} />
+      <ProductImg 
+        src={product.image} 
+        alt={product.product_name}
+      />
       <ProductRightContainer>
         <ProductStoreName>
           {product.store_name}
