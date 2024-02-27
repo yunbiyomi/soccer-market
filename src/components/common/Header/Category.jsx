@@ -170,6 +170,10 @@ export default Category
 const CategoryWrap = styled.nav`
   display: flex;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    margin-right: 30px;
+  }
 `;
 
 const CategoryIcon = styled.img`

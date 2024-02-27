@@ -7,7 +7,7 @@ const Product = ({ product }) => {
   const productPrice = useCommaFormat(product.price);
   
   return (
-    <>
+    <ProductContainer>
       <SProduct to={`/detail?id=${product.product_id}`}>
         <ProductImg 
           src={product.image} 
@@ -26,11 +26,17 @@ const Product = ({ product }) => {
           원
         </ProductFeeWrap>
       </SProduct>
-    </>
+    </ProductContainer>
   )
 }
 
 export default Product
+
+const ProductContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const SProduct = styled(Link)`
   cursor: pointer;
@@ -43,6 +49,11 @@ const ProductImg = styled.img`
   border: 1px solid var(--gray);
   object-fit: cover;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 300px;
+    height: 300px;
+  }
 `;
 
 const ProductStoreName = styled.p`

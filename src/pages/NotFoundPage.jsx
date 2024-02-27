@@ -57,12 +57,20 @@ const ContentWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const SErrorImg = styled.img`
   width: 276px;
   height: 236px;
   object-fit: cover;
+
+  @media (max-width: 768px) {
+    margin-bottom: 50px;
+  }
 `;
 
 const SContent = styled.div`

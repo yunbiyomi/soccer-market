@@ -31,6 +31,11 @@ const SFooter = styled.footer`
   width: 100%;
   height: 300px;
   background-color: var(--light-gray);
+
+  @media (max-width: 768px) {
+    height: auto;
+    padding: 40px 0;
+  }
 `;
 
 const FooterWrap = styled.div`
@@ -40,13 +45,22 @@ const FooterWrap = styled.div`
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const IconWrap = styled.div`
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin-top: 60px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    margin-top: 20px;
+  }
 `;
 
 const Icon = styled.img`
@@ -54,6 +68,10 @@ const Icon = styled.img`
   height: 32px;
   margin-left: 15px;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    margin-left: 10px;
+  }
 `;
 
 const SLine = styled.div`
@@ -68,6 +86,10 @@ const FooterContent = styled.div`
   font-size: 14px;
   color: var(--light-font);
   line-height: 1.7;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const StoreName = styled.p`

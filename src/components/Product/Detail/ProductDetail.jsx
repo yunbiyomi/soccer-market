@@ -119,6 +119,9 @@ const ProductDetail = ({ product }) => {
         <ProductFee>
           {productPrice} 원
         </ProductFee>
+        <SmallDeliverWay>
+          <ProductDeliverWay shippingMethod={product.shipping_method} shippingFee={product.shipping_fee} textAlign='end' />
+        </SmallDeliverWay>
         <CountWrap>
           <ProductDeliverWay shippingMethod={product.shipping_method} shippingFee={product.shipping_fee} textAlign='end' />
           <SLine />
@@ -194,6 +197,12 @@ const ProductInfoWrap = styled.div`
   width: 1280px;
   margin: 80px 0 180px 0;
   display: flex;
+
+  @media (max-width: 768px) {
+    width: 768px;
+    flex-direction: column;
+    margin: 0;
+  }
 `;
 
 const ProductImg = styled.img`
@@ -201,20 +210,37 @@ const ProductImg = styled.img`
   height: 600px;
   margin-right: 50px;
   object-fit: cover;
+
+  @media (max-width: 768px) {
+    width: 768px;
+    height: 768px;
+    margin: 0;
+  }
 `;
 
 const ProductRightContainer = styled.div`
+  @media (max-width: 768px) {
+    margin: 30px 0 50px 30px;
+  }
 `;
 
 const ProductStoreName = styled.p`
   font-size: 18px;
   color: var(--light-font);
   margin-bottom: 15px;
+
+  @media (max-width: 768px) {
+    font-size: 25px;
+  }
 `;
 
 const ProductName = styled.p`
   font-size: 36px;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 40px;
+  }
 `;
 
 const ProductFee = styled.p`
@@ -222,11 +248,28 @@ const ProductFee = styled.p`
   font-weight: bold;
   margin-bottom: ${({ isTotal }) => (isTotal ? '0' : '100px')};
   color: ${({ isTotal }) => (isTotal ? 'var(--point-color)' : 'black')};
+
+  @media (max-width: 768px) {
+    font-size: 30px;
+    margin-bottom: 30px;
+  }
+`;
+
+const SmallDeliverWay = styled.div`
+  display: none;
+  
+  @media (max-width: 768px) {
+    display: block;
+  }
 `;
 
 const CountWrap = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const SLine = styled.div`
@@ -234,6 +277,10 @@ const SLine = styled.div`
   height: 2px;
   background-color: var(--gray);
   margin: 10px 0;
+
+  @media (max-width: 768px) {
+    width: 768px;
+  }
 `;
 
 const NoStokeMsg = styled.p`
@@ -249,6 +296,10 @@ const TotalWrap = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const TotalContent = styled.p`
@@ -277,6 +328,10 @@ const BtnWrap = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const SBtn = styled(Button)`

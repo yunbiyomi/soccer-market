@@ -42,6 +42,10 @@ const DetailInfoWrap = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    width: 768px;
+  }
 `;
 
 const InfoBarWrap = styled.div`
@@ -64,6 +68,10 @@ const InfoBar = styled.div`
   width: 320px;
   height: 4px;
   background-color: ${({ active }) => active ? 'var(--point-color)' : 'var(--gray)'};
+  
+  @media (max-width: 768px) {
+    width: 192px;
+  }
 `;
 
 const DetailContentWrap = styled.div`

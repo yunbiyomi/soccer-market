@@ -37,16 +37,28 @@ const SHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 768px;
+  }
 `;
 
 const LeftWrap = styled.div`
   display: flex;
   align-items: center;
+
+  @media (max-width: 768px) {
+    margin-left: 50px;
+  }
 `;
 
 const InputWrap = styled.div`
   position: relative;
   display: inline-block;  
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const SSearchInput = styled.input`
