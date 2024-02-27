@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import UploadHeader from './UploadHeader'
 import WarningBox from './WarningBox'
+import UploadProductEditor from './UploadProductEditor'
 
 const Upload = () => {
   return (
@@ -9,6 +10,7 @@ const Upload = () => {
       <UploadHeader />
       <UploadContentWrap>
         <WarningBox />
+        <UploadProductEditor />
       </UploadContentWrap>
     </UploadContainer>
   )
@@ -25,4 +27,5 @@ const UploadContainer = styled.div`
 
 const UploadContentWrap = styled.div`
   width: 1280px;
+  display: flex;
 `;

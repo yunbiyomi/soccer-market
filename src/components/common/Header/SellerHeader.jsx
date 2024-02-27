@@ -1,14 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 import Logo from '../../../components/common/Logo/Logo'
-
+import { useNavigate } from 'react-router-dom'
 
 const SellerHeader = () => {
+  const navigate = useNavigate();
   return (
     <MainContainer>
       <SHeader>
         <Logo width='160px' />
-        <STitle>
+        <STitle
+          onClick={() => navigate('/sellercenter')}
+        >
           판매자센터
         </STitle>
       </SHeader>
@@ -35,4 +38,5 @@ const STitle = styled.h1`
   font-size: 30px;
   margin: 0 0 5px 25px;
   text-align: start;
+  cursor: pointer;
 `;
