@@ -15,6 +15,7 @@ import { useEffect } from 'react'
 import { getCookie } from './hooks/Cookies'
 import { login } from './features/user/authActions'
 import { declare } from './features/price/totalPriceActions'
+import PrivateRoutes from './hooks/PrivateRoutes'
 
 function App() {
   const dispatch = useDispatch();
@@ -40,11 +41,13 @@ function App() {
           <Route path='/' element={<MainPage />} />
           <Route path='/login' element={<LogInPage />} />
           <Route path='/signup' element={<SignUpPage />} />
-          <Route path='/detail' element={<ProductDetailPage />} />
-          <Route path='/cart' element={<CartPage />} />
-          <Route path='/order' element={<OrderPage />} />
-          <Route path='/sellercenter' element={<SellerCenterPage />} />
-          <Route path='/productupload' element={<ProductUploadPage />} />
+          <Route element={<PrivateRoutes />}>
+            <Route path='/detail' element={<ProductDetailPage />} />
+            <Route path='/cart' element={<CartPage />} />
+            <Route path='/order' element={<OrderPage />} />
+            <Route path='/sellercenter' element={<SellerCenterPage />} />
+            <Route path='/productupload' element={<ProductUploadPage />} />
+          </Route>
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
       </BackToTop>
