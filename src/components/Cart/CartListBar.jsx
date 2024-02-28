@@ -27,6 +27,10 @@ const CartListBarContainer = styled.div`
   grid-template-columns: .25fr 3fr 1fr 1fr;
   background-color: var(--light-gray);
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: .1fr 3fr 1fr 1.5fr;
+  }
 `;
 
 const CartListTitle = styled.div`

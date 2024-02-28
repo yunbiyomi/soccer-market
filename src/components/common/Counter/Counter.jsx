@@ -60,6 +60,11 @@ const CountBtn = styled.button`
     color: var(--light-gray);
     background-color: var(--gray);
   }
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const NumBox = styled.div`
@@ -73,4 +78,10 @@ const NumBox = styled.div`
   border: 1px solid var(--gray);
   border-left: none;
   border-right: none;
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
 `;

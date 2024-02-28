@@ -102,17 +102,12 @@ const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
             </ProductTotalCount>
             <ProductTotalMoneyWrap>
               <ProductTotalMoney>{totalFee}원</ProductTotalMoney>
-              <Button 
-                width='130px' 
-                height='40px' 
-                margin='0' 
-                fontSize='16px' 
-                fontWeight='medium'
+              <OrderBtn 
                 onClick={navigateOrderPage}
                 disabled={!isCheck}
                 > 
                   주문하기
-                </Button>
+                </OrderBtn>
             </ProductTotalMoneyWrap>
             <ProductDeleteBtn
               onClick={openDelModal}
@@ -144,6 +139,10 @@ const CartProductContainer = styled.li`
   position: relative;
   border: 1px solid var(--gray);
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: .1fr 3fr 1fr 1.5fr;
+  }
 `;
 
 const ProductDeleteBtn = styled.button`
@@ -181,4 +180,22 @@ const ProductTotalMoney = styled.p`
   font-size: 18px;
   font-weight: bold;
   color: var(--green);
+
+  @media (max-width: 768px) {
+    margin-bottom: 15px;
+  }
+`;
+
+const OrderBtn = styled(Button)`
+  width: 130px;
+  height: 40px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    width: 100px;
+    height: 35px;
+  }
 `;

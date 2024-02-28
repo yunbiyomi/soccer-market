@@ -75,8 +75,14 @@ const ProductWrap = styled.div`
   gap: 70px;
   margin: 80px 0;
 
+  @media (max-width: 1024px) {
+    max-width: 1024px;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 50px 0 80px 0;
+  }
+
   @media (max-width: 768px) {
-    width: 768px;
+    max-width: 768px;
     grid-template-columns: repeat(2, 1fr);
   }
 `;

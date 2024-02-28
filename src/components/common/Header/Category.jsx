@@ -171,7 +171,7 @@ const CategoryWrap = styled.nav`
   display: flex;
   cursor: pointer;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     margin-right: 30px;
   }
 `;

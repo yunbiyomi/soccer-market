@@ -58,7 +58,7 @@ const ContentWrap = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
   }
 `;
@@ -68,7 +68,7 @@ const SErrorImg = styled.img`
   height: 236px;
   object-fit: cover;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     margin-bottom: 50px;
   }
 `;

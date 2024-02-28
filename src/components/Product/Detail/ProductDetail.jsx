@@ -198,10 +198,14 @@ const ProductInfoWrap = styled.div`
   margin: 80px 0 180px 0;
   display: flex;
 
-  @media (max-width: 768px) {
-    width: 768px;
+  @media (max-width: 1024px) {
+    width: 1024px;
     flex-direction: column;
     margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    width: 768px;
   }
 `;
 
@@ -211,15 +215,20 @@ const ProductImg = styled.img`
   margin-right: 50px;
   object-fit: cover;
 
+  @media (max-width: 1024px) {
+    width: 1024px;
+    height: 1024px;
+    margin: 0;
+  }
+
   @media (max-width: 768px) {
     width: 768px;
     height: 768px;
-    margin: 0;
   }
 `;
 
 const ProductRightContainer = styled.div`
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     margin: 30px 0 50px 30px;
   }
 `;
@@ -229,7 +238,7 @@ const ProductStoreName = styled.p`
   color: var(--light-font);
   margin-bottom: 15px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     font-size: 25px;
   }
 `;
@@ -238,7 +247,7 @@ const ProductName = styled.p`
   font-size: 36px;
   margin-bottom: 20px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     font-size: 40px;
   }
 `;
@@ -249,7 +258,7 @@ const ProductFee = styled.p`
   margin-bottom: ${({ isTotal }) => (isTotal ? '0' : '100px')};
   color: ${({ isTotal }) => (isTotal ? 'var(--point-color)' : 'black')};
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     font-size: 30px;
     margin-bottom: 30px;
   }
@@ -258,7 +267,7 @@ const ProductFee = styled.p`
 const SmallDeliverWay = styled.div`
   display: none;
   
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: block;
   }
 `;
@@ -267,7 +276,7 @@ const CountWrap = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
@@ -277,6 +286,10 @@ const SLine = styled.div`
   height: 2px;
   background-color: var(--gray);
   margin: 10px 0;
+
+  @media (max-width: 1024px) {
+    width: 1024px;
+  }
 
   @media (max-width: 768px) {
     width: 768px;
@@ -297,7 +310,7 @@ const TotalWrap = styled.div`
   align-items: center;
   flex-direction: row;
   
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
@@ -329,7 +342,7 @@ const BtnWrap = styled.div`
   justify-content: space-between;
   flex-direction: row;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;

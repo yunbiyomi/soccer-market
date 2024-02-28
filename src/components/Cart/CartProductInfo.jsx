@@ -82,6 +82,12 @@ const SProductImg = styled.img`
   margin: 0 30px 0 10px;
   object-fit: cover;
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+    margin: 0 25px 0 0;
+  }
 `;
 
 const ProductInfoWrap = styled.div`
@@ -94,14 +100,26 @@ const SStoreName = styled.p`
   font-size: 14px;
   color: var(--light-font);
   margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    margin-top: 10px;
+  }
 `;
 
 const SProductName = styled.p`
   font-size: 18px;
   margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 const SPrice = styled.p`
   font-weight: bold;
   margin-bottom: 50px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 `;

@@ -32,7 +32,7 @@ const SFooter = styled.footer`
   height: 300px;
   background-color: var(--light-gray);
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     height: auto;
     padding: 40px 0;
   }
@@ -46,7 +46,7 @@ const FooterWrap = styled.div`
   flex-direction: column;
   margin: 0 auto;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     width: 90%;
   }
 `;

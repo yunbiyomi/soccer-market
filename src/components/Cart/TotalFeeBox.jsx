@@ -71,6 +71,34 @@ const PriceWrap = styled.div`
       background: url(${PlusIcon}) center center / cover;
     }
   }
+
+  @media (max-width: 1024px) {
+    &:nth-child(2) {
+      &::before {
+        right: 230px;
+      }
+    }
+
+    &:nth-child(3) {
+      &::after {
+        right: 230px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    &:nth-child(2) {
+      &::before {
+        right: 150px;
+      }
+    }
+
+    &:nth-child(3) {
+      &::after {
+        right: 170px;
+      }
+    }
+  }
 `;
 
 const SPriceTitle = styled.p`
@@ -80,6 +108,10 @@ const SPriceTitle = styled.p`
 const SPrice = styled.span`
   font-size: 24px;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 22px;
+  }
 `;
 
 const SPriceUnit = styled.p`
@@ -89,4 +121,12 @@ const STotalFee = styled.span`
   font-size: 36px;
   font-weight: bold;
   color: var(--green);
+
+  @media (max-width: 1024px) {
+    font-size: 32px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
 `;

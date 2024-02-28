@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import Logo from '../../../components/common/Logo/Logo'
-import SearchIcon from '../../../assets/icon-search.svg'
 import Category from './Category'
+import InputBox from './InputBox'
 
 const Header = () => {
   return (
@@ -10,12 +10,9 @@ const Header = () => {
       <SHeader>
         <LeftWrap>
           <Logo width='160px' />
-          <InputWrap> 
-            <SSearchInput placeholder='상품을 검색해보세요!' />
-            <SearchButton>
-              <SSearchIcon src={SearchIcon} alt="Search" />
-            </SearchButton>
-          </InputWrap>
+          <InputDisplay>
+            <InputBox />
+          </InputDisplay>
         </LeftWrap>
         <Category />
       </SHeader>
@@ -38,6 +35,10 @@ const SHeader = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  @media (max-width: 1024px) {
+    max-width: 1024px;
+  }
+
   @media (max-width: 768px) {
     width: 768px;
   }
@@ -47,43 +48,13 @@ const LeftWrap = styled.div`
   display: flex;
   align-items: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     margin-left: 50px;
   }
 `;
 
-const InputWrap = styled.div`
-  position: relative;
-  display: inline-block;  
-
-  @media (max-width: 768px) {
+const InputDisplay = styled.div`
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
-
-const SSearchInput = styled.input`
-  width: 400px;
-  height: 45px;
-  margin-left: 35px;
-  padding: 0 20px;
-  border-radius: 30px;
-  border: 2.6px solid var(--point-color);
-  font-size: 15px;
-`;
-
-const SearchButton = styled.button`
-  position: absolute;
-  top: 50%;
-  right: 15px; 
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
-
-const SSearchIcon = styled.img`
-  width: 25px; 
-  height: 25px;
-  object-fit: cover;
-`;
-

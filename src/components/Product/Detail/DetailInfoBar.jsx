@@ -43,6 +43,10 @@ const DetailInfoWrap = styled.div`
   align-items: center;
   flex-direction: column;
 
+  @media (max-width: 1024px) {
+    width: 1024px;
+  }
+
   @media (max-width: 768px) {
     width: 768px;
   }
@@ -68,6 +72,10 @@ const InfoBar = styled.div`
   width: 320px;
   height: 4px;
   background-color: ${({ active }) => active ? 'var(--point-color)' : 'var(--gray)'};
+
+  @media (max-width: 1024px) {
+    width: 256px;
+  }
   
   @media (max-width: 768px) {
     width: 192px;
@@ -76,10 +84,6 @@ const InfoBar = styled.div`
 
 const DetailContentWrap = styled.div`
   margin: 100px 0 200px 0;
-`;
-
-const DetailContent = styled.p`
-  font-size: 25px;
 `;
 
 const DetailTitle = styled.h2`

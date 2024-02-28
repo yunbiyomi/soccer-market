@@ -168,6 +168,14 @@ const CartListContainer = styled.div`
   align-items: center;
   flex-direction: column;
   position: relative;
+
+  @media (max-width: 1024px) {
+    width: 1000px;
+  }
+
+  @media (max-width: 768px) {
+    width: 740px;
+  }
 `;
 
 const CartProductWrap = styled.ul`

@@ -21,9 +21,14 @@ const DeliverWay = styled.p`
   color: var(--light-font);
   margin-bottom: ${(props) => props.marginBottom || '20px'};
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: flex;
     justify-content: start;
     font-size: 18px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    margin-bottom: 10px;
   }
 `;
