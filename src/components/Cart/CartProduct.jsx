@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import axios from '../../api/axios'
 import Counter from '../common/Counter/Counter'
 import DeleteIcon from '../../assets/icon-delete.svg'
@@ -40,7 +40,6 @@ const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
     try {
       const response = await axios.delete(`cart/${product.cart_item_id}`);
       closeDelModal();
-      // alert('상품이 삭제되었습니다.');
       window.location.reload();
     } catch (error) {
       console.error('장바구니 상품 삭제 실패', error.response.data);
@@ -122,13 +121,24 @@ const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
                 </Modal>
             }
           </CartProductContainer>
-        ) : <p>로딩중</p>
+        ) : (
+          <Skeleton />
+        )
     }
     </>
   )
 }
 
 export default CartProduct
+
+const Skeleton = styled.div`
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  background: linear-gradient(to right, var(--light-gray), var(--disabled-gray));
+  border-radius: 10px;
+`;
+
 
 const CartProductContainer = styled.li`
   width: 100%;

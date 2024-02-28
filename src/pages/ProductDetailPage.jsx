@@ -7,6 +7,7 @@ import ProductDetail from '../components/Product/Detail/ProductDetail';
 import DetailInfoBar from '../components/Product/Detail/DetailInfoBar';
 import styled from 'styled-components';
 import Button from '../components/common/Button/Button'
+import DetailSkeleton from '../components/common/Loader/DetailSkeleton';
 
 const ProductDetailPage = () => {
   const [product, setProduct] = useState({});
@@ -57,7 +58,9 @@ const ProductDetailPage = () => {
               </MobileBtnWrap>
             </DetailContainer>
           )
-          : <p>로딩중</p>
+          : (
+            <DetailSkeleton />
+          )
       }
       <Footer />
     </>
