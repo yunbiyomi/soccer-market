@@ -12,6 +12,11 @@ const ProductDetailPage = () => {
   const [product, setProduct] = useState({});
   const productId = useQueryString();
   const [load, setLoad] = useState(false);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+
+  // 테블릿, 모바일 버전 모달 출력
+  const openOrderModal = () => setIsOrderModalOpen(true);
+  const closeOrderModal = () => setIsOrderModalOpen(false);
 
   // 현재 페이지에 알맞는 상품 정보 가져오기
   const getProduct = async () => {
@@ -35,10 +40,18 @@ const ProductDetailPage = () => {
         load
           ? (
             <DetailContainer>
-              <ProductDetail product={product} />
-              <DetailInfoBar content={product.product_info}/>
+              <ProductDetail 
+                product={product} 
+                isOrderModalOpen={isOrderModalOpen}
+                closeOrderModal={closeOrderModal}
+              />
+              <DetailInfoBar 
+                content={product.product_info}
+              />
               <MobileBtnWrap>
-                <MobileBtn>
+                <MobileBtn 
+                  onClick={openOrderModal}
+                >
                   구매하기
                 </MobileBtn>
               </MobileBtnWrap>

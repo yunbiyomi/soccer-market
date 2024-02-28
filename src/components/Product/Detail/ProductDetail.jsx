@@ -9,8 +9,9 @@ import { useNavigate } from 'react-router-dom'
 import ProductDeliverWay from '../ProductDeliverWay'
 import Modal from '../../common/Modal/Modal'
 import { getCookie, setCookie } from '../../../hooks/Cookies'
+import OrderModal from '../../common/Modal/OrderModal'
 
-const ProductDetail = ({ product }) => {
+const ProductDetail = ({ product, isOrderModalOpen, closeOrderModal }) => {
   const memberType = getCookie('memberType');
   const stoke = product.stock;
   const productPrice = useCommaFormat(product.price);
@@ -186,6 +187,18 @@ const ProductDetail = ({ product }) => {
             <br />
             장바구니로 이동하시겠습니까?
           </Modal>
+      }
+      {
+        isOrderModalOpen && 
+        <OrderModal 
+          totalNum={totalNum} 
+          setTotalNum={setTotalNum} 
+          stoke={stoke}
+          totalFee={totalFee}
+          handleImmediatelyBuy={handleImmediatelyBuy} 
+          openCartModal={openCartModal}
+          closeOrderModal={closeOrderModal}
+        />
       }
     </ProductInfoWrap>
   )
