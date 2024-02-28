@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import Button from '../Button/Button'
 import Counter from '../Counter/Counter';
 
-const OrderModal = ({ totalNum, setTotalNum, stoke, totalFee, handleImmediatelyBuy, openCartModal, closeOrderModal }) => {
+const OrderModal = ({ totalNum, setTotalNum, stoke, totalFee, isLogIn, handleImmediatelyBuy, handleDisabled, openCartModal, closeOrderModal }) => {
   // 모달 내부 요소 클릭 시 이벤트 전파 중지
   const handleModalClick = (e) => {
     e.stopPropagation();
@@ -35,8 +35,18 @@ const OrderModal = ({ totalNum, setTotalNum, stoke, totalFee, handleImmediatelyB
           </TotalCountWrap>
         </TotalWrap>
         <BtnWrap>
-          <SBtn onClick={handleImmediatelyBuy}>바로구매</SBtn>
-          <SBtn onClick={openCartModal}>장바구니</SBtn>
+          <SBtn 
+            onClick={handleImmediatelyBuy}
+            disabled={!stoke || handleDisabled}
+          >
+            바로구매
+          </SBtn>
+          <SBtn 
+            onClick={openCartModal}
+            disabled={!isLogIn || handleDisabled}
+          >
+            장바구니
+          </SBtn>
         </BtnWrap>
         <DeleteBtn />
       </ModalContainer>

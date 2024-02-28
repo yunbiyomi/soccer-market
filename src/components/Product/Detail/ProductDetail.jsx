@@ -195,7 +195,9 @@ const ProductDetail = ({ product, isOrderModalOpen, closeOrderModal }) => {
           setTotalNum={setTotalNum} 
           stoke={stoke}
           totalFee={totalFee}
+          isLogIn={isLogIn}
           handleImmediatelyBuy={handleImmediatelyBuy} 
+          handleDisabled={handleDisabled()}
           openCartModal={openCartModal}
           closeOrderModal={closeOrderModal}
         />
