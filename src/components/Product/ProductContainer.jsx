@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Product from './Product';
 import Pagination from './Pagination';
 import usePageNavigation from '../../hooks/usePageNavigation';
+import Loader from '../common/Loader/Loader';
 
 const ProductContainer = () => {
   const [products, setProducts] = useState([]);
@@ -52,7 +53,9 @@ const ProductContainer = () => {
             handlePageClick={handlePageClick}
           />
         </>
-      ): <p>로딩중</p>
+      ): (
+        <Loader />
+    )
       }
     </SProductContainer>
   )
