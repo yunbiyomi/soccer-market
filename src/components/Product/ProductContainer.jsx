@@ -23,7 +23,6 @@ const ProductContainer = () => {
   const getProducts = async () => {
     try {
       const response = await axios.get(`products/?page=${currentPage}`);
-      console.log(response.data);
       setTotalCount(response.data.count);
       setProducts(response.data.results);
       setLoad(true);
