@@ -278,9 +278,9 @@ const OrderInfo = ({ products }) => {
             <FinalCheckBox>
               <AgreeBox>
                 <CheckInput id='payment-agree' type='checkbox' checked={isChecked} onChange={handleIsCheck}/>
-                <label htmlFor='payment-agree'>
+                <CheckLabel htmlFor='payment-agree'>
                   주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.
-                </label>
+                </CheckLabel>
               </AgreeBox>
               <Button width='220px' height='68px' fontSize='24px' margin='30px 0 0 0 ' disabled={!isValidOrder} onClick={putOrder}>결제하기</Button>
             </FinalCheckBox>
@@ -295,6 +295,14 @@ export default OrderInfo
 
 const DeliverContainer = styled.div`
   width: 1280px;
+
+  @media (max-width: 1024px) {
+    width: 1000px;
+  }
+
+  @media (max-width: 768px) {
+    width: 740px;
+  }
 `;
 
 const MainTitle = styled.h3`
@@ -323,6 +331,11 @@ const InputWrap = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--gray);
+
+  @media (max-width: 768px) {
+    align-items: start;
+    flex-direction: column;
+  }
 `;
 
 const SLabel = styled.label`
@@ -332,6 +345,11 @@ const SLabel = styled.label`
   &.adress {
     position: relative;
   }
+
+  @media (max-width: 768px) {
+    margin-top: 15px;
+    font-size: 18px;
+  }
 `;
 
 const SInput = styled.input`
@@ -340,12 +358,24 @@ const SInput = styled.input`
   margin: 8px 0;
   padding: 0 5px;
   border: 1px solid var(--gray);
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 50px;
+    margin: 15px 0;
+    font-size: 18px;
+    padding: 0 10px;
+  }
 `;
 
 const PhoneInputWrap = styled.div`
   width: 334px;
   display: flex;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const SmallInput = styled(SInput)`
@@ -373,15 +403,31 @@ const ZipCodeWrap = styled.div`
 
 const DeliverInput = styled(SInput)`
   width: 800px;
+
+  @media (max-width: 1024px) {
+    width: 740px;
+  }
 `;
 
 const BottomWrap = styled.div`
   display: flex;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
 `;
 
 const PaymentMethodWrap = styled.div`
   width: 760px;
   margin-right: 40px;
+
+  @media (max-width: 1024px) {
+    width: 1004px;
+  }
+
+  @media (max-width: 768px) {
+    width: 740px;
+  }
 `;
 
 const RadioWrap = styled.div`
@@ -412,10 +458,22 @@ const PaymentInput = styled.input`
 const PaymentLabel = styled.label`
   margin-right: 30px;
   cursor: pointer;
+
+  @media (max-width: 1024px) {
+    font-size: 18px;
+  }
 `;
 
 const FinalPaymentWrap = styled.div`
   width: 480px;
+
+  @media (max-width: 1024px) {
+    width: 1004px;
+  }
+
+  @media (max-width: 768px) {
+    width: 740px;
+  }
 `;
 
 const FinalPaymentBox = styled.div`
@@ -434,9 +492,16 @@ const PriceWrap = styled.div`
     border-top: 1px solid var(--gray);
     padding: 20px 0 0 0;
   }
+
+  @media (max-width: 1024px) {
+    margin-bottom: 25px;
+  }
 `;
 
 const PriceTitle = styled.p`
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
 `;
 
 const PriceContent = styled.p`
@@ -446,6 +511,14 @@ const PriceContent = styled.p`
   &.total {
     font-size: 24px;
     color: var(--green);
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 22px;
+
+    &.total {
+      font-size: 28px;
+    }
   }
 `;
 
@@ -480,5 +553,11 @@ const CheckInput = styled.input`
 
   &:checked {
     background: url(${agreeCheckFill}) center center / contain no-repeat;
+  }
+`;
+
+const CheckLabel = styled.label`
+  @media (max-width: 1024px) {
+    font-size: 20px;
   }
 `;

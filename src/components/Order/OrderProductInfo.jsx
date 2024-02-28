@@ -38,6 +38,10 @@ const OrderProductImg = styled.img`
   margin: 0 30px 0 10px;
   object-fit: cover;
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    margin: 0 20px 0 10px;
+  }
 `;
 
 const SInfoWrap = styled.div`
@@ -50,17 +54,29 @@ const SStoreName = styled.p`
   font-size: 14px;
   color: var(--light-font);
   margin-bottom: 3px;
+  
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const SProductName = styled.p`
   font-size: 18px;
   margin-bottom: 5px;
+
+  @media (max-width: 768px) {
+    font-size: 17px;
+  }
 `;
 
 const SProductPrice = styled.p`
   font-size: 16px;
   margin-bottom: 15px;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const SQuantity = styled.p`

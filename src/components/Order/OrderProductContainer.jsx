@@ -51,6 +51,14 @@ const SOrderProductContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  @media (max-width: 1024px) {
+    width: 1000px;
+  }
+
+  @media (max-width: 768px) {
+    width: 740px;
+  }
 `;
 
 const OrderProductWrap = styled.ul`
@@ -64,6 +72,10 @@ const TotalBox = styled.div`
   align-items: center;
   margin: 35px 0 100px 0;
   font-size: 18px;
+
+  @media (max-width: 768px) {
+    margin: 25px 10px 100px 0;
+  }
 `;
 
 const STotalFee = styled.span`
