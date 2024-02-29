@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ImgIcon from '../../assets/icon-img.svg'
 import Button from '../common/Button/Button'
+import { useNavigate } from 'react-router-dom'
+import axios from '../../api/axios'
 
 const UploadProductEditor = () => {
   const initialProductState = {
@@ -13,19 +15,28 @@ const UploadProductEditor = () => {
   }
 
   const [productState, setProductState] = useState(initialProductState);
+  const [image, setImage] = useState('');
   const [uploadImgUrl, setUploadImgUrl] = useState('');
+  const [shippingMethod, setShippingMethod] = useState('PARCEL');
+  const navigate = useNavigate();
+
+  const parcelChange = () => setShippingMethod('PARCEL');
+  const deliveryChange = () => setShippingMethod('DELIVERY')
 
   // 이미지 파일 선택
   const imageUpload = (e) => {
-    const {files} = e.target;
+    const { files } = e.target;
     const uploadFile = files[0];
     const reader = new FileReader();
-    const blob = new Blob([uploadFile], { type: uploadFile.type });
-    reader.readAsDataURL(blob);
+
+    setImage(uploadFile);
+
     reader.onloadend = () => {
       setUploadImgUrl(reader.result);
     };
-  }
+    
+    reader.readAsDataURL(uploadFile);
+  };
 
   const handleInputChange = (id) => (e) => {
     const value = e.currentTarget.value;
@@ -40,7 +51,7 @@ const UploadProductEditor = () => {
         setProductState({...productState, shippingFee: value});
         break;
       case 'stoke':
-        setProductState({...productState, stoke: value});
+        setProductState({...productState, stock: value});
         break;
       case 'productInfo':
         setProductState({...productState, productInfo: value});
@@ -49,6 +60,32 @@ const UploadProductEditor = () => {
         break;
     }
   }
+
+  // 상품 등록하기
+  const postOrder = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('product_name', productState.productName);
+      formData.append('image', image);
+      formData.append('price', productState.price);
+      formData.append('shipping_method', shippingMethod);
+      formData.append('shipping_fee', productState.shippingFee);
+      formData.append('stock', productState.stock);
+      formData.append('product_info', productState.productInfo);
+
+      const response = await axios.post(`products/`, formData);
+      console.log(response);
+    } catch (error) {
+      console.error('상품 등록 실패: ', error);
+    }
+  };
+
+  useEffect(() => {
+    console.log('state', productState);
+    console.log('shipping', shippingMethod);
+    console.log('url', uploadImgUrl);
+    console.log('img', image);
+  }, [productState, shippingMethod, uploadImgUrl, image])
 
   return (
     <EditorContainer>
@@ -63,7 +100,7 @@ const UploadProductEditor = () => {
                 <UploadIcon />
               )
             }
-            <ImageInput id='product-image' type='file' accept='imae/*' onChange={imageUpload} />
+            <ImageInput id='product-image' type='file' accept='image/*' onChange={imageUpload} />
           </ProductImgBox>  
         </ProductInfoLeftBox>
         <ProductInfoRightBox>
@@ -71,22 +108,22 @@ const UploadProductEditor = () => {
           <ProductNameInput id='product-name' type='text' onChange={handleInputChange('productName')} required/>
           <InfoTitle htmlFor='product-price'>판매가</InfoTitle>
           <SInputWrap>
-            <SInput id='product-price' type='text' required />
+            <SInput id='product-price' type='text' onChange={handleInputChange('price')} required />
             <SUnitBox>원</SUnitBox>
           </SInputWrap>
           <InfoTitle>배송방법</InfoTitle>
           <BtnWrap>
-            <SButton>택배, 소포, 등기</SButton>
-            <SButton>직접배송(화물배달)</SButton>
+            <SButton onClick={parcelChange}>택배, 소포, 등기</SButton>
+            <SButton onClick={deliveryChange}>직접배송(화물배달)</SButton>
           </BtnWrap>
           <InfoTitle htmlFor='product-shipping-fee'>기본 배송비</InfoTitle>
           <SInputWrap>
-            <SInput id='product-shipping-fee' type='text' onChange={handleInputChange('price')} required />
+            <SInput id='product-shipping-fee' type='text' onChange={handleInputChange('shippingFee')} required />
             <SUnitBox>원</SUnitBox>
           </SInputWrap>
           <InfoTitle htmlFor='product-stoke'>재고</InfoTitle>
           <SInputWrap>
-            <SInput id='product-stoke' type='text' onChange={handleInputChange('shippingFee')} required />
+            <SInput id='product-stoke' type='text' onChange={handleInputChange('stoke')} required />
             <SUnitBox>개</SUnitBox>
           </SInputWrap>
         </ProductInfoRightBox>
@@ -95,6 +132,10 @@ const UploadProductEditor = () => {
         <InfoTitle htmlFor='product-detail'>상품 상세 정보</InfoTitle>
         <DetailInput id='product-detail' type='text' onChange={handleInputChange('productInfo')} required/>
       </EditorBox>
+      <BtnWrap className='bottom'>
+        <SButton className='white' onClick={() => navigate('/sellercenter')}>취소</SButton>
+        <SButton onClick={postOrder}>저장하기</SButton>
+      </BtnWrap>
     </EditorContainer>
   )
 }
@@ -193,6 +234,11 @@ const SUnitBox = styled.div`
 
 const BtnWrap = styled.div`
   display: flex;
+
+  &.bottom {
+    justify-content: end;
+    margin: 30px 0 100px 0;
+  }
 `;
 
 const SButton = styled(Button)`
@@ -201,6 +247,18 @@ const SButton = styled(Button)`
   margin: 0 10px 16px 0;
   font-size: 16px;
   font-weight: 400;
+
+  &.white {
+    width: 150px;
+    background-color: white;
+    color: var(--gray);
+    border: 1px solid var(--gray);
+
+    &:hover {
+      color: var(--point-color);
+      border: 1px solid var(--point-color)
+    }
+  }
 `;
 
 const EditorBox = styled.div`
@@ -213,7 +271,6 @@ const DetailInput = styled.textarea`
   width: 100%;
   height: 300px;
   padding: 20px;
-  margin-bottom: 100px;
   border: 1px solid var(--gray);
   border-radius: 5px;
   font-size: 18px;
