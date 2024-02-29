@@ -9,11 +9,13 @@ const WarningBox = () => {
       </WarningTitle>
       <WarningContentBox>
         <WarningContent>
-        - 너무 귀여운 사진은 심장이 아파올 수 있습니다.
-        <br /><br />
-        - 유소년에게서 천자만홍이 피고 이상이 온갖 들어 약동하다. 이상의 가지에 사랑의 있는가? 주며, 끓는 힘차게 얼음이 얼음 가치를 황금시대의 있음으로써 사라지지 것이다. 이 뜨거운지라, 이상의 속에서 이것은 피가 보배를 황금시대의 싹이 사막이다.
-        <br /><br />
-        - 자신과 우는 옷을 지혜는 아니다. 더운지라 설레는 기쁘며, 위하여서, 평화스러운 광야에서 그리하였는가? 소담스러운 위하여 인도하겠다는 어디 무엇을 이상을 같지 따뜻한 청춘 칼이다.
+        - 상품의 크기, 색상, 재질 등 상세한 스펙을 명시하여 고객이 실제 상품을 확인할 수 있도록 합니다.
+        </WarningContent>
+        <WarningContent>
+        - 배송 및 배송비에 대한 정보를 명확히 표기하여 고객이 주문 전에 비용을 예상할 수 있도록 합니다.
+        </WarningContent>
+        <WarningContent>
+        - 실제 재고량과 일치하는 수량으로 재고를 등록해주세요. 고객에게 신속한 배송을 제공하기 위해 정확한 재고 정보가 중요합니다.
         </WarningContent>
       </WarningContentBox>
     </SWarningBox>
@@ -25,6 +27,11 @@ export default WarningBox
 const SWarningBox = styled.div`
   width: 250px;
   margin-right: 80px;
+
+  @media (max-width: 1024px) {
+    width: calc(100% - 60px);
+    margin: 0 auto;
+  }
 `;
 
 const WarningTitle = styled.p`
@@ -37,8 +44,15 @@ const WarningContentBox = styled.div`
   padding: 20px;
   background-color: var(--light-point-color);
   border-radius: 5px;
+  line-height: 1.7;
 `;
 
 const WarningContent = styled.p`
   font-size: 14px;
+  margin-bottom: 20px;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
 `;

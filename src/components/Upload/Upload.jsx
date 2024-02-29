@@ -28,4 +28,13 @@ const UploadContainer = styled.div`
 const UploadContentWrap = styled.div`
   width: 1280px;
   display: flex;
+
+  @media (max-width: 1024px) {
+    width: 1024px;
+    flex-direction: column;
+  }
+
+  @media (max-width: 768px) {
+    width: 768px;
+  }
 `;

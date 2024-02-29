@@ -18,6 +18,14 @@ const SUploadHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    width: 964px;
+  }
+
+  @media (max-width: 768px) {
+    width: 708px;
+  }
 `;
 
 const STitle = styled.h2`

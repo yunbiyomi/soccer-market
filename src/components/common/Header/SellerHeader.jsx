@@ -32,6 +32,15 @@ const SHeader = styled.div`
   margin: 0 auto;
   display: flex;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    margin-left: 30px;
+    width: 1024px;
+  }
+
+  @media (max-width: 768px) {
+    width: 768px;
+  }
 `;
 
 const STitle = styled.h1`

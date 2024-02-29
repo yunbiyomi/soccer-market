@@ -36,7 +36,7 @@ const SHeader = styled.div`
   align-items: center;
 
   @media (max-width: 1024px) {
-    max-width: 1024px;
+    width: 1024px;
   }
 
   @media (max-width: 768px) {

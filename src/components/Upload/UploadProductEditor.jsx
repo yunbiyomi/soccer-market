@@ -146,21 +146,44 @@ const EditorContainer = styled.div`
   width: 1320px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 1024px) {
+    width: 1024px;
+  }
+
+  @media (max-width: 768px) {
+    width: 768px;
+  }
 `;
 
 const ProductInfoWrap = styled.div`
   display: flex;
+
+  @media (max-width: 1024px) {
+    margin-left: 30px;
+    flex-direction: column;
+  }
 `;
 
 const ProductInfoLeftBox = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 40px;
+
+  @media (max-width: 1024px) {
+    margin-top: 30px;
+    flex-direction: column;
+  }
 `;
 
 const InfoTitle = styled.label`
   margin-bottom: 10px;
   color: var(--light-font);
+
+  @media (max-width: 1024px) {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
 `;
 
 const ProductImgBox = styled.label`
@@ -169,6 +192,16 @@ const ProductImgBox = styled.label`
   position: relative;
   background-color: var(--gray);
   cursor: pointer;
+
+  @media (max-width: 1024px) {
+    width: 600px;
+    height: 600px;
+  }
+
+  @media (max-width: 768px) {
+    width: 708px;
+    height: 708px;
+  }
 `;
 
 const UploadIcon = styled.div`
@@ -194,6 +227,10 @@ const ImageInput = styled.input`
 const ProductInfoRightBox = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 1024px) {
+    margin-top: 30px;
+  }
 `;
 
 const ProductNameInput = styled.input`
@@ -204,6 +241,10 @@ const ProductNameInput = styled.input`
   border-radius: 5px;
   padding: 0 10px;
   font-size: 16px;
+
+  @media (max-width: 1024px) {
+    font-size: 18px;
+  }
 `;
 
 const SInputWrap = styled.div`
@@ -238,6 +279,10 @@ const BtnWrap = styled.div`
   &.bottom {
     justify-content: end;
     margin: 30px 0 100px 0;
+
+    @media (max-width: 1024px) {
+    margin-right: 20px;
+  }
   }
 `;
 
@@ -265,6 +310,11 @@ const EditorBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 1024px) {
+    width: calc(100% - 60px);
+    margin: 0 auto;
+  }
 `;
 
 const DetailInput = styled.textarea`
@@ -276,4 +326,8 @@ const DetailInput = styled.textarea`
   font-size: 18px;
   outline: none;
   resize: none;
+
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
 `;
