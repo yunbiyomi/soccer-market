@@ -1,20 +1,74 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ImgIcon from '../../assets/icon-img.svg'
 import Button from '../common/Button/Button'
 
 const UploadProductEditor = () => {
+  const initialProductState = {
+    productName: '',
+    price: '',
+    shippingFee: '',
+    stock: '',
+    productInfo: '',
+  }
+
+  const [productState, setProductState] = useState(initialProductState);
+  const [uploadImgUrl, setUploadImgUrl] = useState('');
+
+  // 이미지 파일 선택
+  const imageUpload = (e) => {
+    const {files} = e.target;
+    const uploadFile = files[0];
+    const reader = new FileReader();
+    const blob = new Blob([uploadFile], { type: uploadFile.type });
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      setUploadImgUrl(reader.result);
+    };
+  }
+
+  const handleInputChange = (id) => (e) => {
+    const value = e.currentTarget.value;
+    switch(id){
+      case 'productName':
+        setProductState({...productState, productName: value});
+        break;
+      case 'price':
+        setProductState({...productState, price: value});
+        break;
+      case 'shippingFee':
+        setProductState({...productState, shippingFee: value});
+        break;
+      case 'stoke':
+        setProductState({...productState, stoke: value});
+        break;
+      case 'productInfo':
+        setProductState({...productState, productInfo: value});
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <EditorContainer>
       <ProductInfoWrap>
         <ProductInfoLeftBox>
           <InfoTitle>상품 이미지</InfoTitle>
-          <ProductImgBox>
+          <ProductImgBox htmlFor='product-image'>
+            {
+              uploadImgUrl ? (
+                <PreviewImage src={uploadImgUrl} alt='Uploaded Product' />
+              ) : (
+                <UploadIcon />
+              )
+            }
+            <ImageInput id='product-image' type='file' accept='imae/*' onChange={imageUpload} />
           </ProductImgBox>  
         </ProductInfoLeftBox>
         <ProductInfoRightBox>
           <InfoTitle htmlFor='product-name'>상품명</InfoTitle>
-          <ProductNameInput id='product-name' type='text' required/>
+          <ProductNameInput id='product-name' type='text' onChange={handleInputChange('productName')} required/>
           <InfoTitle htmlFor='product-price'>판매가</InfoTitle>
           <SInputWrap>
             <SInput id='product-price' type='text' required />
@@ -27,19 +81,19 @@ const UploadProductEditor = () => {
           </BtnWrap>
           <InfoTitle htmlFor='product-shipping-fee'>기본 배송비</InfoTitle>
           <SInputWrap>
-            <SInput id='product-shipping-fee' type='text' required />
+            <SInput id='product-shipping-fee' type='text' onChange={handleInputChange('price')} required />
             <SUnitBox>원</SUnitBox>
           </SInputWrap>
           <InfoTitle htmlFor='product-stoke'>재고</InfoTitle>
           <SInputWrap>
-            <SInput id='product-stoke' type='text' required />
+            <SInput id='product-stoke' type='text' onChange={handleInputChange('shippingFee')} required />
             <SUnitBox>개</SUnitBox>
           </SInputWrap>
         </ProductInfoRightBox>
       </ProductInfoWrap>
       <EditorBox>
         <InfoTitle htmlFor='product-detail'>상품 상세 정보</InfoTitle>
-        <DetailInput id='product-detail' type='text' required/>
+        <DetailInput id='product-detail' type='text' onChange={handleInputChange('productInfo')} required/>
       </EditorBox>
     </EditorContainer>
   )
@@ -68,23 +122,32 @@ const InfoTitle = styled.label`
   color: var(--light-font);
 `;
 
-const ProductImgBox = styled.div`
+const ProductImgBox = styled.label`
   width: 430px;
   height: 430px;
   position: relative;
   background-color: var(--gray);
   cursor: pointer;
+`;
 
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    background-image: url(${ImgIcon});
-  }
+const UploadIcon = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background-image: url(${ImgIcon});
+`;
+
+const PreviewImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const ImageInput = styled.input`
+  display: none;
 `;
 
 const ProductInfoRightBox = styled.div`
