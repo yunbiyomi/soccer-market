@@ -4,6 +4,7 @@ import ImgIcon from '../../assets/icon-img.svg'
 import Button from '../common/Button/Button'
 import { useNavigate } from 'react-router-dom'
 import axios from '../../api/axios'
+import Modal from '../common/Modal/Modal'
 
 const UploadProductEditor = () => {
   const initialProductState = {
@@ -18,10 +19,13 @@ const UploadProductEditor = () => {
   const [image, setImage] = useState('');
   const [uploadImgUrl, setUploadImgUrl] = useState('');
   const [shippingMethod, setShippingMethod] = useState('PARCEL');
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const parcelChange = () => setShippingMethod('PARCEL');
-  const deliveryChange = () => setShippingMethod('DELIVERY')
+  const deliveryChange = () => setShippingMethod('DELIVERY');
+  const openUploadModal = () => setIsUploadModalOpen(true);
+  const closeUploadModal = () => setIsUploadModalOpen(false);
 
   // 이미지 파일 선택
   const imageUpload = (e) => {
@@ -75,6 +79,7 @@ const UploadProductEditor = () => {
 
       const response = await axios.post(`products/`, formData);
       console.log(response);
+      navigate('/sellercenter');
     } catch (error) {
       console.error('상품 등록 실패: ', error);
     }
@@ -134,8 +139,17 @@ const UploadProductEditor = () => {
       </EditorBox>
       <BtnWrap className='bottom'>
         <SButton className='white' onClick={() => navigate('/sellercenter')}>취소</SButton>
-        <SButton onClick={postOrder}>저장하기</SButton>
+        <SButton onClick={openUploadModal}>저장하기</SButton>
       </BtnWrap>
+      {
+        isUploadModalOpen && 
+        <Modal 
+          closeModal={closeUploadModal}
+          onClick={postOrder}
+        >
+          상품을 등록 하시겠습니까?
+        </Modal>
+      }
     </EditorContainer>
   )
 }

@@ -1,10 +1,29 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useCommaFormat from '../../hooks/useCommaFormat';
 import Button from '../common/Button/Button';
+import axios from '../../api/axios';
+import Modal from '../common/Modal/Modal';
 
 const ProductDetail = ({ product }) => {
+  const navigate = useNavigate();
+  const [isDelModalOpen, setIsDelModalOpen] = useState(false);
+
+  const openDelModal = () => setIsDelModalOpen(true);
+  const closeDelModal = () => setIsDelModalOpen(false);
+  
+  // 상품 삭제하기
+  const deleteProduct = async (productId) => {
+    try {
+      const response = await axios.delete(`products/${productId}`);
+      closeDelModal();
+      window.location.reload();
+    } catch (error) {
+      console.error('상품 삭제하기 실패: ', error);
+    }
+  }
+
   return (
     <ProductDetailWrap>
       <ProductInfoWrap>
@@ -16,7 +35,16 @@ const ProductDetail = ({ product }) => {
       </ProductInfoWrap>
       <ProductContent className='price'>{useCommaFormat(product.price)}원</ProductContent>
       <ProductContent><SButton>수정</SButton></ProductContent>
-      <ProductContent><SButton className='delete'>삭제</SButton></ProductContent>
+      <ProductContent><SButton className='delete' onClick={openDelModal}>삭제</SButton></ProductContent>
+      {
+        isDelModalOpen && 
+          <Modal
+            closeModal={closeDelModal}
+            onClick={() => { deleteProduct(product.product_id); }}
+          >
+            {product.product_name}을 삭제하시겠습니까?
+          </Modal>
+      }
     </ProductDetailWrap>
   )
 }

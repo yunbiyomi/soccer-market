@@ -42,10 +42,10 @@ function App() {
           <Route path='/login' element={<LogInPage />} />
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/detail' element={<ProductDetailPage />} />
+          <Route path='/cart' element={<CartPage />} />
+          <Route path='/sellercenter' element={<SellerCenterPage />} />
           <Route element={<PrivateRoutes />}>
-            <Route path='/cart' element={<CartPage />} />
             <Route path='/order' element={<OrderPage />} />
-            <Route path='/sellercenter' element={<SellerCenterPage />} />
             <Route path='/productupload' element={<ProductUploadPage />} />
           </Route>
           <Route path='/*' element={<NotFoundPage />} />
