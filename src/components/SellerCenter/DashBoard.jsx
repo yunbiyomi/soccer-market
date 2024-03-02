@@ -21,6 +21,7 @@ const DashBoardContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 200px;
 `;
 
 const DashBoardWrap = styled.div`

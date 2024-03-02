@@ -6,6 +6,7 @@ import useQueryString from '../../hooks/useQueryString'
 import ImgIcon from '../../assets/icon-img.svg'
 import axios from '../../api/axios'
 import Modal from '../common/Modal/Modal';
+import EditSkeleton from '../common/Loader/EditSkeleton';
 
 const EditProductEditor = () => {
   const productId = useQueryString();
@@ -84,58 +85,59 @@ const EditProductEditor = () => {
   return (
     <>
       {
-        isLoad && 
-        <EditorContainer>
-          <ProductInfoWrap>
-            <ProductInfoLeftBox>
-              <InfoTitle>상품 이미지</InfoTitle>
-              <ProductImgBox htmlFor='product-image'>
-                <PreviewImage src={product.image} alt='Uploaded Product' />
-              </ProductImgBox>  
-            </ProductInfoLeftBox>
-            <ProductInfoRightBox>
-              <InfoTitle htmlFor='product-name' value={product.product_name}>상품명</InfoTitle>
-              <ProductNameInput id='product-name' type='text' value={product.product_name} onChange={handleInputChange('productName')} required/>
-              <InfoTitle htmlFor='product-price'>판매가</InfoTitle>
-              <SInputWrap>
-                <SInput id='product-price' type='text' value={product.price} onChange={handleInputChange('price')} required />
-                <SUnitBox>원</SUnitBox>
-              </SInputWrap>
-              <InfoTitle>배송방법</InfoTitle>
-              <BtnWrap>
-                <SButton onClick={parcelChange}>택배, 소포, 등기</SButton>
-                <SButton onClick={deliveryChange}>직접배송(화물배달)</SButton>
-              </BtnWrap>
-              <InfoTitle htmlFor='product-shipping-fee'>기본 배송비</InfoTitle>
-              <SInputWrap>
-                <SInput id='product-shipping-fee' type='text' value={product.shipping_fee} onChange={handleInputChange('shippingFee')} required />
-                <SUnitBox>원</SUnitBox>
-              </SInputWrap>
-              <InfoTitle htmlFor='product-stoke'>재고</InfoTitle>
-              <SInputWrap>
-                <SInput id='product-stoke' type='text' value={product.stock} onChange={handleInputChange('stoke')} required />
-                <SUnitBox>개</SUnitBox>
-              </SInputWrap>
-            </ProductInfoRightBox>
-          </ProductInfoWrap>
-          <EditorBox>
-            <InfoTitle htmlFor='product-detail'>상품 상세 정보</InfoTitle>
-            <DetailInput id='product-detail' type='text' value={product.product_info} onChange={handleInputChange('productInfo')} required/>
-          </EditorBox>
-          <BtnWrap className='bottom'>
-            <SButton className='white' onClick={() => navigate('/sellercenter')}>취소</SButton>
-            <SButton onClick={openUploadModal}>수정하기</SButton>
-          </BtnWrap>
-          {
-            isUploadModalOpen && 
-            <Modal 
-              closeModal={closeUploadModal}
-              onClick={postOrder}
-            >
-              상품을 수정 하시겠습니까?
-            </Modal>
-          }
-        </EditorContainer>
+        isLoad ? (
+          <EditorContainer>
+            <ProductInfoWrap>
+              <ProductInfoLeftBox>
+                <InfoTitle>상품 이미지</InfoTitle>
+                <ProductImgBox htmlFor='product-image'>
+                  <PreviewImage src={product.image} alt='Uploaded Product' />
+                </ProductImgBox>  
+              </ProductInfoLeftBox>
+              <ProductInfoRightBox>
+                <InfoTitle htmlFor='product-name' value={product.product_name}>상품명</InfoTitle>
+                <ProductNameInput id='product-name' type='text' value={product.product_name} onChange={handleInputChange('productName')} required/>
+                <InfoTitle htmlFor='product-price'>판매가</InfoTitle>
+                <SInputWrap>
+                  <SInput id='product-price' type='text' value={product.price} onChange={handleInputChange('price')} required />
+                  <SUnitBox>원</SUnitBox>
+                </SInputWrap>
+                <InfoTitle>배송방법</InfoTitle>
+                <BtnWrap>
+                  <SButton onClick={parcelChange}>택배, 소포, 등기</SButton>
+                  <SButton onClick={deliveryChange}>직접배송(화물배달)</SButton>
+                </BtnWrap>
+                <InfoTitle htmlFor='product-shipping-fee'>기본 배송비</InfoTitle>
+                <SInputWrap>
+                  <SInput id='product-shipping-fee' type='text' value={product.shipping_fee} onChange={handleInputChange('shippingFee')} required />
+                  <SUnitBox>원</SUnitBox>
+                </SInputWrap>
+                <InfoTitle htmlFor='product-stoke'>재고</InfoTitle>
+                <SInputWrap>
+                  <SInput id='product-stoke' type='text' value={product.stock} onChange={handleInputChange('stoke')} required />
+                  <SUnitBox>개</SUnitBox>
+                </SInputWrap>
+              </ProductInfoRightBox>
+            </ProductInfoWrap>
+            <EditorBox>
+              <InfoTitle htmlFor='product-detail'>상품 상세 정보</InfoTitle>
+              <DetailInput id='product-detail' type='text' value={product.product_info} onChange={handleInputChange('productInfo')} required/>
+            </EditorBox>
+            <BtnWrap className='bottom'>
+              <SButton className='white' onClick={() => navigate('/sellercenter')}>취소</SButton>
+              <SButton onClick={openUploadModal}>수정하기</SButton>
+            </BtnWrap>
+            {
+              isUploadModalOpen && 
+              <Modal 
+                closeModal={closeUploadModal}
+                onClick={postOrder}
+              >
+                상품을 수정 하시겠습니까?
+              </Modal>
+            }
+          </EditorContainer>
+        ) : <EditSkeleton />
       }
     </>
   )
@@ -205,24 +207,10 @@ const ProductImgBox = styled.label`
   }
 `;
 
-const UploadIcon = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50px;
-  height: 50px;
-  background-image: url(${ImgIcon});
-`;
-
 const PreviewImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`;
-
-const ImageInput = styled.input`
-  display: none;
 `;
 
 const ProductInfoRightBox = styled.div`

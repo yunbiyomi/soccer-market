@@ -5,11 +5,14 @@ import axios from '../../api/axios'
 
 const DashBoardProduct = () => {
   const [products, setProducts] = useState([]);
+  const [isLoad, setIsLoad] = useState(false);
+
+  // 판매자 상품 가져오기
   const getSellerProduct = async () => {
     try {
       const response = await axios.get(`seller/`);
       setProducts(response.data.results);
-      console.log(products);
+      setIsLoad(true);
     } catch (error) {
       console.error('판매자 상품 가져오기 실패: ', error);
     }
@@ -18,10 +21,6 @@ const DashBoardProduct = () => {
   useEffect(()=> {
     getSellerProduct();
   }, [])
-
-  useEffect(()=> {
-    console.log(products);
-  }, [products])
 
   return (
     <DashBoardProductContainer>
@@ -33,18 +32,28 @@ const DashBoardProduct = () => {
         <HeaderContent>삭제</HeaderContent>
       </DashBoardProductHeader>
       {
-        products.map(product => (
+        isLoad ? (
+        products.map(product => 
           <ProductDetail
             key={product.product_id}
             product={product}
           />
-        ))
+        )) : (
+          <Skeleton />
+        )
       }
     </DashBoardProductContainer>
   )
 }
 
 export default DashBoardProduct
+
+const Skeleton = styled.div`
+  width: 100%;
+  height: 100px;
+  border-bottom: 1px solid var(--gray);
+  background: linear-gradient(to right, var(--light-gray), var(--disabled-gray));
+`;
 
 const DashBoardProductContainer = styled.div`
   width: 100%;
@@ -53,7 +62,7 @@ const DashBoardProductContainer = styled.div`
 const DashBoardProductHeader = styled.div`
   display: grid;
   grid-template-columns: 5fr 3fr 1fr 1fr;
-  height: 50px;
+  height: 100px;
   background-color: white;
   border-bottom: 1px solid var(--gray);
 `;
