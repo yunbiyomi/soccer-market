@@ -34,7 +34,7 @@ const ProductDetail = ({ product }) => {
         </ProdctInfoBox>
       </ProductInfoWrap>
       <ProductContent className='price'>{useCommaFormat(product.price)}원</ProductContent>
-      <ProductContent><SButton>수정</SButton></ProductContent>
+      <ProductContent><SButton onClick={() => navigate(`/edit?id=${product.product_id}`)}>수정</SButton></ProductContent>
       <ProductContent><SButton className='delete' onClick={openDelModal}>삭제</SButton></ProductContent>
       {
         isDelModalOpen && 

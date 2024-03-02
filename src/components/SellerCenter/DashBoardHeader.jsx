@@ -18,7 +18,7 @@ const DashBoardHeader = () => {
         </StoreName>
       </TitleWrap>
       <SButton
-        onClick={() => navigate('/productupload')}
+        onClick={() => navigate('/upload')}
       >
         <SPlusIcon 
           src={PlusIcon}

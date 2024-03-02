@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import ImgIcon from '../../assets/icon-img.svg'
 import Button from '../common/Button/Button'
@@ -84,13 +84,6 @@ const UploadProductEditor = () => {
       console.error('상품 등록 실패: ', error);
     }
   };
-
-  useEffect(() => {
-    console.log('state', productState);
-    console.log('shipping', shippingMethod);
-    console.log('url', uploadImgUrl);
-    console.log('img', image);
-  }, [productState, shippingMethod, uploadImgUrl, image])
 
   return (
     <EditorContainer>

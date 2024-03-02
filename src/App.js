@@ -16,6 +16,7 @@ import { getCookie } from './hooks/Cookies'
 import { login } from './features/user/authActions'
 import { declare } from './features/price/totalPriceActions'
 import PrivateRoutes from './hooks/PrivateRoutes'
+import ProductEditPage from './pages/ProductEditPage'
 
 function App() {
   const dispatch = useDispatch();
@@ -46,7 +47,8 @@ function App() {
           <Route path='/sellercenter' element={<SellerCenterPage />} />
           <Route element={<PrivateRoutes />}>
             <Route path='/order' element={<OrderPage />} />
-            <Route path='/productupload' element={<ProductUploadPage />} />
+            <Route path='/upload' element={<ProductUploadPage />} />
+            <Route path='/edit' element={<ProductEditPage />} />
           </Route>
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
