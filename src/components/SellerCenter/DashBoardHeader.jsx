@@ -1,11 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import Button from '../common/Button/Button'
 import PlusIcon from '../../assets/icon-plus.svg'
+import axios from '../../api/axios'
 import { useNavigate } from 'react-router-dom';
 
 const DashBoardHeader = () => {
   const navigate = useNavigate();
+  const [sellerName, setSellerName] = useState('');
+  const [isLoad, setIsLoad] = useState(false);
+
+  // 판매자 상품 가져오기
+  const getSellerProduct = async () => {
+    try {
+      const response = await axios.get(`seller/`);
+      setSellerName(response.data.results[0].store_name);
+      setIsLoad(true);
+    } catch (error) {
+      console.error('판매자 상품 가져오기 실패: ', error);
+    }
+  }
+
+  useEffect(()=> {
+    getSellerProduct();
+  }, [])
 
   return (
     <SDashBoardHeader>
@@ -14,7 +32,7 @@ const DashBoardHeader = () => {
           대시보드
         </STitle>
         <StoreName>
-          Tottenham
+        {isLoad && sellerName}
         </StoreName>
       </TitleWrap>
       <SButton
@@ -45,7 +63,7 @@ const TitleWrap = styled.div`
 `;
 
 const STitle = styled.h2`
-  font-size: 36px;
+  font-size: 40px;
   font-weight: bold;
 `;
 
@@ -53,6 +71,7 @@ const StoreName = styled.p`
   margin-left: 16px;
   font-size: 36px;
   color: var(--point-color);
+  font-weight: bold;
 `;
 
 const SPlusIcon = styled.img`

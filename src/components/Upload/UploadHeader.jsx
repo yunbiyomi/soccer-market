@@ -29,6 +29,6 @@ const SUploadHeader = styled.header`
 `;
 
 const STitle = styled.h2`
-  font-size: 36px;
-  font-weight: 500;
+  font-size: 40px;
+  font-weight: bold;
 `;
