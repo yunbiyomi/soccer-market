@@ -1,7 +1,22 @@
 # Soccer Market⚽🛒
-`개발 기간 : 2023.01 ~ 2023.02` <br/>
+`개발 기간 : 2023.01 ~ 2023.02`<br/><br/>
+🌐 [Soccer Market 바로가기](https://soccer-market.vercel.app/)<br/>
 
-**🌐 바로가기** : https://soccer-market.vercel.app/<br/><br/>
+**👩‍💻 테스트 계정**
+```
+[BUYER]
+ID : soccerbuyer
+PW : soccer123!
+```
+```
+[SELLER]
+ID : tottenham
+PW : tottenham123!
+```
+
+![image](https://github.com/yunbiyomi/soccer-market/assets/83996384/b05a3458-fbb7-4296-9f0a-a9f84663e644)
+
+
 
 ## 프로젝트 소개
 판매자와 구매자를 구별하여 판매자가 상품을 등록, 판매하며 구매자는 상품을 구매할 수 있는 서비스
