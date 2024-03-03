@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+# Soccer Market⚽🛒
+`개발 기간 : 2023.01 ~ 2023.02` <br/>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**🌐 바로가기** : https://soccer-market.vercel.app/<br/><br/>
 
-## Available Scripts
+## 프로젝트 소개
+판매자와 구매자를 구별하여 판매자가 상품을 등록, 판매하며 구매자는 상품을 구매할 수 있는 서비스
 
-In the project directory, you can run:
+### 공통 기능
+- 로그인 / 회원가입
+- 상품 목록 보기
+- 상품 상세 보기
+- 상품 검색
 
-### `npm start`
+### 구매자 기능
+- 장바구니
+- 상품 주문/결제하기
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 판매자 기능
+ - 상품 등록하기
+ - 상품 관리하기(수정 및 삭제)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<br/><br/>
 
-### `npm test`
+## ⚙️ 기술 및 개발환경
+### FrontEnd
+![FrontEnd](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white) ![redux](https://img.shields.io/badge/redux-764ABC?style=flat-square&logo=styled-components&logoColor=white) ![StyledComponents](https://img.shields.io/badge/StyledComponents-DB7093?style=flat-square&logo=styled-components&logoColor=white)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### BackEnd
+![BackEnd](https://img.shields.io/badge/kakaoAPI-FFCD00?style=flat-square&logo=styled-components&logoColor=white) 및 제공된 API
 
-### `npm run build`
+### Environment
+![Environment](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=styled-components&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=styled-components&logoColor=white) ![VisualStudioCode](https://img.shields.io/badge/VisualStudioCode-007ACC?style=flat-square&logo=styled-components&logoColor=white)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Design
+<img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=Figma&logoColor=white"/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Deploy
+<img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=Figma&logoColor=white"/>
 
-### `npm run eject`
+<br/><br/>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 폴더 구조
+```
+📦src
+ ┣ 📂api
+ ┣ 📂assets
+ ┣ 📂components
+ ┃ ┣ 📂Banner
+ ┃ ┣ 📂Cart
+ ┃ ┣ 📂common
+ ┃ ┣ 📂Edit
+ ┃ ┣ 📂Order
+ ┃ ┣ 📂Product
+ ┃ ┣ 📂SellerCenter
+ ┃ ┗ 📂Upload
+ ┣ 📂features
+ ┣ 📂hooks
+ ┣ 📂pages
+ ┣ 📂store
+ ┣ 📂styles
+ ┣ 📜App.js
+ ┣ 📜.gitignore
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┗ 📜index.js
+```
