@@ -76,7 +76,7 @@ const LogInPage = () => {
         })
         dispatch(login(token, memberType));
       }
-      navigate(-1);
+      navigate('/');
     } catch (error) {
       console.error('로그인 실패', error.response.data);
       if(error.response.data.FAIL_Message === LOGIN_INCORRECT_ERROR)
