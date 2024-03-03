@@ -55,6 +55,14 @@ const SDashBoardHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    width: 924px;
+  }
+
+  @media (max-width: 768px) {
+    width: 708px;
+  }
 `;
 
 const TitleWrap = styled.div`

@@ -65,6 +65,10 @@ const DashBoardProductHeader = styled.div`
   height: 100px;
   background-color: white;
   border-bottom: 1px solid var(--gray);
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 3fr 2fr 1fr 1fr;
+  }
 `;
 
 const HeaderContent = styled.p`

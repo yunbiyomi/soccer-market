@@ -29,4 +29,12 @@ const DashBoardWrap = styled.div`
   height: 700px;
   border: 1px solid var(--gray);
   background-color: var(--light-gray);
+
+  @media (max-width: 1024px) {
+    width: 924px;
+  }
+
+  @media (max-width: 768px) {
+    width: 708px;
+  }
 `;

@@ -57,6 +57,10 @@ const ProductDetailWrap = styled.div`
   grid-template-columns: 5fr 3fr 1fr 1fr;
   background-color: white;
   border-bottom: 1px solid var(--gray);
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 3fr 2fr 1fr 1fr;
+  }
 `;
 
 const ProductInfoWrap = styled.div`
@@ -113,5 +117,9 @@ const SButton = styled(Button)`
       border: 1px solid var(--gray);
       color: var(--gray);
     }
+  }
+
+  @media (max-width: 768px) {
+    width: 60px;
   }
 `;

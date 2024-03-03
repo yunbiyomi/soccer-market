@@ -34,7 +34,7 @@ const SHeader = styled.div`
   align-items: center;
 
   @media (max-width: 1024px) {
-    margin-left: 30px;
+    padding-left: 30px;
     width: 1024px;
   }
 
