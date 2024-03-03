@@ -26,9 +26,24 @@ const DashBoardContainer = styled.div`
 
 const DashBoardWrap = styled.div`
   width: 1280px;
-  height: 700px;
+  height: 600px;
   border: 1px solid var(--gray);
   background-color: var(--light-gray);
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--point-color);
+    border-radius: 15px;
+    border: 4px solid white;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: white;
+  }
 
   @media (max-width: 1024px) {
     width: 924px;
