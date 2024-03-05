@@ -18,6 +18,12 @@ PW : tottenham123!
 
 <br/>
 
+🎨 [디자인 Figma 바로가기](https://www.figma.com/file/Qkr2ZnpQKO0SVQAUmtccLm/Soccer-Market?type=design&node-id=0%3A1&mode=design&t=OLZtnrP6dqOTj18B-1)<br/>
+
+
+`개발 기간 : 2023.01 ~ 2023.02`<br/>
+<br/>
+
 <details>
 <summary> 🔗 목차 </summary>
  
@@ -31,8 +37,6 @@ PW : tottenham123!
 </div>
 
 </details>
-
-`개발 기간 : 2023.01 ~ 2023.02`<br/>
 
 ## <span id="info">📌 프로젝트 소개</span>
 ### React를 기반으로 구축된 SPA로, REST API를 활용하여 상품에 대한 CRUD를 구현였습니다.
