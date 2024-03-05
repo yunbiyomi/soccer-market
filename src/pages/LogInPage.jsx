@@ -141,6 +141,7 @@ const AWrap = styled.div`
 const SLink = styled.a`
   margin: 30px 15px;
   position: relative;
+  cursor: pointer;
 
   &:last-child::before {
     content: "";
