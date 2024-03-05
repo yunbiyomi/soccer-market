@@ -17,6 +17,7 @@ import { login } from './features/user/authActions'
 import { declare } from './features/price/totalPriceActions'
 import PrivateRoutes from './hooks/PrivateRoutes'
 import ProductEditPage from './pages/ProductEditPage'
+import MyPage from './pages/MyPage'
 
 function App() {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ function App() {
             <Route path='/order' element={<OrderPage />} />
             <Route path='/upload' element={<ProductUploadPage />} />
             <Route path='/edit' element={<ProductEditPage />} />
+            <Route path='/mypage' element={<MyPage />} />
           </Route>
           <Route path='/*' element={<NotFoundPage />} />
         </Routes>
