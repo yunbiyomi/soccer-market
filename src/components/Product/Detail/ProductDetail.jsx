@@ -151,7 +151,7 @@ const ProductDetail = ({ product, isOrderModalOpen, closeOrderModal }) => {
           <SBtn width='416px' onClick={handleImmediatelyBuy} disabled={!stoke || handleDisabled()}>
             바로 구매
           </SBtn>
-          <SBtn width='200px' onClick={openCartModal} disabled={!isLogIn || handleDisabled()}>
+          <SBtn width='200px' onClick={openCartModal} disabled={!isLogIn || !stoke || handleDisabled()}>
             장바구니
           </SBtn>
         </BtnWrap>
