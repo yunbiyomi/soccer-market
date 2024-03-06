@@ -122,11 +122,13 @@ const CartList = () => {
                 putProductInfo={putProductInfo}
                 isAllCheck={isAllCheck}
               />
-              <AllDeleteBtn 
-                onClick={openDelAllModal}
-              >
-                전체 삭제
-              </AllDeleteBtn>
+              <li>
+                <AllDeleteBtn 
+                  onClick={openDelAllModal}
+                >
+                  전체 삭제
+                </AllDeleteBtn>
+              </li>
               {
                 isDelAllModalOpen && 
                   <Modal 

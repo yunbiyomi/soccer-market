@@ -82,7 +82,7 @@ const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
             <CheckBox>
               <CircleCheckBox 
                 checked={product.is_active} 
-                onChange={handleSingleCheck} 
+                onChange={handleSingleCheck}
               />
             </CheckBox>
             <CartProductInfo 
@@ -110,6 +110,7 @@ const CartProduct = ({ product, putProductInfo, isAllCheck}) => {
             </ProductTotalMoneyWrap>
             <ProductDeleteBtn
               onClick={openDelModal}
+              aria-label="삭제 버튼"
             />
             {
               isDelModalOpen && 

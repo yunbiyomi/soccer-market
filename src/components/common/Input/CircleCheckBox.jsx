@@ -5,7 +5,12 @@ import CheckBoxFill from '../../../assets/circle-check-box-Fill.svg'
 
 const CircleCheckBox = ({ id, checked, onChange }) => {
   return (
-    <CartListCheck type='checkbox' id={id} checked={checked} onChange={onChange} />
+    <>
+      <label htmlFor={id}>
+        <span className='a11y-hidden'>상품 선택</span>
+        <CartListCheck type='checkbox' id={id} checked={checked} onChange={onChange} />
+      </label>
+    </>
   )
 }
 
