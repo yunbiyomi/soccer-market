@@ -303,7 +303,7 @@ const SButton = styled(Button)`
   &.white {
     width: 150px;
     background-color: white;
-    color: var(--gray);
+    color: var(--dark-gray);
     border: 1px solid var(--gray);
 
     &:hover {
