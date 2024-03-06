@@ -27,7 +27,7 @@ const ProductDetail = ({ product }) => {
   return (
     <ProductDetailWrap>
       <ProductInfoWrap>
-        <ProductImg src={product.image}/>
+        <ProductImg src={product.image} alt={`${product.product_name}image`}/>
         <ProdctInfoBox to={`/detail?id=${product.product_id}`}>
           <ProductName>{product.product_name}</ProductName>
           <ProductStoke>재고 : {product.stock}개</ProductStoke>
