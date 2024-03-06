@@ -87,7 +87,7 @@ const SLine = styled.div`
 const FooterContent = styled.div`
   width: 100%;
   font-size: 14px;
-  color: var(--light-font);
+  color: black;
   line-height: 1.7;
 
   @media (max-width: 1024px) {

@@ -9,7 +9,9 @@ const Pagination = ({ currentPage, pageCount, handlePreviousPage, handleNextPage
 
   return (
     <PaginationContainer>
-      <PaginationBtn onClick={handlePreviousPage} isLeft />
+      <li>
+        <PaginationBtn onClick={handlePreviousPage} isLeft aria-label='prev-page-button'/>
+      </li>
       {Array.from({ length: endPage - startPage + 1 }, (_, index) => {
         const pageNumber = startPage + index;
         return (
@@ -20,7 +22,9 @@ const Pagination = ({ currentPage, pageCount, handlePreviousPage, handleNextPage
         </PageNumberWrap>
         )}
       )}
-      <PaginationBtn onClick={handleNextPage} isRight />
+      <li>
+        <PaginationBtn onClick={handleNextPage} isRight aria-label='next-page-button'/>
+      </li>
     </PaginationContainer>
   );
 };
@@ -45,7 +49,7 @@ const PaginationBtn = styled.button`
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(${({ isLeft, isRight }) => (isLeft ? '-135deg' : (isRight ? '45deg' : '225deg'))});
+    transform: translate(-50%, -80%) rotate(${({ isLeft, isRight }) => (isLeft ? '-135deg' : (isRight ? '45deg' : '225deg'))});
     width: 10px;
     height: 10px;
     border-top: 3px solid #000;
@@ -61,6 +65,9 @@ const PageNumberWrap = styled.li`
   width: 40px;
   height: 40px;
   margin: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
   background-color: ${({ isCurrentPage }) => (isCurrentPage ? 'var(--point-color)' : 'transparent')};
   transition: background-color .15s,  color .15s;
@@ -73,7 +80,6 @@ const PageNumberWrap = styled.li`
 const PageNumber = styled.span`
   display: flex;
   justify-content: center;
-  line-height: 2.3;
   font-size: 18px;
   font-weight: bold;
   color: ${({ isCurrentPage }) => (isCurrentPage ? 'white' : 'black')};
