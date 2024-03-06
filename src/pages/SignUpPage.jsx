@@ -321,6 +321,7 @@ const SignUpPage = () => {
 
         <label htmlFor='phone'>휴대폰번호</label>
         <PhoneNumberWrap>
+          <label htmlFor='start' className='a11y-hidden'>휴대폰 앞 번호</label>
           <SSelect name="phone" id="start" onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required>
             <option value="010">010</option>
             <option value="011">011</option>
@@ -329,7 +330,9 @@ const SignUpPage = () => {
             <option value="018">018</option>
             <option value="019">019</option>
           </SSelect>
+          <label htmlFor='mid' className='a11y-hidden'>휴대폰 가운데 번호</label>
           <SPhoneInput id='mid' type='tel' autoComplete='off' onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required/>
+          <label htmlFor='end' className='a11y-hidden'>휴대폰 끝 번호</label>
           <SPhoneInput id='end' type='tel'autoComplete='off' onChange={onPhoneNumberHandler} onBlur={checkValidation('phoneNumber')} required/>
         </PhoneNumberWrap>
         {showErrorMsg(!phoneNumberState.isValidPhoneNumber && phoneNumberState.phoneNumberSplit.mid && phoneNumberState.phoneNumberSplit.end,
