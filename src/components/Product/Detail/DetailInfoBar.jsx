@@ -64,7 +64,7 @@ const Infocontent = styled.p`
   margin-bottom: 12px;
   font-size: 18px;
   font-weight: bold;
-  color: ${({ active }) => active ? 'var(--point-color)' : 'var(--gray)'};
+  color: ${({ active }) => active ? 'var(--point-color)' : 'var(--dark-gray)'};
   text-align: center;
 `;
 
