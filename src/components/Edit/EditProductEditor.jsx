@@ -35,10 +35,6 @@ const EditProductEditor = () => {
     getProduct();
   }, [])
 
-  useEffect(() => {
-    console.log(product);
-  }, [product])
-
   const handleInputChange = (id) => (e) => {
     const value = e.currentTarget.value;
     switch(id) {
