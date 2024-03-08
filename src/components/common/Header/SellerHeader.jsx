@@ -41,6 +41,10 @@ const SHeader = styled.div`
   @media (max-width: 768px) {
     width: 768px;
   }
+
+  @media (max-width: 480px) {
+    width: 480px;
+  }
 `;
 
 const STitle = styled.h1`

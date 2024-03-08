@@ -42,6 +42,11 @@ const SHeader = styled.div`
   @media (max-width: 768px) {
     width: 768px;
   }
+
+  @media (max-width: 480px) {
+    width: 480px;
+    height: 80px;
+  }
 `;
 
 const LeftWrap = styled.div`
@@ -50,6 +55,10 @@ const LeftWrap = styled.div`
 
   @media (max-width: 1024px) {
     margin-left: 50px;
+  }
+
+  @media (max-width: 480px) {
+    margin-left: 35px;
   }
 `;
 

@@ -59,6 +59,11 @@ const ProductImg = styled.img`
     max-width: 300px;
     height: 300px;
   }
+
+  @media (max-width: 480px) {
+    max-width: 200px;
+    height: 200px;
+  }
 `;
 
 const ProductStoreName = styled.p`
@@ -73,6 +78,11 @@ const ProductStoreName = styled.p`
   @media (max-width: 768px) {
     margin-top: 16px;
     font-size: 16px;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 8px;
+    font-size: 14px;
   }
 `;
 
@@ -89,6 +99,11 @@ const ProductName = styled.p`
     margin-top: 10px;
     font-size: 20px;
   }
+
+  @media (max-width: 480px) {
+    margin-top: 8px;
+    font-size: 18px;
+  }
 `;
 
 const ProductFeeWrap = styled.div`
@@ -103,6 +118,11 @@ const ProductFeeWrap = styled.div`
   @media (max-width: 768px) {
     margin-top: 10px;
   }
+
+  @media (max-width: 480px) {
+    margin-top: 8px;
+    margin-bottom: 20px;
+  }
 `;
 
 const ProductFee = styled.p`
@@ -116,5 +136,9 @@ const ProductFee = styled.p`
 
   @media (max-width: 768px) {
     font-size: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
   }
 `;

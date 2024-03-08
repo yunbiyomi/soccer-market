@@ -48,6 +48,10 @@ const FooterWrap = styled.div`
   @media (max-width: 768px) {
     width: 768px;
   }
+
+  @media (max-width: 480px) {
+    width: 480px;
+  }
 `;
 
 const IconWrap = styled.div`
@@ -62,14 +66,16 @@ const IconWrap = styled.div`
 
   @media (max-width: 768px) {
     justify-content: center;
+    align-items: center;
     margin-top: 20px;
+    padding: 0;
   }
 `;
 
 const Icon = styled.img`
   width: 32px;
   height: 32px;
-  margin-left: 15px;
+  margin: 0 10px;
   cursor: pointer;
 
   @media (max-width: 768px) {
@@ -96,6 +102,7 @@ const FooterContent = styled.div`
 
   @media (max-width: 768px) {
     text-align: center;
+    padding: 0;
   }
 `;
 

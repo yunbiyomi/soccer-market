@@ -96,6 +96,11 @@ const SSearchInput = styled.input`
   @media (max-width: 768px) {
     width: 728px;
   }
+
+  @media (max-width: 480px) {
+    width: 440px;
+    margin: 20px 20px 0 20px;
+  }
 `;
 
 const SearchButton = styled.button`
@@ -110,6 +115,10 @@ const SearchButton = styled.button`
   @media (max-width: 1024px) {
     top: 58px;
     right: 30px;
+  }
+
+  @media (max-width: 480px) {
+    top: 48px;
   }
 `;
 
@@ -139,6 +148,12 @@ const SearchDataList = styled.ul`
     width: 690px;
     top: 84px;
     left: 38px;
+  }
+
+  @media (max-width: 480px) {
+    width: 390px;
+    top: 75px;
+    left: 45px;
   }
 `;
 

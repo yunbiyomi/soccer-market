@@ -87,4 +87,10 @@ const ProductWrap = styled.div`
     width: 768px;
     grid-template-columns: repeat(2, 1fr);
   }
+
+  @media (max-width: 480px) {
+    width: 480px;
+    gap: 10px;
+    margin-top: 30px;
+  }
 `;

@@ -20,4 +20,8 @@ const SLogo = styled.div`
   align-items: center;
   margin: 50px 0;
   scale: 1.2;
+
+  @media (max-width: 480px) {
+    margin: 0;
+  }
 `;

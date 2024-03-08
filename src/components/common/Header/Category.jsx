@@ -128,14 +128,11 @@ const Category = () => {
                 </DropdownBox>
               )}
             </SCategoryBtn>
-            <Button 
-              width='160px' 
-              height='54px' 
-              margin='0 0 0 30px' 
+            <CenterBtn
               onClick={() => navigate('/sellercenter')}
             >
               판매자 센터
-            </Button>
+            </CenterBtn>
           </SellerBtnWrap>
         )
       ) : (
@@ -173,6 +170,10 @@ const CategoryWrap = styled.nav`
 
   @media (max-width: 1024px) {
     margin-right: 30px;
+  }
+
+  @media (max-width: 480px) {
+    margin-right: 10px;
   }
 `;
 
@@ -232,6 +233,14 @@ const SCategoryBtn = styled.button`
       color: var(--point-color);
     }
   }
+
+  @media (max-width: 1024px) {
+    margin-left: 60px;
+  }
+
+  @media (max-width: 480px) {
+    margin-left: 10px;
+  }
 `; 
 
 const DropdownBox = styled.div`
@@ -289,4 +298,17 @@ const SellerBtnWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const CenterBtn = styled(Button)`
+  width: 160px;
+  height: 54px;
+  margin: 0 0 0 30px;
+
+  @media (max-width: 480px) {
+    width: 110px;
+    height: 45px;
+    margin: 0 0 0 10px;
+    font-size: 16px;
+  }
 `;
