@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Button from '../common/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import useQueryString from '../../hooks/useQueryString'
-import ImgIcon from '../../assets/icon-img.svg'
 import axios from '../../api/axios'
 import Modal from '../common/Modal/Modal';
 import EditSkeleton from '../common/Loader/EditSkeleton';
@@ -42,20 +41,20 @@ const EditProductEditor = () => {
 
   const handleInputChange = (id) => (e) => {
     const value = e.currentTarget.value;
-    switch(id){
-      case 'productName':
+    switch(id) {
+      case 'product_name':
         setProduct({...product, product_name: value});
         break;
       case 'price':
         setProduct({...product, price: value});
         break;
-      case 'shippingFee':
+      case 'shipping_fee':
         setProduct({...product, shipping_fee: value});
         break;
-      case 'stoke':
+      case 'stock':
         setProduct({...product, stock: value});
         break;
-      case 'productInfo':
+      case 'product_info':
         setProduct({...product, product_info: value});
         break;
       default:
@@ -67,7 +66,7 @@ const EditProductEditor = () => {
   const postOrder = async () => {
     try {
       const formData = {
-        product_name: product.productName,
+        product_name: product.product_name,
         price: product.price,
         shipping_method: product.shipping_method, 
         shipping_fee: product.shippingFee,
@@ -95,8 +94,8 @@ const EditProductEditor = () => {
                 </ProductImgBox>  
               </ProductInfoLeftBox>
               <ProductInfoRightBox>
-                <InfoTitle htmlFor='product-name' value={product.product_name}>상품명</InfoTitle>
-                <ProductNameInput id='product-name' type='text' value={product.product_name} onChange={handleInputChange('productName')} required/>
+                <InfoTitle htmlFor='product-name'>상품명</InfoTitle>
+                <ProductNameInput id='product-name' type='text' value={product.product_name} onChange={handleInputChange('product_name')} required/>
                 <InfoTitle htmlFor='product-price'>판매가</InfoTitle>
                 <SInputWrap>
                   <SInput id='product-price' type='text' value={product.price} onChange={handleInputChange('price')} required />
@@ -109,19 +108,19 @@ const EditProductEditor = () => {
                 </BtnWrap>
                 <InfoTitle htmlFor='product-shipping-fee'>기본 배송비</InfoTitle>
                 <SInputWrap>
-                  <SInput id='product-shipping-fee' type='text' value={product.shipping_fee} onChange={handleInputChange('shippingFee')} required />
+                  <SInput id='product-shipping-fee' type='text' value={product.shipping_fee} onChange={handleInputChange('shipping_fee')} required />
                   <SUnitBox>원</SUnitBox>
                 </SInputWrap>
                 <InfoTitle htmlFor='product-stoke'>재고</InfoTitle>
                 <SInputWrap>
-                  <SInput id='product-stoke' type='text' value={product.stock} onChange={handleInputChange('stoke')} required />
+                  <SInput id='product-stoke' type='text' value={product.stock} onChange={handleInputChange('stock')} required />
                   <SUnitBox>개</SUnitBox>
                 </SInputWrap>
               </ProductInfoRightBox>
             </ProductInfoWrap>
             <EditorBox>
               <InfoTitle htmlFor='product-detail'>상품 상세 정보</InfoTitle>
-              <DetailInput id='product-detail' type='text' value={product.product_info} onChange={handleInputChange('productInfo')} required/>
+              <DetailInput id='product-detail' type='text' value={product.product_info} onChange={handleInputChange('product_info')} required/>
             </EditorBox>
             <BtnWrap className='bottom'>
               <SButton className='white' onClick={() => navigate('/sellercenter')}>취소</SButton>
