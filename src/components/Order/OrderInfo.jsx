@@ -156,7 +156,6 @@ const OrderInfo = ({ products }) => {
   
     try {
       const response = await axios.post(`order/`, formData);
-      console.log(response);
       removeCookie('orderKind', '');
       removeCookie('productId', '');
       removeCookie('quantity', '');

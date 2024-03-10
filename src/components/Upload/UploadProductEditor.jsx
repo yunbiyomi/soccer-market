@@ -78,7 +78,6 @@ const UploadProductEditor = () => {
       formData.append('product_info', productState.productInfo);
 
       const response = await axios.post(`products/`, formData);
-      console.log(response);
       navigate('/sellercenter');
     } catch (error) {
       console.error('상품 등록 실패: ', error);

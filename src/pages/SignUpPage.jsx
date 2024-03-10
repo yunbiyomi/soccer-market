@@ -249,7 +249,6 @@ const SignUpPage = () => {
 
     try {
       const response = await axios.post(`accounts/signup/`, formData);
-      console.log('구매자 회원가입 성공: ', response.data);
       navigate('/login');
     } catch (error) {
       console.error('구매자 회원가입 실패: ', error);
@@ -270,7 +269,6 @@ const SignUpPage = () => {
 
     try {
       const response = await axios.post(`accounts/signup_seller/`, formData);
-      console.log('판매자 회원가입 성공: ', response.data);
       navigate('/login');
     } catch (error) {
       console.error('판매자 회원가입 실패: ', error);

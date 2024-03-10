@@ -31,14 +31,6 @@ const OrderProduct = ({ product, productFee }) => {
     getDetailOrderProduct();
   }, [])
 
-  useEffect(() => {
-    console.log(productInfo);
-  }, [productInfo])
-
-  useEffect(() => {
-    console.log(detailProduct);
-  }, [detailProduct])
-
   return (
     <SOrderProductContainer>
       <OrderProductInfo

@@ -64,7 +64,6 @@ const ProductDetail = ({ product, isOrderModalOpen, closeOrderModal }) => {
       setCartItems(cartItems);
       const foundItem = cartItems.find(item => item.product_id === product.product_id);
       setExistProduct(foundItem !== undefined);
-      console.log(existProduct);
     } catch (error) {
       console.error('장바구니 상품 중복 여부 판단 실패', error.response.data);
     }

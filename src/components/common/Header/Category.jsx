@@ -27,7 +27,6 @@ const Category = () => {
   const handleLogOut = async () => {
     try {
       const response = await axios.post(`/accounts/logout/`);
-      console.log(response);
       removeCookie('memberType');
       removeCookie('totalShippingFee');
       removeCookie('totalProductFee');

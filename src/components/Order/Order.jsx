@@ -34,10 +34,6 @@ const Order = () => {
     getOrderItem();
   }, [])
 
-  useEffect(() => {
-    console.log('orderKind', orderKind);
-  }, [orderKind]);
-
   return (
     <SOrderContainer>
       <OrderTitle>주문/결제하기</OrderTitle>

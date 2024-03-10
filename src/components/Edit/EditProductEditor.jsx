@@ -70,7 +70,6 @@ const EditProductEditor = () => {
         product_info: product.product_info
       };
       const response = await axios.put(`products/${productId}/`, formData);
-      console.log(response);
       navigate('/sellercenter');
     } catch (error) {
       console.error('상품 등록 실패: ', error);
