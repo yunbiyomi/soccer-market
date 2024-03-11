@@ -32,31 +32,31 @@ const Banner = () => {
           <SBanner src={Img1} alt='Tottenham'/>
         </SwiperSlide>
         <SwiperSlide>
-          <SBanner src={Img2} alt='Barcelona'/>
+          <SBanner src={Img2} loading="lazy" alt='Barcelona'/>
         </SwiperSlide>
         <SwiperSlide>
-          <SBanner src={Img3} alt='BayernMunchen'/>
+          <SBanner src={Img3} loading="lazy" alt='BayernMunchen'/>
         </SwiperSlide>
         <SwiperSlide>
-          <SBanner src={Img4} alt='Chelsea'/>
+          <SBanner src={Img4} loading="lazy" alt='Chelsea'/>
         </SwiperSlide>
         <SwiperSlide>
-          <SBanner src={Img5} alt='Liverpool'/>
+          <SBanner src={Img5} loading="lazy" alt='Liverpool'/>
         </SwiperSlide>
         <SwiperSlide>
-          <SBanner src={Img6} alt='ManchesterUnited'/>
+          <SBanner src={Img6} loading="lazy" alt='ManchesterUnited'/>
         </SwiperSlide>
         <SwiperSlide>
-          <SBanner src={Img7} alt='ManchesterCity'/>
+          <SBanner src={Img7} loading="lazy" alt='ManchesterCity'/>
         </SwiperSlide>
         <SwiperSlide>
-          <SBanner src={Img8} alt='FCKorea'/>
+          <SBanner src={Img8} loading="lazy" alt='FCKorea'/>
         </SwiperSlide>
         <SwiperSlide>
-          <SBanner src={Img9} alt='Arsenal'/>
+          <SBanner src={Img9} loading="lazy" alt='Arsenal'/>
         </SwiperSlide>
         <SwiperSlide>
-          <SBanner src={Img10} alt='RealMadrid'/>
+          <SBanner src={Img10} loading="lazy" alt='RealMadrid'/>
         </SwiperSlide>
       </Swiper>
     </BannerWrap>
