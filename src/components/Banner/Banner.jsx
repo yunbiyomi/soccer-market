@@ -32,7 +32,7 @@ const Banner = () => {
           <SBanner src={Img1} alt='Tottenham'/>
         </SwiperSlide>
         <SwiperSlide>
-          <SBanner src={Img2} loading="lazy" alt='Barcelona'/>
+          <SBanner src={Img2} alt='Barcelona'/>
         </SwiperSlide>
         <SwiperSlide>
           <SBanner src={Img3} loading="lazy" alt='BayernMunchen'/>
