@@ -20,6 +20,10 @@ const AgreeBox = styled.div`
   width: 480px;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 480px) {
+    width: 400px;
+  }
 `;
 
 const CheckInput = styled.input`

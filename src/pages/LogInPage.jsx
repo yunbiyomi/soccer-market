@@ -88,8 +88,10 @@ const LogInPage = () => {
   }
   
   return (
-    <>
-      <Logo />
+    <LoginPageContainer>
+      <Logo 
+        width='300px'
+      />
       <FormContainer 
         memberType={memberType}
         onClickBuyer={handleMemberType('BUYER')}
@@ -106,7 +108,7 @@ const LogInPage = () => {
             <ErrorMsg>{errorMsg}</ErrorMsg>
           )
         }
-        <Button width="480px" height="60px" margin="25px 0 0 0" onClick={handleLogIn}>
+        <Button width="330px" height="55px" margin="10px 0 0 0" onClick={handleLogIn}>
           로그인
         </Button> 
       </FormContainer>
@@ -114,11 +116,17 @@ const LogInPage = () => {
         <SLink href="/signup">회원가입</SLink>
         <SLink href="/login">비밀번호 찾기</SLink>
       </AWrap>
-    </>
+    </LoginPageContainer>
   )
 }
 
 export default LogInPage
+
+const LoginPageContainer = styled.div`
+  @media (max-width: 480px) {
+    padding-top: 50px;
+  }
+`;
 
 const InputBox = styled.input`
   width: 480px;
@@ -130,6 +138,10 @@ const InputBox = styled.input`
 
   &:focus {
     border-bottom: 2px solid var(--point-color);
+  }
+
+  @media (max-width: 480px) {
+    width: 330px;
   }
 `;
 

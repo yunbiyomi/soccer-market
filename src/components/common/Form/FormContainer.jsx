@@ -29,6 +29,11 @@ const SFormContainer = styled.div`
   border-radius: 10px;
   overflow: hidden;
   margin: 0 auto;
+
+  @media (max-width: 480px) {
+    width: 400px;
+    margin-top: 50px;
+  }
 `;
 
 const BtnWrap = styled.div`

@@ -276,8 +276,10 @@ const SignUpPage = () => {
   }
 
   return (
-    <>
-      <Logo />
+    <SignUpPageContainer>
+      <Logo 
+        width='300px'
+      />
       <FormContainer 
         memberType={memberType}
         onClickBuyer={handleMemberType('BUYER')}
@@ -286,7 +288,7 @@ const SignUpPage = () => {
         <label htmlFor='id'>아이디</label>
         <IdWrap>
           <SIdInput id='id' type="text" onChange={handleInputChange('userId')} onBlur={checkValidation('userId')} autoComplete='off' required/>
-          <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!idState.isValidUserId}>
+          <Button width='80px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckUserId} disabled={!idState.isValidUserId}>
             중복확인
           </Button>
         </IdWrap>
@@ -341,7 +343,7 @@ const SignUpPage = () => {
             <label htmlFor='companyRegistrationNumber'>사업자 등록번호</label>
             <IdWrap>
               <SIdInput id='companyRegistrationNumber' type="text" onChange={handleInputChange('companyNumber')} onBlur={checkValidation('companyNumber')} autoComplete='off' required/>
-              <Button width='120px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckCompanyNumber} disabled={!companyNumberState.isValidCompanyNumber}>
+              <Button width='80px' height='54px' fontSize='16px' fontWeight='regular' margin='0 0 0 12px' onClick={handleCheckCompanyNumber} disabled={!companyNumberState.isValidCompanyNumber}>
                 인증
               </Button>
             </IdWrap>
@@ -361,15 +363,21 @@ const SignUpPage = () => {
       </FormContainer>
       <BottomWrap>
         <CheckBox id="agree" type="checkbox" checked={checked} onChange={handleCheckboxChange} />
-        <Button width='480px' height='60px' margin='35px 0' disabled={!signUpBtnState} onClick={memberType === 'BUYER' ? handleBuyerSignUp : handleSellerSignUp}>
+        <Button width='400px' height='60px' margin='35px 0' disabled={!signUpBtnState} onClick={memberType === 'BUYER' ? handleBuyerSignUp : handleSellerSignUp}>
           가입하기
         </Button> 
       </BottomWrap>
-    </>
+    </SignUpPageContainer>
   )
 }
 
 export default SignUpPage
+
+const SignUpPageContainer = styled.div`
+  @media (max-width: 480px) {
+    padding-top: 50px;
+  }
+`;
 
 const SInput = styled.input`
   height: 54px;
@@ -392,6 +400,10 @@ const IdWrap = styled.div`
 
 const SIdInput = styled(SInput)`
   width: 346px;
+
+  @media (max-width: 480px) {
+    width: 235px;
+  }
 `;
 
 const SPwInput = styled(SInput)`
@@ -453,6 +465,10 @@ const SSelect = styled.select`
 
 const SPhoneInput = styled(SInput)`
   width: 150px;
+
+  @media (max-width: 480px) {
+    width: 100px;
+  }
 `;
 
 const BottomWrap = styled.div`
