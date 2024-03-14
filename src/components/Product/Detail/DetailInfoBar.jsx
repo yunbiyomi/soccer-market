@@ -50,6 +50,10 @@ const DetailInfoWrap = styled.div`
   @media (max-width: 768px) {
     width: 768px;
   }
+
+  @media (max-width: 480px) {
+    width: 480px;
+  }
 `;
 
 const InfoBarWrap = styled.div`
@@ -79,6 +83,10 @@ const InfoBar = styled.div`
   
   @media (max-width: 768px) {
     width: 192px;
+  }
+
+  @media (max-width: 480px) {
+    width: 120px;
   }
 `;
 

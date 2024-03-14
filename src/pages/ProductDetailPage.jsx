@@ -95,4 +95,10 @@ const MobileBtn = styled(Button)`
   font-size: 30px;
   margin:0;
   border-radius: 0px;
+
+  @media (max-width: 480px) {
+    width: 480px;
+    height: 80px;
+    font-size: 25px;
+  }
 `;

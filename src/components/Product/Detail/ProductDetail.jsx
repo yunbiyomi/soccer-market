@@ -221,6 +221,10 @@ const ProductInfoWrap = styled.div`
   @media (max-width: 768px) {
     width: 768px;
   }
+
+  @media (max-width: 480px) {
+    width: 480px;
+  }
 `;
 
 const ProductImg = styled.img`
@@ -239,6 +243,11 @@ const ProductImg = styled.img`
     width: 768px;
     height: 768px;
   }
+
+  @media (max-width: 480px) {
+    width: 480px;
+    height: 480px;
+  }
 `;
 
 const ProductRightContainer = styled.div`
@@ -255,6 +264,10 @@ const ProductStoreName = styled.p`
   @media (max-width: 1024px) {
     font-size: 25px;
   }
+  
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 `;
 
 const ProductName = styled.p`
@@ -263,6 +276,11 @@ const ProductName = styled.p`
 
   @media (max-width: 1024px) {
     font-size: 40px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 30px;
+    margin-bottom: 10px;
   }
 `;
 
@@ -275,6 +293,10 @@ const ProductFee = styled.p`
   @media (max-width: 1024px) {
     font-size: 30px;
     margin-bottom: 30px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 25px;
   }
 `;
 
@@ -307,6 +329,10 @@ const SLine = styled.div`
 
   @media (max-width: 768px) {
     width: 768px;
+  }
+
+  @media (max-width: 480px) {
+    width: 480px;
   }
 `;
 

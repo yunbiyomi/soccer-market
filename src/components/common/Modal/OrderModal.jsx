@@ -119,6 +119,10 @@ const TotalWrap = styled.div`
 
 const TotalContent = styled.p`
   font-size: 20px;
+
+  @media (max-width: 480px) {
+    font-size: 17px;
+  }
 `;
 
 const TotalCountWrap = styled.div`
@@ -142,6 +146,10 @@ const ProductFee = styled.p`
   font-size: 36px;
   font-weight: bold;
   color: var(--point-color);
+
+  @media (max-width: 480px) {
+    font-size: 30px;
+  }
 `;
 
 const DeleteBtn = styled.button`
@@ -172,5 +180,10 @@ const SBtn = styled(Button)`
     width: 350px;
     height: 60px;
     font-size: 18px;
+  }
+
+  @media (max-width: 480px) {
+    width: 210px;
+    height: 50px;
   }
 `;

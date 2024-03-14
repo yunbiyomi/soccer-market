@@ -31,4 +31,8 @@ const DeliverWay = styled.p`
     font-size: 16px;
     margin-bottom: 10px;
   }
+
+  @media (max-width: 480px) {
+    margin-bottom: 0;
+  }
 `;

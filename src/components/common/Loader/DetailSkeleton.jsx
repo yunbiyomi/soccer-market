@@ -43,6 +43,10 @@ const ProductInfoWrap = styled.div`
   @media (max-width: 768px) {
     width: 768px;
   }
+
+  @media (max-width: 480px) {
+    width: 480px;
+  }
 `;
 
 const ProductImg = styled.div`
@@ -61,6 +65,11 @@ const ProductImg = styled.div`
   @media (max-width: 768px) {
     width: 768px;
     height: 768px;
+  }
+
+  @media (max-width: 480px) {
+    width: 480px;
+    height: 480px;
   }
 `;
 
